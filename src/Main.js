@@ -41,6 +41,22 @@ const Main = () => {
             // })
 
             // returns full nutrient breakdown with attr_ids (https://docs.google.com/spreadsheets/d/14ssR3_vFYrVAidDLJoio07guZM80SMR5nxdGpAX-1-A/edit#gid=0)
+
+        // axios call for natural/nutrients endpoint
+            // axios({
+            //     method: "post",
+            //     url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
+            //     headers: {
+            //         "x-app-id": "ee0fb754",
+            //         "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
+            //         "x-remote-user-id": "0",
+            //     },
+            //     data: {
+            //         "query": "hot dog"
+            //     }
+            // }).then((response) => {
+            //     console.log(response.data.foods[0].full_nutrients);
+            // })
     }
 
     return(
