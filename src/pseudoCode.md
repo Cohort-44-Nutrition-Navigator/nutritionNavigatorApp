@@ -1,12 +1,26 @@
 PSEUDO-CODE
 
 1. App Component:
+    - import firebase authentication 
+    - create state called loggedIn to hold if login is true or false (default is false)
+
     - Login Section:
-        - import firebase authentication 
-        - create state to hold if login is true or false 
-        - pass down login information as props to Main component
+        - Three buttons: Login, Register, Continue as Guest
+        - save loggedIn as true
+            - if login or register
+                -> save unique user information (email & ID) as state
+            - if Continue as Guest
+                -> save guest user information (guest@nutritionnavigator.com & 'guest') as state
+        - if loggedIn is true
+            -> render Main component
+            -> pass down loggedIn state & user state to Main compomonent as props
 
 2. Main Component:
+    - if props.user.ID === 'guest'
+        -> createContext to represent temporary favourites
+    - if props.user.ID === 'unique ID'
+        -> connect to specific firebase node (that equals user.ID)
+
     - Search bar:
         - create a state to hold search input (ex: [userQuery, setUserQuery] = useState("")) 
         - create a state to hold the radio button choice (ex: [branded, setBranded] = useState(false))
@@ -66,11 +80,27 @@ PSEUDO-CODE
         - create Read More button (on each item) with onClick event listener -> displays .readMoreContent 
         - create checkbox with onClick event listener -> take that item and append to state variable compareItems 
         - if compareItems has data -> render compareComponent and pass down compareItems to compare component as props
+        - create Favourites button with onClick event listener -> calls favourites function
+        - Favorites function:
+            - if props.user.ID === 'guest'
+                -> add selected item to favouritesContext
+            - if props.user.ID === 'unique user ID'
+                -> push selected item to their firebase node
 
+    
 4. Compare Component:
     - *This Component is collapsed by default*
     - create slide-out function (expanding width or compare component)
 
-    - map through props.compareItems -> append each value to table and add a remove button -> onClick event listenr that removes item from table     
+    - map through props.compareItems -> append each value to table and add a remove button -> onClick event listener that removes item from table     
     - create slide-out button -> with onClick event listener that calls slide-out function
+
+5. Favourites Component:
+    - if the props.user.ID === 'guest'
+        -> display favoritesContext as li on page
+        -> add a remove button -> onClick event listener that removes item from favouritesContext
+    - if the props.user.ID === 'unique user ID'
+        -> retrieve data from specific user's firebase node and display as li on page
+        -> add a remove button -> onClick event listener that removes item from user's firebase node
+     
             
