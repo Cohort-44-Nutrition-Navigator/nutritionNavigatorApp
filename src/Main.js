@@ -108,7 +108,7 @@ const Main = (props) => {
                 'x-app-key': '0d3fac881426771a52dfd2fa4d92be73'
               },
               params: {
-                'nix_item_id': resultsItems[0].nix_item_id
+                'nix_item_id': results.data.branded[0].nix_item_id
               }
             }).then((response) => {
               console.log(response)
