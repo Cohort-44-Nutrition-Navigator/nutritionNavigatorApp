@@ -73,6 +73,7 @@ const Main = (props) => {
                       "query": result.food_name
                   }
               }).then((response) => {
+                  console.log(response)
                   console.log(response.data.foods[0].full_nutrients);
               })
             })
@@ -99,21 +100,21 @@ const Main = (props) => {
             //   })
             // })
 
-            axios({
-              method: "get",
-              url: 'https://trackapi.nutritionix.com/v2/search/item',
-              headers: {
-                'x-remote-user-id': '0',
-                'x-app-id': 'ee0fb754',
-                'x-app-key': '0d3fac881426771a52dfd2fa4d92be73'
-              },
-              params: {
-                'nix_item_id': results.data.branded[0].nix_item_id
-              }
-            }).then((response) => {
-              console.log(response)
-              //console.log(response.data.foods[0].full_nutrients);
-            })
+            // axios({
+            //   method: "get",
+            //   url: 'https://trackapi.nutritionix.com/v2/search/item',
+            //   headers: {
+            //     'x-remote-user-id': '0',
+            //     'x-app-id': 'ee0fb754',
+            //     'x-app-key': '0d3fac881426771a52dfd2fa4d92be73'
+            //   },
+            //   params: {
+            //     'nix_item_id': results.data.branded[0].nix_item_id
+            //   }
+            // }).then((response) => {
+            //   console.log(response)
+            //   //console.log(response.data.foods[0].full_nutrients);
+            // })
 
           }
         })
