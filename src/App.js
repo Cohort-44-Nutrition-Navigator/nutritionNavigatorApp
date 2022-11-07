@@ -73,6 +73,22 @@ function App() {
       });
   }
 
+  // guest login function
+  const handleGuestLogin = (e) => {
+    // prevent refresh
+    e.preventDefault();
+    // log in
+    setLoggedIn(true);
+    // empty inputs
+    setEmailInput('');
+    setPasswordInput('');
+    // store the unique user info in state
+    setUser({
+      email: 'guest@nutritionnavigator.com',
+      ID: 'guest'
+    });
+  }
+
   // account logout function
   const handleLogout = (e) => {
     // prevent refresh
@@ -104,6 +120,7 @@ function App() {
                 <input type="password" name="password" id="password" value={passwordInput} onInput={(e) => setPasswordInput(e.target.value)}/>
                 <button id="login" onClick={handleLogin}>Login</button>
                 <button id="register" onClick={handleRegister}>Register</button>
+                <button id='guestLogin' onClick={handleGuestLogin}>Continue as Guest</button>
               </>
           }
         </form>
@@ -111,7 +128,7 @@ function App() {
       </header>
 
       {/* pass user information and loggedIn state as props to Main component */}
-      <Main user={user} loggedIn={loggedIn} />
+      <Main user={user} loggedIn={loggedIn}/>
 
       <footer>
         <p>Built by Anjalee Benedict, Dana Teagle, and Joel Nash at Juno College in 2022.</p>

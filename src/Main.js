@@ -14,6 +14,8 @@ const Main = (props) => {
   const [ userQuery, setUserQuery ] = useState('');
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ user, setUser ] = useState({})
+  const [resultsType, setResultsType] = useState("generic")
+  const [resultsItems, setResultsItems] = useState([])
 
   // when props.loggedIn changes
   useEffect(() => {
@@ -34,6 +36,8 @@ const Main = (props) => {
     }
   }, [props.loggedIn, props.user])
 
+  
+
   // search function
   const search = () => {
 
@@ -53,7 +57,65 @@ const Main = (props) => {
             query: userQuery,
           }
         }).then((results) => {
-          console.log(results.data);
+          if (resultsType === 'generic') {
+            setResultsItems(results.data.common);
+            
+            resultsItems.forEach((result) => {
+              axios({
+                  method: "post",
+                  url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
+                  headers: {
+                      "x-app-id": "ee0fb754",
+                      "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
+                      "x-remote-user-id": "0",
+                  },
+                  data: {
+                      "query": result.food_name
+                  }
+              }).then((response) => {
+                  console.log(response.data.foods[0].full_nutrients);
+              })
+            })
+
+          } else {
+            console.log(results.data.branded)
+            setResultsItems(results.data.branded)
+
+            // resultsItems.forEach((result) => {
+            //   axios({
+            //     method: "get",
+            //     url: 'https://trackapi.nutritionix.com/v2/search/item',
+            //     headers: {
+            //       'x-remote-user-id': '0',
+            //       'x-app-id': 'ee0fb754',
+            //       'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
+            //     },
+            //     params: {
+            //       'nix_item_id': result.nix_item_id
+            //     }
+            //   }).then((response) => {
+            //     console.log(response)
+            //     //console.log(response.data.foods[0].full_nutrients);
+            //   })
+            // })
+
+            axios({
+              method: "get",
+              url: 'https://trackapi.nutritionix.com/v2/search/item',
+              headers: {
+                'x-remote-user-id': '0',
+                'x-app-id': 'ee0fb754',
+                'x-app-key': '0d3fac881426771a52dfd2fa4d92be73'
+              },
+              params: {
+                'nix_item_id': resultsItems[0].nix_item_id
+              }
+            }).then((response) => {
+              console.log(response)
+              //console.log(response.data.foods[0].full_nutrients);
+            })
+
+          }
         })
 
     // axios call for search/item endpoint
@@ -97,6 +159,8 @@ const Main = (props) => {
           {/* search input */}
           <input type="text" placeholder="Enter a query" value={userQuery} onInput={e => setUserQuery(e.target.value)} />
           <button onClick={search}>Search</button>
+          <input type="radio" id="resultsType1" name="resultsType" value="generic" onChange={e => setResultsType(e.target.value)} defaultChecked/><label htmlFor="resultsType1">Generic Items</label>
+          <input type="radio" id="resultsType2" name="resultsType" value="branded" onChange={e => setResultsType(e.target.value)}/><label htmlFor="resultsType2">Branded Items</label>
 
           {
               // if logged in
