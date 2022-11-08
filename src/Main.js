@@ -150,9 +150,9 @@ const Main = (props) => {
             }
           })
           if (resultsType === 'generic') {
-            setResultsItems(results.data.common);
+            setResultsItems(results.data.common.slice(0, 3));
             // **NOTE** : added.slice(0, 3) to limit our API Call to 2 results (just during the testing phase)
-            resultsItems.slice(0, 3).forEach((result) => {
+            resultsItems.forEach((result) => {
               axios({
                   method: "post",
                   url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
@@ -184,20 +184,20 @@ const Main = (props) => {
             // now the resultsItems state variable has the updated array with foods + their nutritional information
             console.log(resultsItems)
           } else {
-            setResultsItems(results.data.branded)
+            setResultsItems(results.data.branded.slice(0, 2))
             // **NOTE** : added.slice(0, 2) to limit our API Call to 2 results (just during the testing phase)
-            resultsItems.slice(0, 2).forEach((result) => {
+            resultsItems.forEach((result) => {
               axios({
                 method: "get",
                 url: 'https://trackapi.nutritionix.com/v2/search/item',
                 headers: {
                   'x-remote-user-id': '0',
                   // API KEY 1
-                    // 'x-app-id': 'ee0fb754',
-                    // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d',
+                  'x-app-id': 'ee0fb754',
+                  'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
                   // API KEY 2
-                  'x-app-id': '0eb5f22d',
-                  'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
+                  // 'x-app-id': '0eb5f22d',
+                  // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
                 },
                 params: {
                   'nix_item_id': result.nix_item_id
