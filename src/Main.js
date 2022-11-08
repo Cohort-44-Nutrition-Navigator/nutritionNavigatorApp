@@ -14,6 +14,7 @@ import axios from 'axios';
 
 // import components
 import Favourites from './Favourites';
+import Results from './Results';
 
 // Main component
 const Main = (props) => {
@@ -48,6 +49,12 @@ const Main = (props) => {
 
   
 
+  
+
+  
+
+  
+
   // search function
   const search = () => {
 
@@ -71,152 +78,19 @@ const Main = (props) => {
             query: userQuery,
           }
         }).then((results) => {
-          // created nutrition object to hold nutritional info
-          const nutrition = {
-            macronutrients: {
-              calories: "",
-              carbohydrates: "",
-              fibre: "",
-              protein: "",
-              sodium: "",
-              sugar: "",
-              fat: "",
-              saturatedFat: "",
-            },
-            micronutrients: {
-              vitaminA: "",
-              vitaminD: "",
-              vitaminB6: "",
-              vitaminC: "",
-              vitaminE: "",
-              magnesium: "",
-              zinc: "",
-              iron: "",
-            }
-          };
-          // create switch function to switch attr_id number with corresponding values
-          const switchFunction = ((nutrient) => {
-            switch (nutrient.attr_id) {
-              case 208:
-                nutrition.macronutrients.calories = nutrient.value
-                break;
-              case 205:
-                nutrition.macronutrients.carbohydrates = nutrient.value
-                break;
-              case 291:
-                nutrition.macronutrients.fibre = nutrient.value
-                break;
-              case 203:
-                nutrition.macronutrients.protein = nutrient.value
-                break;
-              case 307:
-                nutrition.macronutrients.sodium = nutrient.value
-                break;
-              case 269:
-                nutrition.macronutrients.sugar = nutrient.value
-                break;
-              case 204:
-                nutrition.macronutrients.fat = nutrient.value
-                break;
-              case 606:
-                nutrition.macronutrients.saturatedFat = nutrient.value
-                break;
-              case 318:
-                nutrition.micronutrients.vitaminA = nutrient.value
-                break;
-              case 324:
-                nutrition.micronutrients.vitaminD = nutrient.value
-                break;
-              case 415:
-                nutrition.micronutrients.vitaminB6 = nutrient.value
-                break;
-              case 401:
-                nutrition.micronutrients.vitaminC = nutrient.value
-                break;
-              case 323:
-                nutrition.micronutrients.vitaminE = nutrient.value
-                break;
-              case 304:
-                nutrition.micronutrients.magnesium = nutrient.value
-                break;
-              case 309:
-                nutrition.micronutrients.zinc = nutrient.value
-                break;
-              case 303:
-                nutrition.micronutrients.iron = nutrient.value
-                break;
-              default:
-                break;
-            }
-          })
           if (resultsType === 'generic') {
-            setResultsItems(results.data.common.slice(0, 3));
-            // **NOTE** : added.slice(0, 3) to limit our API Call to 2 results (just during the testing phase)
-            resultsItems.forEach((result) => {
-              axios({
-                  method: "post",
-                  url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
-                  headers: {
-                      // API KEY 1
-                        // "x-app-id": "ee0fb754",
-                        // "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
-                      // API KEY 2
-                      "x-app-id": "0eb5f22d",
-                      "x-app-key": "d6fd704a091aeaa5c06a629aa96a56d0",
-                      "x-remote-user-id": "0",
-                  },
-                  data: {
-                      "query": result.food_name
-                  }
-              }).then((response) => {
-                  // created nutrientData variable to store array of nutrient codes
-                  const nutrientData = response.data.foods[0].full_nutrients
-                  // loop through nutrient codes and call switch function on each one
-                  nutrientData.forEach((nutrient) => {
-                    switchFunction(nutrient);
-                  })
-              // added an extra .then (to wait until all the nutrient names and values are added to the nutrition object)
-              }).then(() => {
-                // add propery called "nutritionalInfo" with value of nutrition object to each result 
-                result.nutritionalInfo = nutrition;
-              })
+            const updatedResults = results.data.common;
+            updatedResults.forEach((updatedResult) => {
+              updatedResult.type = resultsType
             })
-            // now the resultsItems state variable has the updated array with foods + their nutritional information
-            console.log(resultsItems)
+            setResultsItems(updatedResults);
+
           } else {
-            setResultsItems(results.data.branded.slice(0, 2))
-            // **NOTE** : added.slice(0, 2) to limit our API Call to 2 results (just during the testing phase)
-            resultsItems.forEach((result) => {
-              axios({
-                method: "get",
-                url: 'https://trackapi.nutritionix.com/v2/search/item',
-                headers: {
-                  'x-remote-user-id': '0',
-                  // API KEY 1
-                  'x-app-id': 'ee0fb754',
-                  'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
-                  // API KEY 2
-                  // 'x-app-id': '0eb5f22d',
-                  // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
-                },
-                params: {
-                  'nix_item_id': result.nix_item_id
-                }
-              }).then((response) => {
-                // created nutrientData variable to store array of nutrient codes
-                const nutrientData = response.data.foods[0].full_nutrients;
-                // loop through nutrient codes and call switch function on each one
-                nutrientData.forEach((nutrient) => {
-                  switchFunction(nutrient);
-                })
-              // added an extra .then (to wait until all the nutrient names and values are added to the nutrition object)
-              }).then(() => {
-                // add propery called "nutritionalInfo" with value of nutrition object to each result 
-                result.nutritionalInfo = nutrition;
-              })
+            const updatedResults = results.data.branded;
+            updatedResults.forEach((updatedResult) => {
+              updatedResult.type = resultsType
             })
-            // now the resultsItems state variable has the updated array with foods + their nutritional information
-            console.log(resultsItems)
+            setResultsItems(updatedResults)
           }
         })
 
@@ -270,10 +144,15 @@ const Main = (props) => {
               // display the user id
               ? <>
                   <p>Welcome to the page, {user.email}. Your unique ID is {user.ID}.</p>
-                  <Favourites ID={user.ID} />
                 </>
               : <p>Please log in.</p>
           }
+          {
+            resultsItems.length > 1
+              ? <Results ID={user.ID} items={resultsItems} />
+              : null
+          }
+          
       </main>
   )
 
