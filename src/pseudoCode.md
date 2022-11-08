@@ -25,7 +25,9 @@ PSEUDO-CODE
         States:
         - create a state to hold search input (ex: [userQuery, setUserQuery] = useState("")) 
         - create a state to hold the radio button choice (ex: [resultsType, setResultsType] = useState("generic"))
+        - create a state to hold API list items (ex: [resultsItems, setResultsItems])
         - create a state to hold API results (ex: [items, setitems] = useState([]))
+
 
         - create input and assigned value to be search input (ex: value = {userQuery})
             - create two radio buttons (named generic and brand name) (generic is selected by default)
@@ -36,8 +38,9 @@ PSEUDO-CODE
         - create search button with onClick event listener -> calls search function -> search function makes the axios API call to v2/search/instant endpoint (with userQuery as the query name [ex: query: userQuery])
             - create if statement within .then()
                 - if (resultsType === 'generic') 
+                    -> setResultsItems(results.data.common)
                     -> create new array (ex: const newArray =[])
-                    -> run a resultsType.forEach, for every result: 
+                    -> run a resultsItems.forEach, for every result: 
                         -> make axios API call to the v2/natural/nutrients endpoint ("query": {result.food_name}) 
                             -> create an empty nutrition object
                             -> const nutrientData = response.data.foods[0].full_nutrients
@@ -52,7 +55,7 @@ PSEUDO-CODE
                     -> setItem(newArray)
                 - else (resultsType === 'branded') 
                     -> create new array (ex: const newArray =[])
-                    -> run a resultsType.forEach, for every result: 
+                    -> run a resultsItems.forEach, for every result: 
                         -> make axios API call to the search/items endpoint ("nix_item_id": {result.nix_item_id}) 
                             -> create an empty nutrition object
                             -> const nutrientData = response.data.foods[0].full_nutrients
