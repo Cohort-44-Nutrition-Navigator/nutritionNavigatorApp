@@ -9,10 +9,11 @@ import Favourites from './Favourites';
 
 const Results = (props) => {
 
-    const [items, setItems] = useState(props.items)
-    const [ userID, setUserID ] = useState(props.ID) 
-    const [favouriteItems, setFavouriteItems] = useState([])
-    const [ compareItems, setCompareItems ] = useState([])
+    const [items, setItems] = useState(props.items);
+    const [favouriteItems, setFavouriteItems] = useState([]);
+    const [compareItems, setCompareItems] = useState([]);
+
+    console.log(items);
 
     // function to call second API endpoint 
     const nutrientApiSearch = ((foodItem) => {
@@ -157,23 +158,90 @@ const Results = (props) => {
         }
     })
 
-    const handleClick = () => {
-        const newItems = items
-        const firstItem = newItems[0]
-        nutrientApiSearch(firstItem)
-        newItems[0] = firstItem
-        console.log(newItems)
-        setItems(newItems)
-        setFavouriteItems([newItems[0]])
-        setCompareItems([newItems[0]])
+    const handleFavourite = (item, index) => {
+
+        if (props.ID === 'guest'){
+
+            const newFavouriteItems = favouriteItems;
+
+            if (item.nutritionalInfo){
+
+                newFavouriteItems.push(item);
+                setFavouriteItems(newFavouriteItems);
+
+            } else {
+
+                const updatedItems = items;
+                const updatedItem = item;
+                nutrientApiSearch(updatedItem);
+                newFavouriteItems.push(updatedItem);
+                setFavouriteItems(newFavouriteItems);
+                updatedItems[{index}] = updatedItem;
+                setItems(updatedItems);
+
+            }
+        } else {
+
+            console.log(props.ID);
+
+        }
+    }
+
+    const handleCompare = (item, index) => {
+        const newCompareItems = compareItems;
+
+        if (item.nutritionalInfo){
+
+            newCompareItems.push(item);
+            setCompareItems(newCompareItems);
+
+        } else {
+
+            const updatedItems = items;
+            const updatedItem = item;
+            nutrientApiSearch(updatedItem);
+            newCompareItems.push(updatedItem);
+            setCompareItems(newCompareItems);
+            updatedItems[{index}] = updatedItem;
+            setItems(updatedItems);
+
+        }
+    }
+
+    const handleReadMore = (item, index) => {
+
+        const updatedItems = items;
+        const updatedItem = item;
+        nutrientApiSearch(updatedItem);
+        updatedItems[{index}] = updatedItem;
+        setItems(updatedItems);
+
     }
 
     return (
         <div>
             <h2>Results</h2>
-            <button onClick={handleClick}>
-                Click here for Nutrition
-            </button>
+            {
+                items
+                ? <ul>
+                    {items.map((item, index) => (
+                        <li key={
+                            item.type === 'generic'
+                                ? item.food_name
+                                : item.nix_item_id
+                            }>
+                            <div>
+                                <img src={item.photo.thumb} alt="" />
+                                <p>{item.food_name}</p>
+                                <button className='button' onClick={() => handleReadMore(item, index)}>Read More</button>
+                                <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
+                                <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+                : null
+            }
             <Compare items={compareItems} />
             <Favourites items={favouriteItems}/>
         </div>
