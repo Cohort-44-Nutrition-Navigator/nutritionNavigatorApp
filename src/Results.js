@@ -1,23 +1,34 @@
-// import axios function
+// import axios
 import axios from 'axios';
+
 // import state functions
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // import components
 import Compare from './Compare';
 import Favourites from './Favourites';
 
+// Results component (takes ID and items as props)
 const Results = (props) => {
 
-    const [items, setItems] = useState(props.items);
-    const [favouriteItems, setFavouriteItems] = useState([]);
-    const [compareItems, setCompareItems] = useState([]);
+    // initial state variables
+    const [ items, setItems ] = useState(props.items);
+    const [ ID, setID ] = useState(props.ID);
+    const [ favouriteItems, setFavouriteItems ] = useState([]);
+    const [ compareItems, setCompareItems ] = useState([]);
 
-    console.log(items);
+    // reset items and ID state whenever props causes a re-render
+    useEffect(() => {
+
+        setItems(props.items);
+        setID(props.ID);
+
+    }, [props])
 
     // function to call second API endpoint 
     const nutrientApiSearch = ((foodItem) => {
-        // created nutrition object to hold nutritional info
+
+        // create nutrition object to hold nutritional info
         const nutrition = {
             macronutrients: {
                 calories: "",
@@ -97,8 +108,10 @@ const Results = (props) => {
             }
         })
 
+        // if the food type is 'generic'
         if (foodItem.type === 'generic') {
-            // **NOTE** : added.slice(0, 3) to limit our API Call to 2 results (just during the testing phase)
+            
+            // make an axios call to the natural/nutrients endpoint for nutritional data
             axios({
                 method: "post",
                 url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
@@ -114,134 +127,274 @@ const Results = (props) => {
                 data: {
                     "query": foodItem.food_name
                 }
+
+            // when we get the data back
             }).then((response) => {
-                // created nutrientData variable to store array of nutrient codes
+
+                // create nutrientData variable to store array of nutrient codes
                 const nutrientData = response.data.foods[0].full_nutrients
+
                 // loop through nutrient codes and call switch function on each one
                 nutrientData.forEach((nutrient) => {
                     switchFunction(nutrient);
                 })
-                // added an extra .then (to wait until all the nutrient names and values are added to the nutrition object)
+
+            // once until all the nutrient names and values are added to the nutrition object
             }).then(() => {
+
                 // add propery called "nutritionalInfo" with value of nutrition object to each result 
                 foodItem.nutritionalInfo = nutrition;
+
             })
+        
+        // if the food type is 'branded'
         } else {
-            // **NOTE** : added.slice(0, 2) to limit our API Call to 2 results (just during the testing phase)
+
+            // make an axios call to the search/item endpoint for nutritional data
             axios({
                 method: "get",
                 url: 'https://trackapi.nutritionix.com/v2/search/item',
                 headers: {
                     'x-remote-user-id': '0',
                     // API KEY 1
-                    'x-app-id': 'ee0fb754',
-                    'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
+                    // 'x-app-id': 'ee0fb754',
+                    // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
                     // API KEY 2
-                    // 'x-app-id': '0eb5f22d',
-                    // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
+                    'x-app-id': '0eb5f22d',
+                    'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
                 },
                 params: {
                     'nix_item_id': foodItem.nix_item_id
                 }
+            
+            // when we get the data back 
             }).then((response) => {
-                // created nutrientData variable to store array of nutrient codes
+
+                // create nutrientData variable to store array of nutrient codes
                 const nutrientData = response.data.foods[0].full_nutrients;
+
                 // loop through nutrient codes and call switch function on each one
                 nutrientData.forEach((nutrient) => {
                     switchFunction(nutrient);
                 })
-                // added an extra .then (to wait until all the nutrient names and values are added to the nutrition object)
+
+            // once until all the nutrient names and values are added to the nutrition object
             }).then(() => {
+
                 // add propery called "nutritionalInfo" with value of nutrition object to each result 
                 foodItem.nutritionalInfo = nutrition;
+
             })
         }
     })
 
-    const handleFavourite = (item, index) => {
+    // individual Result component (takes item, index, and showNutrients as props)
+    const Result = (props) => {
 
-        if (props.ID === 'guest'){
+        // initial state variable
+        const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
 
-            const newFavouriteItems = favouriteItems;
+        // initial props variables
+        const item = props.item;
+        const index = props.index;
 
-            if (item.nutritionalInfo){
+        // favourite item function
+        const handleFavourite = (item, index) => {
 
-                newFavouriteItems.push(item);
-                setFavouriteItems(newFavouriteItems);
+            // if the user is a guest
+            if (ID === 'guest'){
 
+                // create a new favourite items array
+                const newFavouriteItems = favouriteItems;
+
+                // if the item has nutritional info already
+                if (item.nutritionalInfo){
+
+                    // push the item to the new favourite items array
+                    newFavouriteItems.push(item);
+                    // set the favourite items state to new array
+                    setFavouriteItems(newFavouriteItems);
+
+                // if the item does not have nutritional info
+                } else {
+
+                    // copy items and item
+                    const updatedItems = items;
+                    const updatedItem = item;
+
+                    // run the second API call on the item
+                    nutrientApiSearch(updatedItem);
+                    
+                    // push the updated item to the new favourite items array
+                    newFavouriteItems.push(updatedItem);
+
+                    // set the favourite items state to new array
+                    setFavouriteItems(newFavouriteItems);
+
+                    // update items array to have the updated item
+                    updatedItems[{index}] = updatedItem;
+
+                    // set the items state to the new array with the updated item
+                    setItems(updatedItems);
+
+                }
+
+            // if the user not a guest
             } else {
 
+                // console log the user's ID
+                console.log(ID);
+
+            }
+        }
+
+        // compare function
+        const handleCompare = (item, index) => {
+
+            // create a new compare items array
+            const newCompareItems = compareItems;
+
+            // if the item has nutritional info already
+            if (item.nutritionalInfo){
+
+                // push the item to the new compare items array
+                newCompareItems.push(item);
+                // set the compare items state to new array
+                setCompareItems(newCompareItems);
+
+            // if the item does not have nutritional info
+            } else {
+
+                // copy items and item
                 const updatedItems = items;
                 const updatedItem = item;
+
+                // run the second API call on the item
                 nutrientApiSearch(updatedItem);
-                newFavouriteItems.push(updatedItem);
-                setFavouriteItems(newFavouriteItems);
+
+                // push the updated item to the new compare items array
+                newCompareItems.push(updatedItem);
+
+                // set the compare items state to new array
+                setCompareItems(newCompareItems);
+
+                // update items array to have the updated item
                 updatedItems[{index}] = updatedItem;
+
+                // set the items state to the new array with the updated item
                 setItems(updatedItems);
 
             }
-        } else {
-
-            console.log(props.ID);
-
         }
-    }
 
-    const handleCompare = (item, index) => {
-        const newCompareItems = compareItems;
+        // hide or show nutrients function
+        const handleHideShowNutrients = () => {
+            
+            const updatedItem = items[index];
 
-        if (item.nutritionalInfo){
+            // if nutrients are showing
+            if (showNutrients){
 
-            newCompareItems.push(item);
-            setCompareItems(newCompareItems);
+                // hide the nutrients
+                setShowNutrients(false);
 
-        } else {
+            } else {
+                
+                // if item doesn't already have nutritional info
+                if (!updatedItem.nutritionalInfo){
 
-            const updatedItems = items;
-            const updatedItem = item;
-            nutrientApiSearch(updatedItem);
-            newCompareItems.push(updatedItem);
-            setCompareItems(newCompareItems);
-            updatedItems[{index}] = updatedItem;
-            setItems(updatedItems);
+                    // run the second API call on the item
+                    nutrientApiSearch(updatedItem);
+                }
 
+                // show the nutrients
+                setShowNutrients(true);
+
+            }
         }
+
+        // nutrient list function (takes showNutrients state as props)
+        const nutrientList = (showNutrients) => {
+            return (
+                <div style={
+
+                // if nutrients are supposed to show
+                showNutrients
+
+                // display nutrients
+                ? {display: "initial"}
+
+                // else hide nutrients
+                : {display: "none"}
+                }>
+                    <p>Nutrients will go here</p>
+                </div>
+            )
+        }
+
+        // individual Result component return
+        return(
+
+            // create a list item
+            <li>
+
+                {/* insert image */}
+                <img src={item.photo.thumb} alt="" />
+
+                {/* insert item name */}
+                <p>{item.food_name}</p>
+
+                {/* show or hide nutrients */}
+                {nutrientList(showNutrients)}
+
+                {/* show or hide nutrients button */}
+                <button className="button" onClick={handleHideShowNutrients}>
+                    {
+                        showNutrients
+                            ? "Hide "
+                            : "Show "
+                    }
+                    Nutrients</button>
+
+                {/* favourite button */}
+                <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
+
+                {/* compare button */}
+                <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
+
+            </li>
+        )
     }
 
-    const handleReadMore = (item, index) => {
-
-        const updatedItems = items;
-        const updatedItem = item;
-        nutrientApiSearch(updatedItem);
-        updatedItems[{index}] = updatedItem;
-        setItems(updatedItems);
-
-    }
-
+    // Results component return
     return (
         <div>
+
+            {/* heading */}
             <h2>Results</h2>
-            {
-                items
-                ? <ul>
-                    {items.map((item, index) => (
-                        <li key={
-                            item.type === 'generic'
-                                ? item.food_name
-                                : item.nix_item_id
-                            }>
-                            <div>
-                                <img src={item.photo.thumb} alt="" />
-                                <p>{item.food_name}</p>
-                                <button className='button' onClick={() => handleReadMore(item, index)}>Read More</button>
-                                <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
-                                <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-                : null
-            }
+
+            {/* unordered list of items */}
+            <ul>
+
+                {/* map each item to a Result component */}
+                {items.map((item, index) => (
+                    <Result key={
+
+                        // if the type is 'generic'
+                        item.type === 'generic'
+
+                        // make the key the food name
+                        ? item.food_name
+
+                        // else make the key the item ID
+                        : item.nix_item_id
+
+                    } item={item} index={index} showNutrients={false} />
+
+                ))}
+            </ul>
+
+            {/* compare and favourites component */}
             <Compare items={compareItems} />
             <Favourites items={favouriteItems}/>
         </div>
