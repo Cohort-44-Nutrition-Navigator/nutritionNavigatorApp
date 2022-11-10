@@ -43,24 +43,24 @@ const Results = (props) => {
             // create nutrition object to hold nutritional info
             const nutrition = {
                 macronutrients: {
-                    calories: "",
-                    carbohydrates: "",
-                    fibre: "",
-                    protein: "",
-                    sodium: "",
-                    sugar: "",
-                    fat: "",
-                    saturatedFat: "",
+                    'Calories': "",
+                    'Carbohydrates': "",
+                    'Fibre': "",
+                    'Protein': "",
+                    'Sodium': "",
+                    'Sugar': "",
+                    'Fat': "",
+                    'Saturated Fat': "",
                 },
                 micronutrients: {
-                    vitaminA: "",
-                    vitaminD: "",
-                    vitaminB6: "",
-                    vitaminC: "",
-                    vitaminE: "",
-                    magnesium: "",
-                    zinc: "",
-                    iron: "",
+                    'Vitamin A': "",
+                    'Vitamin D': "",
+                    'Vitamin B6': "",
+                    'Vitamin C': "",
+                    'Vitamin E': "",
+                    'Magnesium': "",
+                    'Zinc': "",
+                    'Iron': "",
                 }
             };
 
@@ -68,52 +68,52 @@ const Results = (props) => {
             const switchFunction = ((nutrient) => {
                 switch (nutrient.attr_id) {
                     case 208:
-                        nutrition.macronutrients.calories = (Math.round(nutrient.value * 100) / 100) + ' kcal'
+                        nutrition.macronutrients['Calories'] = (Math.round(nutrient.value * 100) / 100) + ' kcal'
                         break;
                     case 205:
-                        nutrition.macronutrients.carbohydrates = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Carbohydrates'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 291:
-                        nutrition.macronutrients.fibre = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Fibre'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 203:
-                        nutrition.macronutrients.protein = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Protein'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 307:
-                        nutrition.macronutrients.sodium = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.macronutrients['Sodium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 269:
-                        nutrition.macronutrients.sugar = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Sugar'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 204:
-                        nutrition.macronutrients.fat = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 606:
-                        nutrition.macronutrients.saturatedFat = (Math.round(nutrient.value * 100) / 100) + ' g'
+                        nutrition.macronutrients['Saturated Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 318:
-                        nutrition.micronutrients.vitaminA = (Math.round(nutrient.value * 100) / 100) + ' IU'
+                        nutrition.micronutrients['Vitamin A'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
                         break;
                     case 324:
-                        nutrition.micronutrients.vitaminD = (Math.round(nutrient.value * 100) / 100) + ' IU'
+                        nutrition.micronutrients['Vitamin D'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
                         break;
                     case 415:
-                        nutrition.micronutrients.vitaminB6 = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Vitamin B6'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 401:
-                        nutrition.micronutrients.vitaminC = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Vitamin C'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 323:
-                        nutrition.micronutrients.vitaminE = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Vitamin E'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 304:
-                        nutrition.micronutrients.magnesium = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Magnesium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 309:
-                        nutrition.micronutrients.zinc = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Zinc'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 303:
-                        nutrition.micronutrients.iron = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                        nutrition.micronutrients['Iron'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     default:
                         break;
