@@ -196,6 +196,7 @@ const Results = (props) => {
         })
 
         const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
+        const [ showMacro, setShowMacro ] = useState(true);
         const [ loading, setLoading ] = useState(props.loading);
 
         const item = props.item;
@@ -327,6 +328,14 @@ const Results = (props) => {
             }
         }
 
+        const handleMacroMicro = () => {
+            if(showMacro){
+                setShowMacro(false);
+            } else {
+                setShowMacro(true);
+            }
+        }
+
         // individual Result component return
         return(
 
@@ -356,13 +365,36 @@ const Results = (props) => {
                             loading
                             ? <p>Loading nutrients</p>
                             : item.nutritionalInfo
-                                ? <ul>
-                                    {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
-                                        return (
-                                            <li key={index}>{nutrient}: {item.nutritionalInfo.macronutrients[nutrient]}</li>
-                                        )
-                                    })}
-                                </ul>
+                                ? <>
+                                    {
+                                        showMacro
+                                        ? <>
+                                            <h3>Macronutrients</h3>
+                                            <ul>
+                                                {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                    return (
+                                                        <li key={index}>{nutrient}: {item.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </>
+                                        : <>
+                                            <h3>Micronutrients</h3>
+                                            <ul>
+                                                {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
+                                                    return (
+                                                        <li key={index}>{nutrient}: {item.nutritionalInfo.micronutrients[nutrient]}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </>
+                                    }
+                                    <button className='macroMicro button' onClick={handleMacroMicro}>{
+                                        showMacro
+                                        ? 'Micronutrients'
+                                        : 'Macronutrients'
+                                    }</button>
+                                </>
                                 : <p>Oops, no nutrients</p>
                         }
                 </div>
@@ -412,7 +444,7 @@ const Results = (props) => {
                     } item={item} index={index} showNutrients={false} loading={false} nutrients={item.nutritionalInfo}/>
 
                 ))}
-            </ul>/
+            </ul>
 
             {/* compare and favourites component */}
             <Compare items={compareItems} />
