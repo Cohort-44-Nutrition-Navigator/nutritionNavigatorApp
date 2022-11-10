@@ -28,6 +28,15 @@ const Results = (props) => {
     // individual Result component (takes item, index, and showNutrients as props)
     const Result = (props) => {
 
+        // iniitial state variables
+        const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
+        const [ showMacro, setShowMacro ] = useState(true);
+        const [ loading, setLoading ] = useState(props.loading);
+
+        // initial props variables
+        const item = props.item;
+        const index = props.index;
+
         // function to call second API endpoint 
         const nutrientApiSearch = ((foodItem) => {
 
@@ -55,56 +64,56 @@ const Results = (props) => {
                 }
             };
 
-            // create switch function to switch attr_id number with corresponding values
+            // switch function to match attr_id number with corresponding values
             const switchFunction = ((nutrient) => {
                 switch (nutrient.attr_id) {
                     case 208:
-                        nutrition.macronutrients.calories = nutrient.value
+                        nutrition.macronutrients.calories = (Math.round(nutrient.value * 100) / 100) + ' kcal'
                         break;
                     case 205:
-                        nutrition.macronutrients.carbohydrates = nutrient.value
+                        nutrition.macronutrients.carbohydrates = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 291:
-                        nutrition.macronutrients.fibre = nutrient.value
+                        nutrition.macronutrients.fibre = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 203:
-                        nutrition.macronutrients.protein = nutrient.value
+                        nutrition.macronutrients.protein = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 307:
-                        nutrition.macronutrients.sodium = nutrient.value
+                        nutrition.macronutrients.sodium = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 269:
-                        nutrition.macronutrients.sugar = nutrient.value
+                        nutrition.macronutrients.sugar = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 204:
-                        nutrition.macronutrients.fat = nutrient.value
+                        nutrition.macronutrients.fat = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 606:
-                        nutrition.macronutrients.saturatedFat = nutrient.value
+                        nutrition.macronutrients.saturatedFat = (Math.round(nutrient.value * 100) / 100) + ' g'
                         break;
                     case 318:
-                        nutrition.micronutrients.vitaminA = nutrient.value
+                        nutrition.micronutrients.vitaminA = (Math.round(nutrient.value * 100) / 100) + ' IU'
                         break;
                     case 324:
-                        nutrition.micronutrients.vitaminD = nutrient.value
+                        nutrition.micronutrients.vitaminD = (Math.round(nutrient.value * 100) / 100) + ' IU'
                         break;
                     case 415:
-                        nutrition.micronutrients.vitaminB6 = nutrient.value
+                        nutrition.micronutrients.vitaminB6 = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 401:
-                        nutrition.micronutrients.vitaminC = nutrient.value
+                        nutrition.micronutrients.vitaminC = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 323:
-                        nutrition.micronutrients.vitaminE = nutrient.value
+                        nutrition.micronutrients.vitaminE = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 304:
-                        nutrition.micronutrients.magnesium = nutrient.value
+                        nutrition.micronutrients.magnesium = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 309:
-                        nutrition.micronutrients.zinc = nutrient.value
+                        nutrition.micronutrients.zinc = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     case 303:
-                        nutrition.micronutrients.iron = nutrient.value
+                        nutrition.micronutrients.iron = (Math.round(nutrient.value * 100) / 100) + ' mg'
                         break;
                     default:
                         break;
@@ -148,6 +157,7 @@ const Results = (props) => {
                     // add propery called "nutritionalInfo" with value of nutrition object to each result 
                     foodItem.nutritionalInfo = nutrition;
 
+                    // set loading state to false once data is saved in the item
                     setLoading(false);
 
                 })
@@ -189,18 +199,12 @@ const Results = (props) => {
                     // add propery called "nutritionalInfo" with value of nutrition object to each result 
                     foodItem.nutritionalInfo = nutrition;
 
+                    // set loading state to false once data is saved in the item
                     setLoading(false);
 
                 })
             }
         })
-
-        const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
-        const [ showMacro, setShowMacro ] = useState(true);
-        const [ loading, setLoading ] = useState(props.loading);
-
-        const item = props.item;
-        const index = props.index;
 
         // favourite item function
         const handleFavourite = (item, index) => {
@@ -295,6 +299,7 @@ const Results = (props) => {
         // hide or show nutrients function
         const handleHideShowNutrients = (item, index) => {
             
+            // copy items and item
             const updatedItems = items;
             const updatedItem = item;
 
@@ -309,6 +314,7 @@ const Results = (props) => {
                 // if item doesn't already have nutritional info
                 if (!updatedItem.nutritionalInfo){
 
+                    // set loading to true until data comes back
                     setLoading(true);
 
                     // run the second API call on the item
@@ -328,10 +334,17 @@ const Results = (props) => {
             }
         }
 
+        // on click of the macro/micronutrients button
         const handleMacroMicro = () => {
+
+            // if macronutrients are showing
             if(showMacro){
+
+                // show micronutrients
                 setShowMacro(false);
             } else {
+
+                // else show macronutrients
                 setShowMacro(true);
             }
         }
@@ -348,7 +361,7 @@ const Results = (props) => {
                 {/* insert item name */}
                 <p>{item.food_name}</p>
 
-                
+                {/* nutrient div */}
                 <div style={
 
                     // if nutrients are supposed to show
@@ -362,12 +375,20 @@ const Results = (props) => {
 
                     }>
                         {
+                            // if loading
                             loading
+
+                            // display loading text
                             ? <p>Loading nutrients</p>
+
+                            // else if the item has nutrient data
                             : item.nutritionalInfo
                                 ? <>
                                     {
+                                        // if the macronutrients are supposed to show
                                         showMacro
+
+                                        // display macronutrients
                                         ? <>
                                             <h3>Macronutrients</h3>
                                             <ul>
@@ -378,6 +399,8 @@ const Results = (props) => {
                                                 })}
                                             </ul>
                                         </>
+
+                                        // else display micronutrients
                                         : <>
                                             <h3>Micronutrients</h3>
                                             <ul>
@@ -389,12 +412,16 @@ const Results = (props) => {
                                             </ul>
                                         </>
                                     }
+
+                                    {/* macronutrient/micronutrient button */}
                                     <button className='macroMicro button' onClick={handleMacroMicro}>{
                                         showMacro
                                         ? 'Micronutrients'
                                         : 'Macronutrients'
                                     }</button>
                                 </>
+
+                                // if the item doesn't have nutrient data, show error message
                                 : <p>Oops, no nutrients</p>
                         }
                 </div>
