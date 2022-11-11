@@ -12,10 +12,10 @@ import Favourites from './Favourites';
 const Results = (props) => {
 
     // initial state variables
-    const [ items, setItems ] = useState(props.items);
-    const [ ID, setID ] = useState(props.ID);
-    const [ favouriteItems, setFavouriteItems ] = useState([]);
-    const [ compareItems, setCompareItems ] = useState([]);
+    const [items, setItems] = useState(props.items);
+    const [ID, setID] = useState(props.ID);
+    const [favouriteItems, setFavouriteItems] = useState([]);
+    const [compareItems, setCompareItems] = useState([]);
 
     // reset items and ID state whenever props causes a re-render
     useEffect(() => {
@@ -25,312 +25,295 @@ const Results = (props) => {
 
     }, [props])
 
+    // favourite item function
+    const handleFavourite = (item, index) => {
+
+        // if the user is a guest
+        if (ID === 'guest') {
+
+            // create a new favourite items array
+            const newFavouriteItems = favouriteItems;
+
+            // if the item has nutritional info already
+            if (item.nutritionalInfo) {
+
+                // push the item to the new favourite items array
+                newFavouriteItems.push(item);
+
+                // set the favourite items state to new array
+                setFavouriteItems(newFavouriteItems);
+
+                // if the item does not have nutritional info
+            } else {
+
+                const updatedItem = item;
+
+                // run the second API call on the item
+                nutrientApiSearch(updatedItem, index);
+
+                // push the updated item to the new favourite items array
+                newFavouriteItems.push(updatedItem);
+
+                // set the favourite items state to new array
+                setFavouriteItems(newFavouriteItems);
+
+            }
+
+            // if the user not a guest
+        } else {
+
+            // console log the user's ID
+            console.log(ID);
+
+        }
+    }
+
+    // compare function
+    const handleCompare = (item, index) => {
+
+        // create a new compare items array
+        const newCompareItems = compareItems;
+
+        // if the item has nutritional info already
+        if (item.nutritionalInfo) {
+
+            // push the item to the new compare items array
+            newCompareItems.push(item);
+            // set the compare items state to new array
+            setCompareItems(newCompareItems);
+
+            // if the item does not have nutritional info
+        } else {
+
+            const updatedItem = item;
+
+            // run the second API call on the item
+            nutrientApiSearch(updatedItem, index);
+
+            // push the updated item to the new compare items array
+            newCompareItems.push(updatedItem);
+
+            // set the compare items state to new array
+            setCompareItems(newCompareItems);
+
+        }
+    }
+
+    // function to call second API endpoint 
+    const nutrientApiSearch = ((item, index) => {
+
+        // create nutrition object to hold nutritional info
+        const nutrition = {
+            macronutrients: {
+                'Calories': "",
+                'Carbohydrates': "",
+                'Fibre': "",
+                'Protein': "",
+                'Sodium': "",
+                'Sugar': "",
+                'Fat': "",
+                'Saturated Fat': "",
+            },
+            micronutrients: {
+                'Vitamin A': "",
+                'Vitamin D': "",
+                'Vitamin B6': "",
+                'Vitamin C': "",
+                'Vitamin E': "",
+                'Magnesium': "",
+                'Zinc': "",
+                'Iron': "",
+            }
+        };
+
+        // switch function to match attr_id number with corresponding values
+        const switchFunction = ((nutrient) => {
+            switch (nutrient.attr_id) {
+                case 208:
+                    nutrition.macronutrients['Calories'] = (Math.round(nutrient.value * 100) / 100) + ' kcal'
+                    break;
+                case 205:
+                    nutrition.macronutrients['Carbohydrates'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 291:
+                    nutrition.macronutrients['Fibre'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 203:
+                    nutrition.macronutrients['Protein'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 307:
+                    nutrition.macronutrients['Sodium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 269:
+                    nutrition.macronutrients['Sugar'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 204:
+                    nutrition.macronutrients['Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 606:
+                    nutrition.macronutrients['Saturated Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
+                    break;
+                case 318:
+                    nutrition.micronutrients['Vitamin A'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
+                    break;
+                case 324:
+                    nutrition.micronutrients['Vitamin D'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
+                    break;
+                case 415:
+                    nutrition.micronutrients['Vitamin B6'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 401:
+                    nutrition.micronutrients['Vitamin C'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 323:
+                    nutrition.micronutrients['Vitamin E'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 304:
+                    nutrition.micronutrients['Magnesium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 309:
+                    nutrition.micronutrients['Zinc'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                case 303:
+                    nutrition.micronutrients['Iron'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
+                    break;
+                default:
+                    break;
+            }
+        })
+
+        // if the food type is 'generic'
+        if (item.type === 'generic') {
+
+            // make an axios call to the natural/nutrients endpoint for nutritional data
+            axios({
+                method: "post",
+                url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
+                headers: {
+                    // API KEY 1
+                    "x-app-id": "ee0fb754",
+                    "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
+                    // API KEY 2
+                    // "x-app-id": "0eb5f22d",
+                    // "x-app-key": "d6fd704a091aeaa5c06a629aa96a56d0",
+                    "x-remote-user-id": "0",
+                },
+                data: {
+                    "query": item.food_name
+                }
+
+                // when we get the data back
+            }).then((response) => {
+
+                // create nutrientData variable to store array of nutrient codes
+                const nutrientData = response.data.foods[0].full_nutrients
+
+                // loop through nutrient codes and call switch function on each one
+                nutrientData.forEach((nutrient) => {
+                    switchFunction(nutrient);
+                })
+
+                // once until all the nutrient names and values are added to the nutrition object
+            }).then(() => {
+
+                // add propery called "nutritionalInfo" with value of nutrition object to each result 
+                item.nutritionalInfo = nutrition;
+
+                const updatedItems = items;
+
+                updatedItems[{ index }] = item;
+
+                setItems(updatedItems);
+
+            })
+
+            // if the food type is 'branded'
+        } else {
+
+            // make an axios call to the search/item endpoint for nutritional data
+            axios({
+                method: "get",
+                url: 'https://trackapi.nutritionix.com/v2/search/item',
+                headers: {
+                    'x-remote-user-id': '0',
+                    // API KEY 1
+                    // 'x-app-id': 'ee0fb754',
+                    // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
+                    // API KEY 2
+                    // 'x-app-id': '0eb5f22d',
+                    // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
+                },
+                params: {
+                    'nix_item_id': item.nix_item_id
+                }
+
+                // when we get the data back 
+            }).then((response) => {
+
+                // create nutrientData variable to store array of nutrient codes
+                const nutrientData = response.data.foods[0].full_nutrients;
+
+                // loop through nutrient codes and call switch function on each one
+                nutrientData.forEach((nutrient) => {
+                    switchFunction(nutrient);
+                })
+
+                // once until all the nutrient names and values are added to the nutrition object
+            }).then(() => {
+
+                // add propery called "nutritionalInfo" with value of nutrition object to each result 
+                item.nutritionalInfo = nutrition;
+
+                const updatedItems = items;
+
+                updatedItems[{ index }] = item;
+
+                setItems(updatedItems);
+
+            })
+        }
+    })
+
     // individual Result component (takes item, index, and showNutrients as props)
     const Result = (props) => {
 
         // iniitial state variables
-        const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
-        const [ showMacro, setShowMacro ] = useState(true);
-        const [ loading, setLoading ] = useState(props.loading);
+        const [showNutrients, setShowNutrients] = useState(props.showNutrients);
+        const [showMacro, setShowMacro] = useState(true);
 
         // initial props variables
         const item = props.item;
         const index = props.index;
 
-        // function to call second API endpoint 
-        const nutrientApiSearch = ((foodItem) => {
-
-            // create nutrition object to hold nutritional info
-            const nutrition = {
-                macronutrients: {
-                    'Calories': "",
-                    'Carbohydrates': "",
-                    'Fibre': "",
-                    'Protein': "",
-                    'Sodium': "",
-                    'Sugar': "",
-                    'Fat': "",
-                    'Saturated Fat': "",
-                },
-                micronutrients: {
-                    'Vitamin A': "",
-                    'Vitamin D': "",
-                    'Vitamin B6': "",
-                    'Vitamin C': "",
-                    'Vitamin E': "",
-                    'Magnesium': "",
-                    'Zinc': "",
-                    'Iron': "",
-                }
-            };
-
-            // switch function to match attr_id number with corresponding values
-            const switchFunction = ((nutrient) => {
-                switch (nutrient.attr_id) {
-                    case 208:
-                        nutrition.macronutrients['Calories'] = (Math.round(nutrient.value * 100) / 100) + ' kcal'
-                        break;
-                    case 205:
-                        nutrition.macronutrients['Carbohydrates'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 291:
-                        nutrition.macronutrients['Fibre'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 203:
-                        nutrition.macronutrients['Protein'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 307:
-                        nutrition.macronutrients['Sodium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 269:
-                        nutrition.macronutrients['Sugar'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 204:
-                        nutrition.macronutrients['Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 606:
-                        nutrition.macronutrients['Saturated Fat'] = (Math.round(nutrient.value * 100) / 100) + ' g'
-                        break;
-                    case 318:
-                        nutrition.micronutrients['Vitamin A'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
-                        break;
-                    case 324:
-                        nutrition.micronutrients['Vitamin D'] = (Math.round(nutrient.value * 100) / 100) + ' IU'
-                        break;
-                    case 415:
-                        nutrition.micronutrients['Vitamin B6'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 401:
-                        nutrition.micronutrients['Vitamin C'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 323:
-                        nutrition.micronutrients['Vitamin E'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 304:
-                        nutrition.micronutrients['Magnesium'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 309:
-                        nutrition.micronutrients['Zinc'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    case 303:
-                        nutrition.micronutrients['Iron'] = (Math.round(nutrient.value * 100) / 100) + ' mg'
-                        break;
-                    default:
-                        break;
-                }
-            })
-
-            // if the food type is 'generic'
-            if (foodItem.type === 'generic') {
-                
-                // make an axios call to the natural/nutrients endpoint for nutritional data
-                axios({
-                    method: "post",
-                    url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
-                    headers: {
-                        // API KEY 1
-                        "x-app-id": "ee0fb754",
-                        "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
-                        // API KEY 2
-                        // "x-app-id": "0eb5f22d",
-                        // "x-app-key": "d6fd704a091aeaa5c06a629aa96a56d0",
-                        "x-remote-user-id": "0",
-                    },
-                    data: {
-                        "query": foodItem.food_name
-                    }
-
-                // when we get the data back
-                }).then((response) => {
-
-                    // create nutrientData variable to store array of nutrient codes
-                    const nutrientData = response.data.foods[0].full_nutrients
-
-                    // loop through nutrient codes and call switch function on each one
-                    nutrientData.forEach((nutrient) => {
-                        switchFunction(nutrient);
-                    })
-
-                // once until all the nutrient names and values are added to the nutrition object
-                }).then(() => {
-
-                    // add propery called "nutritionalInfo" with value of nutrition object to each result 
-                    foodItem.nutritionalInfo = nutrition;
-
-                    // set loading state to false once data is saved in the item
-                    setLoading(false);
-
-                })
-            
-            // if the food type is 'branded'
-            } else {
-
-                // make an axios call to the search/item endpoint for nutritional data
-                axios({
-                    method: "get",
-                    url: 'https://trackapi.nutritionix.com/v2/search/item',
-                    headers: {
-                        'x-remote-user-id': '0',
-                        // API KEY 1
-                        // 'x-app-id': 'ee0fb754',
-                        // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
-                        // API KEY 2
-                        // 'x-app-id': '0eb5f22d',
-                        // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
-                    },
-                    params: {
-                        'nix_item_id': foodItem.nix_item_id
-                    }
-                
-                // when we get the data back 
-                }).then((response) => {
-
-                    // create nutrientData variable to store array of nutrient codes
-                    const nutrientData = response.data.foods[0].full_nutrients;
-
-                    // loop through nutrient codes and call switch function on each one
-                    nutrientData.forEach((nutrient) => {
-                        switchFunction(nutrient);
-                    })
-
-                // once until all the nutrient names and values are added to the nutrition object
-                }).then(() => {
-
-                    // add propery called "nutritionalInfo" with value of nutrition object to each result 
-                    foodItem.nutritionalInfo = nutrition;
-
-                    // set loading state to false once data is saved in the item
-                    setLoading(false);
-
-                })
-            }
-        })
-
-        // favourite item function
-        const handleFavourite = (item, index) => {
-
-            // if the user is a guest
-            if (ID === 'guest'){
-
-                // create a new favourite items array
-                const newFavouriteItems = favouriteItems;
-
-                // if the item has nutritional info already
-                if (item.nutritionalInfo){
-
-                    // push the item to the new favourite items array
-                    newFavouriteItems.push(item);
-
-                    // set the favourite items state to new array
-                    setFavouriteItems(newFavouriteItems);
-
-                // if the item does not have nutritional info
-                } else {
-
-                    // copy items and item
-                    const updatedItems = items;
-                    const updatedItem = item;
-
-                    // run the second API call on the item
-                    nutrientApiSearch(updatedItem);
-                    
-                    // push the updated item to the new favourite items array
-                    newFavouriteItems.push(updatedItem);
-
-                    // set the favourite items state to new array
-                    setFavouriteItems(newFavouriteItems);
-
-                    // update items array to have the updated item
-                    updatedItems[{index}] = updatedItem;
-
-                    // set the items state to the new array with the updated item
-                    setItems(updatedItems);
-
-                }
-
-            // if the user not a guest
-            } else {
-
-                // console log the user's ID
-                console.log(ID);
-
-            }
-        }
-
-        // compare function
-        const handleCompare = (item, index) => {
-
-            // create a new compare items array
-            const newCompareItems = compareItems;
-
-            // if the item has nutritional info already
-            if (item.nutritionalInfo){
-
-                // push the item to the new compare items array
-                newCompareItems.push(item);
-                // set the compare items state to new array
-                setCompareItems(newCompareItems);
-
-            // if the item does not have nutritional info
-            } else {
-
-                // copy items and item
-                const updatedItems = items;
-                const updatedItem = item;
-
-                // run the second API call on the item
-                nutrientApiSearch(updatedItem);
-
-                // push the updated item to the new compare items array
-                newCompareItems.push(updatedItem);
-
-                // set the compare items state to new array
-                setCompareItems(newCompareItems);
-
-                // update items array to have the updated item
-                updatedItems[{index}] = updatedItem;
-
-                // set the items state to the new array with the updated item
-                setItems(updatedItems);
-
-            }
-        }
-
         // hide or show nutrients function
         const handleHideShowNutrients = (item, index) => {
-            
-            // copy items and item
-            const updatedItems = items;
+
             const updatedItem = item;
 
             // if nutrients are showing
-            if (showNutrients){
+            if (showNutrients) {
 
                 // hide the nutrients
                 setShowNutrients(false);
 
             } else {
-                
+
                 // if item doesn't already have nutritional info
-                if (!updatedItem.nutritionalInfo){
+                if (!updatedItem.nutritionalInfo) {
 
-                    // set loading to true until data comes back
-                    setLoading(true);
+                    nutrientApiSearch(item, index)
 
-                    // run the second API call on the item
-                    nutrientApiSearch(updatedItem);
+                    setTimeout(() => {
 
-                    // update items array to have the updated item
-                    updatedItems[{index}] = updatedItem;
+                        setShowNutrients(true);
 
-                    // set the items state to the new array with the updated item
-                    setItems(updatedItems);
+                    }, 500)
+
+                } else {
+
+                    setShowNutrients(true);
 
                 }
-
-                // show the nutrients
-                setShowNutrients(true);
-
             }
         }
 
@@ -338,7 +321,7 @@ const Results = (props) => {
         const handleMacroMicro = () => {
 
             // if macronutrients are showing
-            if(showMacro){
+            if (showMacro) {
 
                 // show micronutrients
                 setShowMacro(false);
@@ -350,7 +333,7 @@ const Results = (props) => {
         }
 
         // individual Result component return
-        return(
+        return (
 
             // create a list item
             <li>
@@ -367,26 +350,19 @@ const Results = (props) => {
                     // if nutrients are supposed to show
                     showNutrients
 
-                    // display nutrients
-                    ? {display: "initial"}
+                        // display nutrients
+                        ? { display: "initial" }
 
-                    // else hide nutrients
-                    : {display: "none"}
+                        // else hide nutrients
+                        : { display: "none" }
 
-                    }>
-                        {
-                            // if loading
-                            loading
-
-                            // display loading text
-                            ? <p>Loading nutrients</p>
-
-                            // else if the item has nutrient data
-                            : item.nutritionalInfo
-                                ? <>
-                                    {
-                                        // if the macronutrients are supposed to show
-                                        showMacro
+                }>
+                    {
+                        item.nutritionalInfo
+                            ? <>
+                                {
+                                    // if the macronutrients are supposed to show
+                                    showMacro
 
                                         // display macronutrients
                                         ? <>
@@ -411,19 +387,19 @@ const Results = (props) => {
                                                 })}
                                             </ul>
                                         </>
-                                    }
+                                }
 
-                                    {/* macronutrient/micronutrient button */}
-                                    <button className='macroMicro button' onClick={handleMacroMicro}>{
-                                        showMacro
+                                {/* macronutrient/micronutrient button */}
+                                <button className='macroMicro button' onClick={handleMacroMicro}>{
+                                    showMacro
                                         ? 'Micronutrients'
                                         : 'Macronutrients'
-                                    }</button>
-                                </>
+                                }</button>
+                            </>
 
-                                // if the item doesn't have nutrient data, show error message
-                                : <p>Oops, no nutrients</p>
-                        }
+                            // if the item doesn't have nutrient data, show error message
+                            : <p>Oops, no nutrients</p>
+                    }
                 </div>
 
                 {/* show or hide nutrients button */}
@@ -434,12 +410,6 @@ const Results = (props) => {
                             : "Show "
                     }
                     Nutrients</button>
-
-                {/* favourite button */}
-                <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
-
-                {/* compare button */}
-                <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
 
             </li>
         )
@@ -457,25 +427,32 @@ const Results = (props) => {
 
                 {/* map each item to a Result component */}
                 {items.map((item, index) => (
-                    <Result key={
+                    <>
+                        <Result key={
 
-                        // if the type is 'generic'
-                        item.type === 'generic'
+                            // if the type is 'generic'
+                            item.type === 'generic'
 
-                        // make the key the food name
-                        ? item.food_name
+                                // make the key the food name
+                                ? item.food_name
 
-                        // else make the key the item ID
-                        : item.nix_item_id
+                                // else make the key the item ID
+                                : item.nix_item_id
 
-                    } item={item} index={index} showNutrients={false} loading={false} nutrients={item.nutritionalInfo}/>
+                        } item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
 
+                        {/* favourite button */}
+                        <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
+
+                        {/* compare button */}
+                        <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
+                    </>
                 ))}
             </ul>
 
             {/* compare and favourites component */}
             <Compare items={compareItems} />
-            <Favourites items={favouriteItems}/>
+            <Favourites items={favouriteItems} />
         </div>
     )
 }
