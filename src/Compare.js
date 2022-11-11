@@ -100,6 +100,8 @@ const Compare = (props) => {
     // initial compare state
     const [ compareItems, setCompareItems ] = useState(props.items);
 
+    const handleUncompare = props.remove;
+
     // const micros = testArray[0].nutritionalInfo.micronutrients;
 
     // when props changes
@@ -142,20 +144,23 @@ const Compare = (props) => {
                 
                     {compareItems.map((item, index) => {
                     return(
-                            <tr>
-                                <td key={index+"name"}>{item.food_name}</td>
-                                <td key={index+"serving"}>{item.serving_unit}</td>
-                                {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
-                                    return (
-                                        <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
-                                    )
-                                })}
-                                {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
-                                    return (
-                                        <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
-                                    )
-                                })}
-                            </tr>
+                            <>
+                                <tr>
+                                    <td key={index+"name"}>{item.food_name}</td>
+                                    <td key={index+"serving"}>{item.serving_unit}</td>
+                                    {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                        return (
+                                            <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
+                                        )
+                                    })}
+                                    {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
+                                        return (
+                                            <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
+                                        )
+                                    })}
+                                </tr>
+                                <button onClick={() => handleUncompare(index)}>Remove</button>
+                            </>
                         )
                     })}
             </tbody>

@@ -113,6 +113,17 @@ const Results = (props) => {
         }
     }
 
+    // compare function
+    const handleUncompare = (index) => {
+
+        const newCompareItems = [ ...compareItems ];
+
+        newCompareItems.splice(index, 1);
+
+        // set the compare items state to new array
+        setCompareItems(newCompareItems);
+    }
+
     // function to call second API endpoint 
     const nutrientApiSearch = ((item, index) => {
 
@@ -465,7 +476,7 @@ const Results = (props) => {
             </ul>
 
             {/* compare and favourites component */}
-            <Compare items={compareItems} />
+            <Compare items={compareItems} remove={handleUncompare} />
             <Favourites ID={ID} items={favouriteItems} />
         </div>
     )
