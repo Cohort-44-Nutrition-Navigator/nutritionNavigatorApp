@@ -12,8 +12,8 @@ const Compare = (props) => {
 
     return (
         <>
-        <h2>This is Comparison Component</h2>
-        <p>I have {items.length} items</p>
+          <h2>This is Comparison Component</h2>
+          <p>I have {items.length} items</p>
         </>
     )
 }

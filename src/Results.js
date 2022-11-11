@@ -12,10 +12,10 @@ import Favourites from './Favourites';
 const Results = (props) => {
 
     // initial state variables
-    const [ items, setItems ] = useState(props.items);
-    const [ ID, setID ] = useState(props.ID);
-    const [ favouriteItems, setFavouriteItems ] = useState([]);
-    const [ compareItems, setCompareItems ] = useState([]);
+    const [items, setItems] = useState(props.items);
+    const [ID, setID] = useState(props.ID);
+    const [favouriteItems, setFavouriteItems] = useState([]);
+    const [compareItems, setCompareItems] = useState([]);
 
     // reset items and ID state whenever props causes a re-render
     useEffect(() => {
@@ -29,13 +29,13 @@ const Results = (props) => {
     const handleFavourite = (item, index) => {
 
         // if the user is a guest
-        if (ID === 'guest'){
+        if (ID === 'guest') {
 
             // create a new favourite items array
             const newFavouriteItems = favouriteItems;
 
             // if the item has nutritional info already
-            if (item.nutritionalInfo){
+            if (item.nutritionalInfo) {
 
                 // push the item to the new favourite items array
                 newFavouriteItems.push(item);
@@ -43,14 +43,14 @@ const Results = (props) => {
                 // set the favourite items state to new array
                 setFavouriteItems(newFavouriteItems);
 
-            // if the item does not have nutritional info
+                // if the item does not have nutritional info
             } else {
 
                 const updatedItem = item;
 
                 // run the second API call on the item
                 nutrientApiSearch(updatedItem, index);
-                
+
                 // push the updated item to the new favourite items array
                 newFavouriteItems.push(updatedItem);
 
@@ -59,7 +59,7 @@ const Results = (props) => {
 
             }
 
-        // if the user not a guest
+            // if the user not a guest
         } else {
 
             // console log the user's ID
@@ -75,14 +75,14 @@ const Results = (props) => {
         const newCompareItems = compareItems;
 
         // if the item has nutritional info already
-        if (item.nutritionalInfo){
+        if (item.nutritionalInfo) {
 
             // push the item to the new compare items array
             newCompareItems.push(item);
             // set the compare items state to new array
             setCompareItems(newCompareItems);
 
-        // if the item does not have nutritional info
+            // if the item does not have nutritional info
         } else {
 
             const updatedItem = item;
@@ -184,7 +184,7 @@ const Results = (props) => {
 
         // if the food type is 'generic'
         if (item.type === 'generic') {
-            
+
             // make an axios call to the natural/nutrients endpoint for nutritional data
             axios({
                 method: "post",
@@ -202,7 +202,7 @@ const Results = (props) => {
                     "query": item.food_name
                 }
 
-            // when we get the data back
+                // when we get the data back
             }).then((response) => {
 
                 // create nutrientData variable to store array of nutrient codes
@@ -213,21 +213,21 @@ const Results = (props) => {
                     switchFunction(nutrient);
                 })
 
-            // once until all the nutrient names and values are added to the nutrition object
+                // once until all the nutrient names and values are added to the nutrition object
             }).then(() => {
 
                 // add propery called "nutritionalInfo" with value of nutrition object to each result 
                 item.nutritionalInfo = nutrition;
 
                 const updatedItems = items;
-                    
-                updatedItems[{index}] = item;
+
+                updatedItems[{ index }] = item;
 
                 setItems(updatedItems);
 
             })
-        
-        // if the food type is 'branded'
+
+            // if the food type is 'branded'
         } else {
 
             // make an axios call to the search/item endpoint for nutritional data
@@ -246,8 +246,8 @@ const Results = (props) => {
                 params: {
                     'nix_item_id': item.nix_item_id
                 }
-            
-            // when we get the data back 
+
+                // when we get the data back 
             }).then((response) => {
 
                 // create nutrientData variable to store array of nutrient codes
@@ -258,15 +258,15 @@ const Results = (props) => {
                     switchFunction(nutrient);
                 })
 
-            // once until all the nutrient names and values are added to the nutrition object
+                // once until all the nutrient names and values are added to the nutrition object
             }).then(() => {
 
                 // add propery called "nutritionalInfo" with value of nutrition object to each result 
                 item.nutritionalInfo = nutrition;
 
                 const updatedItems = items;
-                    
-                updatedItems[{index}] = item;
+
+                updatedItems[{ index }] = item;
 
                 setItems(updatedItems);
 
@@ -278,8 +278,8 @@ const Results = (props) => {
     const Result = (props) => {
 
         // iniitial state variables
-        const [ showNutrients, setShowNutrients ] = useState(props.showNutrients);
-        const [ showMacro, setShowMacro ] = useState(true);
+        const [showNutrients, setShowNutrients] = useState(props.showNutrients);
+        const [showMacro, setShowMacro] = useState(true);
 
         // initial props variables
         const item = props.item;
@@ -291,15 +291,15 @@ const Results = (props) => {
             const updatedItem = item;
 
             // if nutrients are showing
-            if (showNutrients){
+            if (showNutrients) {
 
                 // hide the nutrients
                 setShowNutrients(false);
 
             } else {
-                
+
                 // if item doesn't already have nutritional info
-                if (!updatedItem.nutritionalInfo){
+                if (!updatedItem.nutritionalInfo) {
 
                     nutrientApiSearch(item, index)
 
@@ -321,7 +321,7 @@ const Results = (props) => {
         const handleMacroMicro = () => {
 
             // if macronutrients are showing
-            if(showMacro){
+            if (showMacro) {
 
                 // show micronutrients
                 setShowMacro(false);
@@ -333,7 +333,7 @@ const Results = (props) => {
         }
 
         // individual Result component return
-        return(
+        return (
 
             // create a list item
             <li>
@@ -350,19 +350,19 @@ const Results = (props) => {
                     // if nutrients are supposed to show
                     showNutrients
 
-                    // display nutrients
-                    ? {display: "initial"}
+                        // display nutrients
+                        ? { display: "initial" }
 
-                    // else hide nutrients
-                    : {display: "none"}
+                        // else hide nutrients
+                        : { display: "none" }
 
-                    }>
-                        {
-                            item.nutritionalInfo
-                                ? <>
-                                    {
-                                        // if the macronutrients are supposed to show
-                                        showMacro
+                }>
+                    {
+                        item.nutritionalInfo
+                            ? <>
+                                {
+                                    // if the macronutrients are supposed to show
+                                    showMacro
 
                                         // display macronutrients
                                         ? <>
@@ -387,19 +387,19 @@ const Results = (props) => {
                                                 })}
                                             </ul>
                                         </>
-                                    }
+                                }
 
-                                    {/* macronutrient/micronutrient button */}
-                                    <button className='macroMicro button' onClick={handleMacroMicro}>{
-                                        showMacro
+                                {/* macronutrient/micronutrient button */}
+                                <button className='macroMicro button' onClick={handleMacroMicro}>{
+                                    showMacro
                                         ? 'Micronutrients'
                                         : 'Macronutrients'
-                                    }</button>
-                                </>
+                                }</button>
+                            </>
 
-                                // if the item doesn't have nutrient data, show error message
-                                : <p>Oops, no nutrients</p>
-                        }
+                            // if the item doesn't have nutrient data, show error message
+                            : <p>Oops, no nutrients</p>
+                    }
                 </div>
 
                 {/* show or hide nutrients button */}
@@ -433,13 +433,13 @@ const Results = (props) => {
                             // if the type is 'generic'
                             item.type === 'generic'
 
-                            // make the key the food name
-                            ? item.food_name
+                                // make the key the food name
+                                ? item.food_name
 
-                            // else make the key the item ID
-                            : item.nix_item_id
+                                // else make the key the item ID
+                                : item.nix_item_id
 
-                        } item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo}/>
+                        } item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
 
                         {/* favourite button */}
                         <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
@@ -451,8 +451,8 @@ const Results = (props) => {
             </ul>
 
             {/* compare and favourites component */}
-            <Compare items={compareItems}/>
-            <Favourites items={favouriteItems}/>
+            <Compare items={compareItems} />
+            <Favourites ID={ID} items={favouriteItems} />
         </div>
     )
 }
