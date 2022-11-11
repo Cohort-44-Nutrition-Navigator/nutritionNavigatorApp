@@ -452,7 +452,7 @@ const Results = (props) => {
 
             {/* compare and favourites component */}
             <Compare items={compareItems} />
-            <Favourites items={favouriteItems} />
+            <Favourites ID={ID} items={favouriteItems} />
         </div>
     )
 }
