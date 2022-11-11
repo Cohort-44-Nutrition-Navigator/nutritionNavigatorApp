@@ -25,6 +25,12 @@ const Results = (props) => {
 
     }, [props])
 
+    useEffect(() => {
+        
+        console.log('compare items has changed')
+
+    }, [compareItems])
+
     // favourite item function
     const handleFavourite = (item, index) => {
 
@@ -32,7 +38,7 @@ const Results = (props) => {
         if (ID === 'guest') {
 
             // create a new favourite items array
-            const newFavouriteItems = favouriteItems;
+            const newFavouriteItems = [ ...favouriteItems ];
 
             // if the item has nutritional info already
             if (item.nutritionalInfo) {
@@ -51,11 +57,15 @@ const Results = (props) => {
                 // run the second API call on the item
                 nutrientApiSearch(updatedItem, index);
 
-                // push the updated item to the new favourite items array
-                newFavouriteItems.push(updatedItem);
+                setTimeout(() => {
+                    
+                    // push the updated item to the new favourite items array
+                    newFavouriteItems.push(updatedItem);
 
-                // set the favourite items state to new array
-                setFavouriteItems(newFavouriteItems);
+                    // set the favourite items state to new array
+                    setFavouriteItems(newFavouriteItems);
+
+                }, 500)
 
             }
 
@@ -71,18 +81,18 @@ const Results = (props) => {
     // compare function
     const handleCompare = (item, index) => {
 
-        // create a new compare items array
-        const newCompareItems = compareItems;
+        const newCompareItems = [ ...compareItems ];
 
         // if the item has nutritional info already
         if (item.nutritionalInfo) {
 
             // push the item to the new compare items array
             newCompareItems.push(item);
+
             // set the compare items state to new array
             setCompareItems(newCompareItems);
 
-            // if the item does not have nutritional info
+        // if the item does not have nutritional info
         } else {
 
             const updatedItem = item;
@@ -90,13 +100,28 @@ const Results = (props) => {
             // run the second API call on the item
             nutrientApiSearch(updatedItem, index);
 
-            // push the updated item to the new compare items array
-            newCompareItems.push(updatedItem);
+            setTimeout(() => {
 
-            // set the compare items state to new array
-            setCompareItems(newCompareItems);
+                // push the updated item to the new compare items array
+                newCompareItems.push(updatedItem);
+
+                // set the compare items state to new array
+                setCompareItems(newCompareItems);
+
+            }, 500)
 
         }
+    }
+
+    // compare function
+    const handleUncompare = (index) => {
+
+        const newCompareItems = [ ...compareItems ];
+
+        newCompareItems.splice(index, 1);
+
+        // set the compare items state to new array
+        setCompareItems(newCompareItems);
     }
 
     // function to call second API endpoint 
@@ -237,8 +262,8 @@ const Results = (props) => {
                 headers: {
                     'x-remote-user-id': '0',
                     // API KEY 1
-                    // 'x-app-id': 'ee0fb754',
-                    // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
+                    'x-app-id': 'ee0fb754',
+                    'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
                     // API KEY 2
                     // 'x-app-id': '0eb5f22d',
                     // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
@@ -451,7 +476,7 @@ const Results = (props) => {
             </ul>
 
             {/* compare and favourites component */}
-            <Compare items={compareItems} />
+            <Compare items={compareItems} remove={handleUncompare} />
             <Favourites ID={ID} items={favouriteItems} />
         </div>
     )
