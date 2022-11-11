@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+// Mixin for flexBox
+@mixin flex ($direction, $wrap: nowrap, $mainAxis: normal, $crossAxis: normal) {
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    justify-content: $mainAxis;
+    align-items: $crossAxis;
+}
+
+//Mixin for media queries
+// @mixin for-tablet-landscape {
+//     @media (max-width: 780px) {
+//         @content;
+//     }
+// }
+
+// @mixin for-tablet-portrait {
+//     @media (max-width: 570px) {
+//         @content;
+//     }
+// }
+
+// @mixin for-phone {
+//     @media (max-width: 469px) {
+//         @content;
+//     }
+// }
