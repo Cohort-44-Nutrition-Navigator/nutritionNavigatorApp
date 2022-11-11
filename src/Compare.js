@@ -101,6 +101,8 @@ const Compare = (props) => {
     // initial compare state
     const [ compareItems, setCompareItems ] = useState([]);
 
+    const micros = testArray[0].nutritionalInfo.micronutrients;
+
     // when props changes
     useEffect(() => {
 
@@ -124,30 +126,44 @@ const Compare = (props) => {
             <h2>Compare Foods</h2>
 
             <table>
-                {Object.keys(testArray[0].nutritionalInfo.macronutrients).map((nutrient, index) => {
-                    return (
-                        <tr>
-                            <th key={index}>{nutrient}</th>
-                        </tr>
-                    )
-                })}
-                {Object.keys(testArray[0].nutritionalInfo.micronutrients).map((nutrient, index) => {
-                    return (
-                        <tr>
-                            <th key={index}>{nutrient}</th>
-                            {testArray[0].nutritionalInfo.micronutrients.map((nutrient) => {
-                                return (
-                                    <td>{nutrient}</td>
-                                )
-                            })}
-                        </tr>
-                    )
-                })}
-                        <td>{testArray[0].food_name}</td>
-                        <td>{testArray[1].food_name}</td>
-                        <td>{testArray[2].food_name}</td>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Serving Size</th>
+                        {Object.keys(testArray[0].nutritionalInfo.macronutrients).map((nutrient, index) => {
+                            return (
+                                <th key={index}>{nutrient}</th>
+                            )
+                        })}
+                        {Object.keys(testArray[0].nutritionalInfo.micronutrients).map((nutrient, index) => {
+                            return (
+                                <th key={index}>{nutrient}</th>
+                            )
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                        {testArray.map((item, index) => {
+                           return(
+                                <tr>
+                                    <td key={index+"name"}>{item.food_name}</td>
+                                    <td key={index+"serving"}>{item.serving_unit}</td>
+                                    {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                        return (
+                                            <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
+                                        )
+                                    })}
+                                    {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
+                                        return (
+                                            <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
+                                        )
+                                    })}
+                                </tr>
+                            )
+                        })}
+                </tbody>
             </table>
-
 
 
 
