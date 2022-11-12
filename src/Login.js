@@ -48,7 +48,7 @@ const Login = () => {
     // account login function
     const handleLogin = (e) => {
         // prevent refresh
-        //e.preventDefault();
+        e.preventDefault();
         // sign in user account passing auth function and inputs to Firebase
         signInWithEmailAndPassword(authentication, emailInput, passwordInput)
             // when the response comes back from Firebase
@@ -72,7 +72,7 @@ const Login = () => {
     // guest login function
     const handleGuestLogin = (e) => {
         // prevent refresh
-        //e.preventDefault();
+        e.preventDefault();
         // log in
         setLoggedIn(true);
         // empty inputs
@@ -100,7 +100,6 @@ const Login = () => {
 
     return (
         <section className='login'>
-            <div className="wrapper">
                 {/* login form */}
                 {
                     // if logged in
@@ -128,8 +127,6 @@ const Login = () => {
                         < Main user={user} loggedIn={loggedIn} />
                         : null
                 }
-
-            </div>
         </section>
     )
 }

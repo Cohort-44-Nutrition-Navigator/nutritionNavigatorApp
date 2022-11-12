@@ -10,15 +10,11 @@ function App() {
   return (
     <div className="App">
       <header>
-        <div className="wrapper">
-          <h1>Nutrition Navigator</h1>
-        </div>
+        <h1>Nutrition Navigator</h1>
       </header>
       <Login/>
       <footer>
-        <div className="wrapper">
-          <p>Built by Anjalee Benedict, Dana Teagle, and Joel Nash at Juno College in 2022.</p>
-        </div>
+        <p>Built by Anjalee Benedict, Dana Teagle, and Joel Nash at Juno College in 2022.</p>
       </footer>
     </div>
   );

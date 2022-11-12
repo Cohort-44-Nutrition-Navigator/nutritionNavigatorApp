@@ -8,23 +8,41 @@
 .App {
     position: relative;
 
-    header {
+    header, footer {
+        position: fixed;
         background-color: white;
         z-index: 10;
-        position: fixed;
         width: 100%;
+        @include flex(row);
+        align-items: center;
+        justify-content: center;
+    }
+
+    header {
+        top: 0;
+        height: 125px;
+    }
+
+    footer {
+        bottom: 0;
+        height: 40px;
+        p {
+            margin: 0;
+        }
     }
 }
 
 .login {
-    padding-top: 60px;
-    height: 90vh;
+    height: 100vh;
     .formLogin {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, calc(-50% + 45px));
         border-radius: 50px;
         background-color: $whiteColor;
         width: 90%;
         max-width: 450px;
-        margin: 100px auto;
         padding: 40px;
         @include flex (row, wrap);
         label {
@@ -46,12 +64,8 @@
             border-radius: 15px;
             margin-top: 15px;
             padding: 5px 0;
-            .left {
-                margin-right: 10px;
-                background-color: red;
-            }
-            .right {
-                margin-left: 10px;
+            &.right {
+                margin-left: 20px;
             }
         }
         .bigButton {
@@ -68,5 +82,10 @@
         z-index: 10;
         right: 0;
         top: 0;
+    }
+    main {
+        @include flex (row, wrap);
+        justify-content: center;
+        padding-top: 150px;
     }
 }
