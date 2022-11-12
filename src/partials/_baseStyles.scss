@@ -27,9 +27,15 @@ img {
     display: block;
 }
 
+button {
+    cursor: pointer;
+    &:hover {
+        transition: 0.5s;
+    }
+}
+
 .button {
     border-radius: 50px;
-    cursor: pointer;
     margin: 5px 0px;
 }
 

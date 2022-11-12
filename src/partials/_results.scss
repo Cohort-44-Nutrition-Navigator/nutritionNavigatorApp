@@ -8,21 +8,25 @@
         width: 90%;
         margin: 0 auto;
         @include flex(row, wrap);
-        gap: 20px;
+        justify-content: space-between;
+        gap: 25px;
 
-        li {
+        .result {
             @include flex(column);
+            justify-content: space-between;
             background-color: $whiteColor;
             border-radius: 20px;
             width: 20%;
             min-width: 200px;
             height: 100%;
-            padding: 20px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
             position: relative;
             text-align: center;
+            box-shadow: 2px 2px 5px black;
 
             .resultImg {
-                border: solid black 2px;
+                border: solid black 3px;
                 margin: 0 auto;
                 aspect-ratio: 1/1;
                 object-fit: cover;
@@ -81,21 +85,26 @@
                 .favouriteButton {
                     font-size: 17px;
                     line-height: 1.8;
+                    padding-left: 0.75px;
                 }
             
                 .compareButton {
                     font-size: 14px;
-                    line-height: 1.9;
-                    padding-left: 1.5px;
+                    line-height: 1.95;
+                    padding-left: 1.75px;
                 }
             }
 
             .resultNutrients {
-                padding: 20px 0px;
+                overflow: hidden;
                 order: 10;
                 width: 100%;
+                max-height: 0%;
+                opacity: 0;
 
                 .macroMicro {
+                    margin-top: 25px;
+                    padding: 5px 0px;
                     color: black;
                     width: 100%;
                     background-color: $whiteColor;
@@ -109,6 +118,8 @@
                 h3 {
                     font-size: 20px;
                     text-decoration: underline;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
                 }
 
                 ul {

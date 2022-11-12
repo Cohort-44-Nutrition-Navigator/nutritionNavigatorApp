@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // import state functions
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useRef } from 'react';
 
 // import components
 import Compare from './Compare';
@@ -305,6 +305,7 @@ const Results = (props) => {
         // iniitial state variables
         const [showNutrients, setShowNutrients] = useState(props.showNutrients);
         const [showMacro, setShowMacro] = useState(true);
+        const resultNutrients = useRef(null);
 
         // initial props variables
         const item = props.item;
@@ -350,10 +351,12 @@ const Results = (props) => {
 
                 // show micronutrients
                 setShowMacro(false);
+
             } else {
 
                 // else show macronutrients
                 setShowMacro(true);
+
             }
         }
 
@@ -371,16 +374,13 @@ const Results = (props) => {
                 <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
 
                 {/* nutrient div */}
-                <div className="resultNutrients" style={
+                <div className="resultNutrients" ref={resultNutrients} style={
 
-                    // if nutrients are supposed to show
                     showNutrients
 
-                        // display nutrients
-                        ? { display: "initial" }
+                    ? { minHeight: resultNutrients.current.scrollHeight, opacity: 1 }
 
-                        // else hide nutrients
-                        : { display: "none" }
+                    : { maxHeight: 0, opacity: 0 }
 
                 }>
                     {
@@ -440,8 +440,8 @@ const Results = (props) => {
                 <button className="hideShow" onClick={() => handleHideShowNutrients(item, index)}>
                     {
                         showNutrients
-                            ? <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
-                            : <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                            ? <i className="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                            : <i className="fa fa-chevron-circle-down" aria-hidden="true"></i>
                     }</button>
 
             </>
@@ -450,7 +450,8 @@ const Results = (props) => {
 
     // Results component return
     return (
-        <div className='results'>
+        <div className="wrapper">
+            <div className='results'>
 
             {/* heading */}
             <h2>Results</h2>
@@ -460,34 +461,35 @@ const Results = (props) => {
 
                 {/* map each item to a Result component */}
                 {items.map((item, index) => (
-                    <li key={
+                    <li className="result" key={
 
-                            // if the type is 'generic'
-                            item.type === 'generic'
+                        // if the type is 'generic'
+                        item.type === 'generic'
 
-                                // make the key the food name
-                                ? item.food_name
+                            // make the key the food name
+                            ? item.food_name
 
-                                // else make the key the item ID
-                                : item.nix_item_id
+                            // else make the key the item ID
+                            : item.nix_item_id
 
-                        }>
-                        <Result item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
+                            }>
+                            <Result item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
 
-                        <div className='resultButtons'>
-                            {/* favourite button */}
-                            <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i class="fa fa-heart" aria-hidden="true"></i></button>
+                            <div className='resultButtons'>
+                                {/* favourite button */}
+                                <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart" aria-hidden="true"></i></button>
 
-                            {/* compare button */}
-                            <button className='compareButton' onClick={() => handleCompare(item, index)}><i class="fa fa-balance-scale" aria-hidden="true"></i></button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                                {/* compare button */}
+                                <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale" aria-hidden="true"></i></button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
 
-            {/* compare and favourites component */}
-            <Compare items={compareItems} remove={handleUncompare} />
-            <Favourites ID={ID} items={favouriteItems} />
+                {/* compare and favourites component */}
+                <Compare items={compareItems} remove={handleUncompare} />
+                <Favourites ID={ID} items={favouriteItems} />
+            </div>
         </div>
     )
 }
