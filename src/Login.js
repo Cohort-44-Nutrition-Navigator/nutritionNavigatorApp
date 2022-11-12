@@ -99,7 +99,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div class="wrapper">
             {/* login form */}
             <form action="">
                 {

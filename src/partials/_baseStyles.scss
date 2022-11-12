@@ -27,6 +27,13 @@ img {
     display: block;
 }
 
+button {
+    cursor: pointer;
+    &:hover {
+        transition: 0.5s;
+    }
+}
+
 // Footer Styles
 footer {
     p {

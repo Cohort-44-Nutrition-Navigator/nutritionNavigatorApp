@@ -1,0 +1,141 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.results {
+    margin: 0 auto;
+
+    ul {
+        width: 90%;
+        margin: 0 auto;
+        @include flex(row, wrap);
+        justify-content: space-between;
+        gap: 25px;
+
+        .result {
+            @include flex(column);
+            justify-content: space-between;
+            background-color: $whiteColor;
+            border-radius: 20px;
+            width: 20%;
+            min-width: 200px;
+            height: 100%;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+            box-shadow: 2px 2px 5px black;
+
+            .resultImg {
+                border: solid black 3px;
+                margin: 0 auto;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+                width: 100%;
+            }
+
+            .resultName {
+                text-transform: capitalize;
+                padding: 10px 0px;
+            }
+
+            .resultServing {
+                font-size: 15px;
+                line-height: 1.5;
+                padding-bottom: 10px;
+            }
+
+            .hideShow {
+                background: $whiteColor;
+                color: black;
+                border: solid black 2px;
+                border-radius: 50%;
+                font-size: 25px;
+                line-height: 1.20;
+                width: 30px;
+                height: 30px;
+                margin: 0 auto;
+                cursor: pointer;
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                &:hover {
+                    color: $tertiaryColour;
+                }
+            }
+            
+            .resultButtons {
+                @include flex(row);
+                gap: 10px;
+                justify-content: center;
+                .favouriteButton,
+                .compareButton {
+                    background: none;
+                    color: black;
+                    border: solid black 2px;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    cursor: pointer;
+                    &:hover {
+                        color: $secondaryColour;
+                    }
+                }
+            
+                .favouriteButton {
+                    font-size: 17px;
+                    line-height: 1.8;
+                    padding-left: 0.75px;
+                }
+            
+                .compareButton {
+                    font-size: 14px;
+                    line-height: 1.95;
+                    padding-left: 1.75px;
+                }
+            }
+
+            .resultNutrients {
+                overflow: hidden;
+                order: 10;
+                width: 100%;
+                max-height: 0%;
+                opacity: 0;
+
+                .macroMicro {
+                    margin-top: 25px;
+                    padding: 5px 0px;
+                    color: black;
+                    width: 100%;
+                    background-color: $whiteColor;
+                    border: solid black 2px;
+                    &:hover {
+                        color: $whiteColor;
+                        background-color: $quaternaryColour;
+                    }
+                }
+
+                h3 {
+                    font-size: 20px;
+                    text-decoration: underline;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                }
+
+                ul {
+                    margin: 0;
+                    width: 100%;
+                    overflow: hidden;
+                    @include flex(column);
+                    gap: 0;
+
+                    li {
+                        width: 95%;
+                        padding: 0;
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
