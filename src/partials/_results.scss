@@ -1,0 +1,60 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.results {
+    margin: 0 auto;
+
+    ul {
+        width: 90%;
+        margin: 0 auto;
+        @include flex(row, wrap);
+        gap: 20px;
+
+        li {
+            @include flex(column);
+            background-color: $whiteColor;
+            border-radius: 20px;
+            width: 20%;
+            min-width: 200px;
+            height: 100%;
+            padding: 20px;
+
+            .resultImg {
+                border: solid black 2px;
+                margin: 0 auto;
+                aspect-ratio: 1/1;
+                object-fit: cover;
+                width: 100%;
+            }
+
+            .resultName {
+                text-transform: capitalize;
+                text-align: center;
+                padding: 10px 0px;
+            }
+
+            .resultNutrients {
+                width: 100%;
+
+                h3 {
+                    font-size: 20px;
+                    text-decoration: underline;
+                }
+
+                ul {
+                    margin: 0;
+                    width: 100%;
+                    overflow: hidden;
+                    @include flex(column);
+                    gap: 0;
+
+                    li {
+                        width: 95%;
+                        padding: 0;
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
