@@ -359,18 +359,19 @@ const Results = (props) => {
 
         // individual Result component return
         return (
-
-            // create a list item
-            <li>
+            <>
 
                 {/* insert image */}
-                <img src={item.photo.thumb} alt="" />
+                <img className="resultImg" src={item.photo.thumb} alt="" />
 
                 {/* insert item name */}
-                <p>{item.food_name}</p>
+                <p className="resultName">{item.food_name}</p>
+
+                {/* insert item name */}
+                <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
 
                 {/* nutrient div */}
-                <div style={
+                <div className="resultNutrients" style={
 
                     // if nutrients are supposed to show
                     showNutrients
@@ -395,7 +396,11 @@ const Results = (props) => {
                                             <ul>
                                                 {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
                                                     return (
-                                                        <li key={index}>{nutrient}: {item.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                        <li key={index}>
+                                                            <strong>{nutrient}:</strong>
+                                                            <br/>
+                                                            {item.nutritionalInfo.macronutrients[nutrient]}
+                                                        </li>
                                                     )
                                                 })}
                                             </ul>
@@ -407,7 +412,11 @@ const Results = (props) => {
                                             <ul>
                                                 {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
                                                     return (
-                                                        <li key={index}>{nutrient}: {item.nutritionalInfo.micronutrients[nutrient]}</li>
+                                                        <li key={index}>
+                                                            <strong>{nutrient}:</strong>
+                                                            <br/>
+                                                            {item.nutritionalInfo.micronutrients[nutrient]}
+                                                        </li>
                                                     )
                                                 })}
                                             </ul>
@@ -415,7 +424,7 @@ const Results = (props) => {
                                 }
 
                                 {/* macronutrient/micronutrient button */}
-                                <button className='macroMicro button' onClick={handleMacroMicro}>{
+                                <button className='button macroMicro' onClick={handleMacroMicro}>{
                                     showMacro
                                         ? 'Micronutrients'
                                         : 'Macronutrients'
@@ -428,21 +437,20 @@ const Results = (props) => {
                 </div>
 
                 {/* show or hide nutrients button */}
-                <button className="button" onClick={() => handleHideShowNutrients(item, index)}>
+                <button className="hideShow" onClick={() => handleHideShowNutrients(item, index)}>
                     {
                         showNutrients
-                            ? "Hide "
-                            : "Show "
-                    }
-                    Nutrients</button>
+                            ? <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                            : <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                    }</button>
 
-            </li>
+            </>
         )
     }
 
     // Results component return
     return (
-        <div>
+        <div className='results'>
 
             {/* heading */}
             <h2>Results</h2>
@@ -452,8 +460,7 @@ const Results = (props) => {
 
                 {/* map each item to a Result component */}
                 {items.map((item, index) => (
-                    <>
-                        <Result key={
+                    <li key={
 
                             // if the type is 'generic'
                             item.type === 'generic'
@@ -464,14 +471,17 @@ const Results = (props) => {
                                 // else make the key the item ID
                                 : item.nix_item_id
 
-                        } item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
+                        }>
+                        <Result item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
 
-                        {/* favourite button */}
-                        <button className='button favouriteButton' onClick={() => handleFavourite(item, index)}>Favourite</button>
+                        <div className='resultButtons'>
+                            {/* favourite button */}
+                            <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i class="fa fa-heart" aria-hidden="true"></i></button>
 
-                        {/* compare button */}
-                        <button className='button compareButton' onClick={() => handleCompare(item, index)}>Compare</button>
-                    </>
+                            {/* compare button */}
+                            <button className='compareButton' onClick={() => handleCompare(item, index)}><i class="fa fa-balance-scale" aria-hidden="true"></i></button>
+                        </div>
+                    </li>
                 ))}
             </ul>
 
