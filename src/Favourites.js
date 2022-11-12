@@ -13,32 +13,34 @@ const Favourites = (props) => {
     const [favouriteItems, setFavouriteItems] = useState([]);
 
     useEffect (() => {
-        if (props.ID === 'guest') {
-            setFavouriteItems(props.items)
-            console.log(favouriteItems)
-        } else {
+
+        setFavouriteItems(props.items);
+
+        if (props.ID !== 'guest') {
+
             // set firebase endpoint
             const database = getDatabase(firebaseConfig)
             const databaseRef = ref(database, `/${props.ID}`)
+
             // when data is received
             onValue(databaseRef, (response) => {
 
                 // create an empty array
-                const newArray = [];
+                const newArray = [ ...favouriteItems ];
 
                 // data variable
                 const data = response.val();
 
                 // push each item in data to new array
                 for (let item in data) {
-                    newArray.push({ key: item, name: data[item] })
+                    newArray.push(data[item])
                 }
 
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
-                console.log(favouriteItems)
             })
         }
+
     }, [props])
     
     // // remove function
@@ -66,10 +68,9 @@ const Favourites = (props) => {
 
             <h2>Favourites</h2>
             {
-                favouriteItems.length === 0
-                ? <p>You can add Favourites here</p>
-                : <ul>
-                    {favouriteItems.map((favouriteItem) => {
+                favouriteItems.length > 0
+                ? <ul>
+                    { favouriteItems.map((favouriteItem) => {
                         return (
                             <li key={favouriteItem.food_name}>
                                 <ul>
@@ -77,10 +78,6 @@ const Favourites = (props) => {
                                         <img src={favouriteItem.photo.thumb} alt={favouriteItem.food_name} />
                                         <p>{favouriteItem.food_name}</p>
                                         <p>Serving Size: {favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
-                                        <div>
-                                            {/* <button onClick={() => (handleRemove(favouriteItem.food_name))}>Remove</button>
-                                            <button onClick={handleAdd}>Add to Compare</button> */}
-                                        </div>
                                     </li>
                                     <ul>
                                        
@@ -89,31 +86,13 @@ const Favourites = (props) => {
                                                 <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
                                             )
                                         })}
-                                        
-                                        {/* <li>Calories: {favouriteItem.nutritionalInfo.macronutrients.calories}</li>
-                                        <li>Carbs: {favouriteItem.nutritionalInfo.macronutrients.carbohydrates}</li>
-                                        <li>Fat: {favouriteItem.nutritionalInfo.macronutrients.fat}</li>
-                                        <li>Fibre: {favouriteItem.nutritionalInfo.macronutrients.fibre}</li>
-                                        <li>Protein: {favouriteItem.nutritionalInfo.macronutrients.protein}</li>
-                                        <li>Saturated Fat: {favouriteItem.nutritionalInfo.macronutrients.saturatedFat}</li>
-                                        <li>Sodium: {favouriteItem.nutritionalInfo.macronutrients.sodium}</li>
-                                        <li>Sugar: {favouriteItem.nutritionalInfo.macronutrients.sugar}</li> */}
-                                    </ul>
-                                    <ul>
-                                        <li>Vitamin A: {favouriteItem.nutritionalInfo.micronutrients.vitaminA}</li>
-                                        <li>Vitamin B6: {favouriteItem.nutritionalInfo.micronutrients.vitaminB6}</li>
-                                        <li>Vitamin C: {favouriteItem.nutritionalInfo.micronutrients.vitaminC}</li>
-                                        <li>Vitamin D: {favouriteItem.nutritionalInfo.micronutrients.vitaminD}</li>
-                                        <li>Vitamin E: {favouriteItem.nutritionalInfo.micronutrients.vitaminE}</li>
-                                        <li>Iron: {favouriteItem.nutritionalInfo.micronutrients.iron}</li>
-                                        <li>Magnesium: {favouriteItem.nutritionalInfo.micronutrients.magnesium}</li>
-                                        <li>Zinc: {favouriteItem.nutritionalInfo.micronutrients.zinc}</li>
                                     </ul>
                                 </ul>
                             </li>
                         )   
                     })}
                 </ul>
+                : <p>You can add Favourites here</p>
             }
         </section>
     )
