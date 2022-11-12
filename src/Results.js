@@ -1,8 +1,6 @@
-// import axios
-import axios from 'axios';
-
-// import state functions
-import { useState, useEffect , useRef } from 'react';
+// import firebase functions
+import firebase from './firebase';
+import { getDatabase, ref, push } from 'firebase/database'
 
 // import components
 import Compare from './Compare';
@@ -24,12 +22,6 @@ const Results = (props) => {
         setID(props.ID);
 
     }, [props])
-
-    useEffect(() => {
-        
-        console.log('compare items has changed')
-
-    }, [compareItems])
 
     // favourite item function
     const handleFavourite = (item, index) => {
@@ -72,8 +64,32 @@ const Results = (props) => {
             // if the user not a guest
         } else {
 
-            // console log the user's ID
-            console.log(ID);
+            // set firebase endpoint
+            const database = getDatabase(firebase)
+            const databaseRef = ref(database, `/${props.ID}`)
+
+            // if the item has nutritional info already
+            if (item.nutritionalInfo) {
+
+                // push the item to the firebase endpoint
+                push (databaseRef, item);
+
+            // if the item does not have nutritional info
+            } else {
+
+                const updatedItem = item;
+
+                // run the second API call on the item
+                nutrientApiSearch(updatedItem, index);
+
+                setTimeout(() => {
+                    
+                    // push the item to the firebase endpoint
+                    push (databaseRef, updatedItem);
+
+                }, 500)
+
+            }
 
         }
     }
