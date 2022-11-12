@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // import components
-import Favourites from './Favourites';
 import Results from './Results';
 
 // Main component
@@ -132,26 +131,26 @@ const Main = (props) => {
   return(
       <main>
 
-          {/* search input */}
-          <input type="text" placeholder="Enter a query" value={userQuery} onInput={e => setUserQuery(e.target.value)} />
-          <button onClick={search}>Search</button>
-          <input type="radio" id="resultsType1" name="resultsType" value="generic" onChange={e => setResultsType(e.target.value)} defaultChecked/><label htmlFor="resultsType1">Generic Items</label>
-          <input type="radio" id="resultsType2" name="resultsType" value="branded" onChange={e => setResultsType(e.target.value)}/><label htmlFor="resultsType2">Branded Items</label>
+        {/* search input */}
+        <input type="text" placeholder="Enter a query" value={userQuery} onInput={e => setUserQuery(e.target.value)} />
+        <button onClick={search}>Search</button>
+        <input type="radio" id="resultsType1" name="resultsType" value="generic" onChange={e => setResultsType(e.target.value)} defaultChecked/><label htmlFor="resultsType1">Generic Items</label>
+        <input type="radio" id="resultsType2" name="resultsType" value="branded" onChange={e => setResultsType(e.target.value)}/><label htmlFor="resultsType2">Branded Items</label>
 
-          {
-              // if logged in
-              loggedIn
-              // display the user id
-              ? <>
-                  <p>Welcome to the page, {user.email}. Your unique ID is {user.ID}.</p>
-                </>
-              : <p>Please log in.</p>
-          }
-          {
-            resultsItems.length > 1
-              ? <Results ID={user.ID} items={resultsItems} />
-              : null
-          }
+        {
+            // if logged in
+            loggedIn
+            // display the user id
+            ? <>
+                <p>Welcome to the page, {user.email}. Your unique ID is {user.ID}.</p>
+              </>
+            : <p>Please log in.</p>
+        }
+        {
+          resultsItems.length > 1
+            ? <Results ID={user.ID} items={resultsItems} />
+            : null
+        }
           
       </main>
   )

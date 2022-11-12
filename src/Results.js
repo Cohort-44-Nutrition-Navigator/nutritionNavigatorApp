@@ -124,6 +124,17 @@ const Results = (props) => {
         setCompareItems(newCompareItems);
     }
 
+    // compare function
+    const handleUnfavourite = (index) => {
+
+        const newFavouriteItems = [ ...favouriteItems ];
+
+        newFavouriteItems.splice(index, 1);
+
+        // set the compare items state to new array
+        setFavouriteItems(newFavouriteItems);
+    }
+
     // function to call second API endpoint 
     const nutrientApiSearch = ((item, index) => {
 
@@ -450,46 +461,44 @@ const Results = (props) => {
 
     // Results component return
     return (
-        <div className="wrapper">
-            <div className='results'>
+        <div className='results'>
 
-            {/* heading */}
-            <h2>Results</h2>
+        {/* heading */}
+        <h2>Results</h2>
 
-            {/* unordered list of items */}
-            <ul>
+        {/* unordered list of items */}
+        <ul>
 
-                {/* map each item to a Result component */}
-                {items.map((item, index) => (
-                    <li className="result" key={
+            {/* map each item to a Result component */}
+            {items.map((item, index) => (
+                <li className="result" key={
 
-                        // if the type is 'generic'
-                        item.type === 'generic'
+                    // if the type is 'generic'
+                    item.type === 'generic'
 
-                            // make the key the food name
-                            ? item.food_name
+                        // make the key the food name
+                        ? item.food_name
 
-                            // else make the key the item ID
-                            : item.nix_item_id
+                        // else make the key the item ID
+                        : item.nix_item_id
 
-                            }>
-                            <Result item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
+                        }>
+                        <Result item={item} index={index} showNutrients={false} nutrients={item.nutritionalInfo} />
 
-                            <div className='resultButtons'>
-                                {/* favourite button */}
-                                <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart" aria-hidden="true"></i></button>
+                        <div className='resultButtons'>
+                            {/* favourite button */}
+                            <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart" aria-hidden="true"></i></button>
 
-                                {/* compare button */}
-                                <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale" aria-hidden="true"></i></button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                            {/* compare button */}
+                            <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale" aria-hidden="true"></i></button>
+                        </div>
+                    </li>
+                ))}
+            </ul>
 
-                {/* compare and favourites component */}
-                <Compare items={compareItems} remove={handleUncompare} />
-                <Favourites ID={ID} items={favouriteItems} />
-            </div>
+            {/* compare and favourites component */}
+            <Compare items={compareItems} remove={handleUncompare} />
+            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} />
         </div>
     )
 }
