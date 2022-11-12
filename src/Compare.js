@@ -100,6 +100,9 @@ const Compare = (props) => {
     // initial compare state
     const [ compareItems, setCompareItems ] = useState(props.items);
 
+    // state for Compare slider button
+    const [ compareOpen, setCompareOpen ] = useState(false);
+
     const handleUncompare = props.remove;
 
     // const micros = testArray[0].nutritionalInfo.micronutrients;
@@ -120,6 +123,10 @@ const Compare = (props) => {
         */
 
     }, [props])
+
+    const handleOpenCompare = () => {
+        setCompareOpen(!compareOpen)
+    }
 
     const nutrientTable = (
         compareItems.length > 0
@@ -165,36 +172,44 @@ const Compare = (props) => {
                     })}
             </tbody>
         </table>
-        : <p>Add items to compare</p>
+        : <p>Add items from search results with the scale icon to compare nutrients!</p>
     )
 
     // Compare component return
     return (
-        <section className="compare">
-            <h2>Compare Foods</h2>
+        <section className=
+            {
+                compareOpen
+                ? "compare open"
+                : "compare"
+            }
+        
+        >
+            <div className="compareSliderTab">
+                <div className="scaleIcon">
+                    <i className=
+                        {
+                            compareItems.length === 0
+                            ? "fa fa-balance-scale"
+                            : "fa fa-balance-scale compareHighlighted"
+                        }
+                        aria-hidden="true"></i>
+                    <span>{compareItems.length}</span>
+                </div>
+                <button onClick={handleOpenCompare}>
+                    <i className={
+                        compareOpen
+                        ? "compareSliderButton fa fa-chevron-circle-right"
+                        : "compareSliderButton fa fa-chevron-circle-left"
+                    }
+                    aria-hidden="true"></i>
+                </button>
+            </div>
+            <div className="compareContent">
+                <h2>Compare Foods</h2>
+                {nutrientTable}
+            </div>
 
-            {nutrientTable}
-
-            {/* {
-                compareItems.length !== 0
-                ? <ul>
-
-                    {compareItems.map((compareItem) => {
-                        return(
-                            <li key={compareItem.food_name}>
-                                <p>{compareItem.food_name}</p>
-                            </li>
-                        )
-                    })}
-
-                </ul>
-                : <p>Click the compare icon on food items to add them to the compare table!</p> 
-            } */}
-
-
-
-
-            
         </section>
     )
 }
