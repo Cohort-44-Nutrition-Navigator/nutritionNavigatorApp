@@ -4,9 +4,21 @@
 .results {
     margin: 0 auto;
 
+    .compare, .favourites {
+        position: fixed;
+        width: 80px;
+        top: 0;
+        height: 100vh;
+        background-color: #eeeeee;
+        overflow: hidden;
+    }
+
+    .compare {
+        right: 0;
+    }
+
     ul {
-        width: 90%;
-        margin: 0 auto;
+        margin: 0 100px;
         @include flex(row, wrap);
         justify-content: space-between;
         gap: 25px;

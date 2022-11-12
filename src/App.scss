@@ -4,3 +4,14 @@
 @use "partials/typography";
 @use "partials/baseStyles";
 @use 'partials/results';
+
+.App {
+    position: relative;
+
+    header {
+        background-color: white;
+        z-index: 10;
+        position: fixed;
+        width: 100%;
+    }
+}
