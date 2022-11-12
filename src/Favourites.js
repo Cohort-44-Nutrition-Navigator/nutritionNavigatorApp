@@ -61,7 +61,9 @@ const Favourites = (props) => {
 
     // Favourites component return
     return (
+    
         <section className='favourites'>
+
             <h2>Favourites</h2>
             {
                 favouriteItems.length === 0
