@@ -170,7 +170,7 @@ const Compare = (props) => {
 
     // Compare component return
     return (
-        <section>
+        <section className="compare">
             <h2>Compare Foods</h2>
 
             {nutrientTable}
