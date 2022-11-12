@@ -61,7 +61,7 @@ const Favourites = (props) => {
 
     // Favourites component return
     return (
-        <>
+        <section>
             <h2>Favourites</h2>
             {
                 favouriteItems.length === 0
@@ -113,7 +113,7 @@ const Favourites = (props) => {
                     })}
                 </ul>
             }
-        </>
+        </section>
     )
 }
 
