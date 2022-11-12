@@ -99,38 +99,38 @@ const Login = () => {
     }
 
     return (
-
-          <div>
-
-            {/* login form */}
-            <form action="">
+        <section className='login'>
+            <div className="wrapper">
+                {/* login form */}
                 {
                     // if logged in
                     loggedIn
                         // show the logout button only
-                        ? <>
+                        ? < form action="" className='formLogout'>
                             <button id="logout" onClick={handleLogout}>Logout</button>
-                        </>
+                        </form>
                         // else show the inputs and the login and register buttons
-                        : <>
+                        : <form action="" className='formLogin'>
                             {/* <Link to={{pathname:"/main", state:{user: user, loggedIn: loggedIn}}}> */}
+                            <label htmlFor="email">Email</label>
                             <input type="email" name="email" id="email" value={emailInput} onInput={(e) => setEmailInput(e.target.value)} />
+                            <label htmlFor="password">Password</label>
                             <input type="password" name="password" id="password" value={passwordInput} onInput={(e) => setPasswordInput(e.target.value)} />
-                            <button id="login" onClick={handleLogin}>Login</button>
-                            <button id="register" onClick={handleRegister}>Register</button>
-                            <button id='guestLogin' onClick={handleGuestLogin}>Continue as Guest</button>
+                            <button className='smallButton' id="login" onClick={handleLogin}>Login</button>
+                            <button className='smallButton right' id="register" onClick={handleRegister}>Register</button>
+                            <button className='bigButton' id='guestLogin' onClick={handleGuestLogin}>Continue as Guest</button>
                             {/* </Link> */}
-                        </>
+                        </form>
                 }
-            </form>
-            {
-                loggedIn
-                    ? /* pass user information and loggedIn state as props to Main component */
-                    < Main user={user} loggedIn={loggedIn} />
-                    : null
-            }
-            
-        </div>
+                {
+                    loggedIn
+                        ? /* pass user information and loggedIn state as props to Main component */
+                        < Main user={user} loggedIn={loggedIn} />
+                        : null
+                }
+
+            </div>
+        </section>
     )
 }
 

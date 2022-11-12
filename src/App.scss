@@ -15,3 +15,58 @@
         width: 100%;
     }
 }
+
+.login {
+    padding-top: 60px;
+    height: 90vh;
+    .formLogin {
+        border-radius: 50px;
+        background-color: $whiteColor;
+        width: 90%;
+        max-width: 450px;
+        margin: 100px auto;
+        padding: 40px;
+        @include flex (row, wrap);
+        label {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        input {
+            background-color: $primaryColour;
+            border: none;
+            border-radius: 15px;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+        .smallButton {
+            width: calc(50% - 10px);
+            border: none;
+            background-color: $secondaryColour;
+            border-radius: 15px;
+            margin-top: 15px;
+            padding: 5px 0;
+            .left {
+                margin-right: 10px;
+                background-color: red;
+            }
+            .right {
+                margin-left: 10px;
+            }
+        }
+        .bigButton {
+            width: 100%;
+            border: none;
+            background-color: $tertiaryColour;
+            border-radius: 15px;
+            margin-top: 25px;
+            padding: 5px 0;
+        }
+    }
+    .formLogout {
+        position: fixed;
+        z-index: 10;
+        right: 0;
+        top: 0;
+    }
+}
