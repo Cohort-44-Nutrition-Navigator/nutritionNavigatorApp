@@ -377,11 +377,11 @@ const Results = (props) => {
                 url: "https://trackapi.nutritionix.com/v2/natural/nutrients",
                 headers: {
                     // API KEY 1
-                    "x-app-id": "ee0fb754",
-                    "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
+                    // "x-app-id": "ee0fb754",
+                    // "x-app-key": "14612cd5ce51f2bdb3034857e382ee9d",
                     // API KEY 2
-                    // "x-app-id": "0eb5f22d",
-                    // "x-app-key": "d6fd704a091aeaa5c06a629aa96a56d0",
+                    "x-app-id": "0eb5f22d",
+                    "x-app-key": "d6fd704a091aeaa5c06a629aa96a56d0",
                     "x-remote-user-id": "0",
                 },
                 data: {
@@ -423,11 +423,11 @@ const Results = (props) => {
                 headers: {
                     'x-remote-user-id': '0',
                     // API KEY 1
-                    'x-app-id': 'ee0fb754',
-                    'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
+                    // 'x-app-id': 'ee0fb754',
+                    // 'x-app-key': '14612cd5ce51f2bdb3034857e382ee9d'
                     // API KEY 2
-                    // 'x-app-id': '0eb5f22d',
-                    // 'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
+                    'x-app-id': '0eb5f22d',
+                    'x-app-key': 'd6fd704a091aeaa5c06a629aa96a56d0'
                 },
                 params: {
                     'nix_item_id': item.nix_item_id

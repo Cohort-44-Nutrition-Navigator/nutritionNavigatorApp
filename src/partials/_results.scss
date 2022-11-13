@@ -18,7 +18,7 @@
     .favourites {
         left: 0;
         background-color: $secondaryColour;
-        padding: 40px 0 0 60px;
+        padding: 40px 0 0 0;
         &.open {
             width: calc(100% - 60px);
             z-index: 20;
@@ -152,7 +152,7 @@
                 background-color: $whiteColor;
                 margin: 0 auto;
                 aspect-ratio: 1.5/1;
-                object-fit: cover;
+                object-fit: contain;
                 width: 100%;
             }
 

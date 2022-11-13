@@ -107,26 +107,31 @@ const Favourites = (props) => {
             </div>
             <div className={
                 favouritesOpen
-                    ? "compareContent showCompare"
-                    : "compareContent"
+                    ? "favouritesComponent showFavourites"
+                    : "hideFavourites"
             }>
                 <h2>Favourites</h2>
                 {
                     favouriteItems.length > 0
-                        ? <ul>
+                        ? <ul className='favouritesItems'>
                             {favouriteItems.map((favouriteItem) => {
                                 return (
-                                    <li key={favouriteItem.food_name}>
-                                        <ul>
-                                            <li>
-                                                <img src={favouriteItem.photo.thumb} alt={favouriteItem.food_name} />
-                                                <p>{favouriteItem.food_name}</p>
-                                                <p>Serving Size: {favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
+                                    <li className='favouritesListItem' key={favouriteItem.food_name}>
+                                        <ul className='itemDisplay'>
+                                            <li className='displayTitle'>
+                                                <div className="imgBox">
+                                                    <img src={favouriteItem.photo.thumb} alt={favouriteItem.food_name} />
+                                                </div>
+                                                <p className='name'>{favouriteItem.food_name}</p>
+                                                <p className='serving'>Serving Size: </p>
+                                                <p className='servingSize'>{favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
+                                                <button><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
+                                                <button><i className="fa fa-balance-scale fullScale" aria-hidden="true"></i></button>
                                             </li>
                                             {
                                                 favouriteItem.nutritionalInfo
-                                                    ? <li>
-                                                        <ul>
+                                                    ? <li className='displayNutrients'>
+                                                        <ul className='macroNutrients'>
 
                                                             {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
                                                                 return (
@@ -134,11 +139,11 @@ const Favourites = (props) => {
                                                                 )
                                                             })}
                                                         </ul>
-                                                        <ul>
+                                                        <ul className='microNutrients'>
 
-                                                            {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                            {Object.keys(favouriteItem.nutritionalInfo.micronutrients).map((nutrient, index) => {
                                                                 return (
-                                                                    <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                                    <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.micronutrients[nutrient]}</li>
                                                                 )
                                                             })}
                                                         </ul>
