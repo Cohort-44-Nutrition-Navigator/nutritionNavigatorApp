@@ -11,6 +11,12 @@ const Favourites = (props) => {
 
     // initial favourites state
     const [favouriteItems, setFavouriteItems] = useState([]);
+    // state for favourites slider button
+    const [favouritesOpen, setFavouritesOpen] = useState(false);
+
+    const handleOpenFavourites = () => {
+        setFavouritesOpen(!favouritesOpen)
+    }
 
     useEffect (() => {
 
@@ -69,57 +75,70 @@ const Favourites = (props) => {
 
     }, [props, favouriteItems])
     
-    // // remove function
-    // const handleRemove = (favouriteItemId) => {
-    //     if (props.ID === 'guest') {
-    //         favouriteItems.filter(() => {
-
-    //         })
-    //     } else {
-    //         const database = getDatabase(firebaseConfig);
-    //         const cartItemRef = ref(database, `cart/${favouriteItemId}`)
-    //         remove(cartItemRef)
-    //     }
-    // }
-
-    // // add to compare function
-    // const handleAdd = () => {
-
-    // }
-
     // Favourites component return
     return (
     
-        <section className='favourites'>
-
-            <h2>Favourites</h2>
+        <section className=
             {
-                favouriteItems.length > 0
-                ? <ul>
-                    { favouriteItems.map((favouriteItem) => {
-                        return (
-                            <li key={favouriteItem.food_name}>
-                                <ul>
-                                    <li>
-                                        <img src={favouriteItem.photo.thumb} alt={favouriteItem.food_name} />
-                                        <p>{favouriteItem.food_name}</p>
-                                        <p>Serving Size: {favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
-                                    </li>
-                                    <ul>
-                                       
-                                        {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
-                                            return (
-                                                <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
-                                            )
-                                        })}
-                                    </ul>
-                                </ul>
-                            </li>
-                        )   
-                    })}
-                </ul>
-                : <p>You can add Favourites here</p>
+                favouritesOpen
+                    ? "favourites open"
+                    : "favourites"
             }
+        >
+            <div className="favouritesSliderTab">
+                <div className="heartIcon">
+                    <i className=
+                        {
+                            favouriteItems.length === 0
+                                ? "fa fa-heart-o emptyHeart"
+                                : "fa fa-heart fullHeart"
+                        }
+                        aria-hidden="true"></i>
+                    <span>{favouriteItems.length}</span>
+                </div>
+                <button onClick={handleOpenFavourites}>
+                    <i className={
+                        favouritesOpen
+                            ? "favouritesSliderButton fa fa-chevron-circle-left"
+                            : "favouritesSliderButton fa fa-chevron-circle-right"
+                    }
+                        aria-hidden="true"></i>
+                </button>
+            </div>
+            <div className={
+                favouritesOpen
+                    ? "compareContent showCompare"
+                    : "compareContent"
+            }>
+                <h2>Favourites</h2>
+                {
+                    favouriteItems.length > 0
+                        ? <ul>
+                            {favouriteItems.map((favouriteItem) => {
+                                return (
+                                    <li key={favouriteItem.food_name}>
+                                        <ul>
+                                            <li>
+                                                <img src={favouriteItem.photo.thumb} alt={favouriteItem.food_name} />
+                                                <p>{favouriteItem.food_name}</p>
+                                                <p>Serving Size: {favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
+                                            </li>
+                                            <ul>
+
+                                                {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                    return (
+                                                        <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </ul>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                        : <p>Add items from search results with the heart icon to keep in your favourites!</p>
+                }
+            </div>
         </section>
     )
 }

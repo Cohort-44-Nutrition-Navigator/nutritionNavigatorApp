@@ -17,6 +17,62 @@
 
     .favourites {
         left: 0;
+        background-color: $secondaryColour;
+        padding: 40px 0 0 60px;
+        &.open {
+            width: calc(100% - 60px);
+            z-index: 20;
+        }
+        .favouritesSliderTab {
+            @include flex(column, nowrap, center, center);
+            width: 70px;
+            position: absolute;
+            top: 60px;
+            right: -35px;
+            overflow: visible;
+
+            button {
+                border: none;
+                background: none;
+            }
+
+            .favouritesSliderButton {
+                font-size: 2.6rem;
+                background: white;
+                border-radius: 50%;
+                padding: 2px 5px;
+                &:hover {
+                        color: $secondaryColour;
+                    }
+            }
+
+            .heartIcon {
+                @include flex(column, nowrap, space-between, center);
+                background: white;
+                padding: 24px 16px 18px;
+                border-radius: 30px;
+                margin-bottom: 10px;
+                font-weight: 700;
+
+                i {
+                    margin-bottom: 6px;
+                }
+
+                .fullHeart {
+                    color: #333333;
+                    transform: color 1s;
+                }
+
+                .emptyHeart {
+                    color: #bbbbbb;
+                    transform: color 1s;
+
+                    &:hover {
+                        color: $secondaryColour;
+                    }
+                }
+            }
+        }
     }
 
     .compare {
@@ -43,6 +99,9 @@
                 background: white;
                 border-radius: 50%;
                 padding: 2px 5px;
+                &:hover {
+                        color: $tertiaryColour;
+                    }
             }
             .scaleIcon {
                 @include flex(column, nowrap, space-between, center);
@@ -55,6 +114,9 @@
                     margin-bottom: 6px;
                     color: #bbbbbb;
                     transform: color 1s;
+                    &:hover {
+                            color: $tertiaryColour;
+                        }
                 }
                 .compareHighlighted {
                     color: #333333;
