@@ -123,14 +123,28 @@ const Favourites = (props) => {
                                                 <p>{favouriteItem.food_name}</p>
                                                 <p>Serving Size: {favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
                                             </li>
-                                            <ul>
+                                            {
+                                                favouriteItem.nutritionalInfo
+                                                    ? <li>
+                                                        <ul>
 
-                                                {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
-                                                    return (
-                                                        <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
-                                                    )
-                                                })}
-                                            </ul>
+                                                            {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                                return (
+                                                                    <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                                )
+                                                            })}
+                                                        </ul>
+                                                        <ul>
+
+                                                            {Object.keys(favouriteItem.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                                return (
+                                                                    <li key={index}>{nutrient}: {favouriteItem.nutritionalInfo.macronutrients[nutrient]}</li>
+                                                                )
+                                                            })}
+                                                        </ul>
+                                                    </li> 
+                                                    : null
+                                            }
                                         </ul>
                                     </li>
                                 )
