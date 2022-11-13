@@ -98,7 +98,16 @@
         position: fixed;
         z-index: 10;
         right: 0;
-        top: 0;
+        top: 30px;
+
+        button {
+            font-size: 2.5rem;
+            background-color: $primaryColour;
+            border: none;
+            border-radius: 30px;
+            padding: 5px;
+            margin-right: 20px
+        }
     }
     main {
         @include flex (row, wrap);
