@@ -133,16 +133,18 @@ const Compare = (props) => {
         ? <table>
             <thead>
                 <tr>
-                    <th>Item</th>
-                    <th>Serving Size</th>
+                    <th className="tableItem">Item</th>
+                    <th className="tableServing">Serving Size</th>
+                    <th className="tableMacros">Macronutrients</th>
                     {Object.keys(compareItems[0].nutritionalInfo.macronutrients).map((nutrient, index) => {
                         return (
-                            <th key={index}>{nutrient}</th>
+                            <th key={index}>{nutrient}:</th>
                         )
                     })}
+                    <th className="tableMicros">Micronutrients</th>
                     {Object.keys(compareItems[0].nutritionalInfo.micronutrients).map((nutrient, index) => {
                         return (
-                            <th key={index}>{nutrient}</th>
+                            <th key={index}>{nutrient}:</th>
                         )
                     })}
                 </tr>
@@ -153,20 +155,20 @@ const Compare = (props) => {
                     return(
                             <>
                                 <tr>
-                                    <td key={index+"name"}>{item.food_name}</td>
-                                    <td key={index+"serving"}>{item.serving_unit}</td>
+                                    <td key={index+"name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(index)}><i className="fa fa-balance-scale" aria-hidden="true"></i></button></td>
+                                    <td key={index+"serving"} className="tableServing">{item.serving_unit}</td>
                                     {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
                                         return (
                                             <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
                                         )
                                     })}
+                                    <td className="tableFiller"></td>
                                     {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
                                         return (
                                             <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
                                         )
                                     })}
                                 </tr>
-                                <button onClick={() => handleUncompare(index)}>Remove</button>
                             </>
                         )
                     })}
@@ -205,7 +207,11 @@ const Compare = (props) => {
                     aria-hidden="true"></i>
                 </button>
             </div>
-            <div className="compareContent">
+            <div className={
+                compareOpen
+                ? "compareContent showCompare"
+                : "compareContent"
+            }>
                 <h2>Compare Foods</h2>
                 {nutrientTable}
             </div>
