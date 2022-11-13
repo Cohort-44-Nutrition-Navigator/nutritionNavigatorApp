@@ -98,7 +98,10 @@ const Compare = (props) => {
     // ]
 
     // initial compare state
-    const [ compareItems, setCompareItems ] = useState(props.items);
+    const [compareItems, setCompareItems] = useState(props.items);
+
+    // state for Compare slider button
+    const [compareOpen, setCompareOpen] = useState(false);
 
     const handleUncompare = props.remove;
 
@@ -112,82 +115,100 @@ const Compare = (props) => {
 
     }, [props])
 
+    const handleOpenCompare = () => {
+        setCompareOpen(!compareOpen)
+    }
+
     const nutrientTable = (
         compareItems.length > 0
-        ? <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Serving Size</th>
-                    {Object.keys(compareItems[0].nutritionalInfo.macronutrients).map((nutrient, index) => {
-                        return (
-                            <th key={index}>{nutrient}</th>
-                        )
-                    })}
-                    {Object.keys(compareItems[0].nutritionalInfo.micronutrients).map((nutrient, index) => {
-                        return (
-                            <th key={index}>{nutrient}</th>
-                        )
-                    })}
-                </tr>
-            </thead>
-            <tbody>
-                
+            ? <table>
+                <thead>
+                    <tr>
+                        <th className="tableItem">Item</th>
+                        <th className="tableServing">Serving Size</th>
+                        <th className="tableMacros">Macronutrients</th>
+                        {Object.keys(compareItems[0].nutritionalInfo.macronutrients).map((nutrient, index) => {
+                            return (
+                                <th key={index}>{nutrient}:</th>
+                            )
+                        })}
+                        <th className="tableMicros">Micronutrients</th>
+                        {Object.keys(compareItems[0].nutritionalInfo.micronutrients).map((nutrient, index) => {
+                            return (
+                                <th key={index}>{nutrient}:</th>
+                            )
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+
                     {compareItems.map((item, index) => {
-                    return(
+                        return (
                             <>
                                 <tr>
-                                    <td key={index+"name"}>{item.food_name}</td>
-                                    <td key={index+"serving"}>{item.serving_unit}</td>
+                                    <td key={index + "name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(item, index, "compare")}><i className="fa fa-balance-scale" aria-hidden="true"></i></button></td>
+                                    <td key={index + "serving"} className="tableServing">{item.serving_unit}</td>
                                     {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
                                         return (
                                             <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
                                         )
                                     })}
+                                    <td className="tableFiller"></td>
                                     {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
                                         return (
                                             <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
                                         )
                                     })}
                                 </tr>
-                                <button onClick={() => handleUncompare(item, index, "compare")}>Remove</button>
                             </>
                         )
                     })}
-            </tbody>
-        </table>
-        : <p>Add items to compare</p>
+            </tbody >
+        </table >
+        : <p>Add items from search results with the scale icon to compare nutrients!</p>
     )
 
-    // Compare component return
-    return (
-        <section className="compare">
+// Compare component return
+return (
+    <section className=
+        {
+            compareOpen
+                ? "compare open"
+                : "compare"
+        }
+
+    >
+        <div className="compareSliderTab">
+            <div className="scaleIcon">
+                <i className=
+                    {
+                        compareItems.length === 0
+                            ? "fa fa-balance-scale"
+                            : "fa fa-balance-scale compareHighlighted"
+                    }
+                    aria-hidden="true"></i>
+                <span>{compareItems.length}</span>
+            </div>
+            <button onClick={handleOpenCompare}>
+                <i className={
+                    compareOpen
+                        ? "compareSliderButton fa fa-chevron-circle-right"
+                        : "compareSliderButton fa fa-chevron-circle-left"
+                }
+                    aria-hidden="true"></i>
+            </button>
+        </div>
+        <div className={
+            compareOpen
+                ? "compareContent showCompare"
+                : "compareContent"
+        }>
             <h2>Compare Foods</h2>
-
             {nutrientTable}
+        </div>
 
-            {/* {
-                compareItems.length !== 0
-                ? <ul>
-
-                    {compareItems.map((compareItem) => {
-                        return(
-                            <li key={compareItem.food_name}>
-                                <p>{compareItem.food_name}</p>
-                            </li>
-                        )
-                    })}
-
-                </ul>
-                : <p>Click the compare icon on food items to add them to the compare table!</p> 
-            } */}
-
-
-
-
-            
-        </section>
-    )
+    </section>
+)
 }
 
 export default Compare;

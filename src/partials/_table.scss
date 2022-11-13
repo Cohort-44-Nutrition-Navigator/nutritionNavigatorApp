@@ -1,0 +1,86 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+table {
+    background: white;
+    border-radius: 40px;
+    text-align: left;
+    overflow: scroll;
+    max-width: calc(100% - 80px);
+    font-size: 0.8rem;
+    empty-cells: show;
+    margin-top: 20px;
+    @include flex(row, nowrap, flex-start, flex-start);
+    thead, tbody {
+        @include flex(row, nowrap, center, center);
+        padding: 20px 0 40px;
+
+        tr {
+            width: 180px;
+            @include flex (column);
+            margin: -20px 0 -40px;
+            padding: 20px 0 40px;
+        }
+        th {
+            padding-left: 10px;
+            line-height: 1.5rem;
+        }
+        td {
+            line-height: 1.5rem;
+        }
+    }
+    thead {
+        padding-left: 40px;
+        margin-top: 0;
+        padding-right: 0px;
+        margin-right: 30px;
+        box-shadow: 0 0 40px #999999;
+        .tableItem, .tableServing, .tableMacros, .tableMicros {
+            text-transform: uppercase;
+        }
+    .tableMacros, .tableMicros {
+        padding-left: 0;
+    }
+    }
+    th.tableItem {
+        color: white;
+    }
+    .tableItem, .tableServing {
+        border-bottom: 2px solid #333333;
+        padding: 10px 0;
+    }
+    td.tableItem {
+        padding-left: 30px;
+    }
+    tbody {
+        padding-left: 0 !important;
+        margin-left: -30px;
+        .tableServing {
+            margin-bottom: 40px;
+            padding-left: 30px;
+        }
+        .tableFiller {
+            height: 40px;
+        }
+        th, td {
+            padding-left: 30px;
+        }
+    }
+    button { 
+        border: none;
+        background-color: transparent;
+        margin-left: 10px;
+    }
+    tr:nth-child(even) {
+        background: #eeeeee;
+      }
+    .tableMicros, .tableFiller {
+        border-top: 2px solid #999999;
+    }
+    .tableMicros, .tableFiller, .tableMacros {
+        margin-top: 10px;
+    }
+    .tableMicros {
+        padding-top: 10px;
+    }
+}
