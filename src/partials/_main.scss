@@ -1,0 +1,53 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+main {
+    .instructions {
+        font-weight: 700;
+        margin: 0 100px;
+    }
+    .userSearch {
+        @include flex (column, nowrap);
+        width: 70%;
+    }
+    .searchBar {
+        margin-top: 20px;
+        input {
+            width: calc(75% - 20px);
+            margin: 10px;
+            font-family: $mainFont;
+            font-size: 1rem;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+        button {
+            width: calc(25% - 20px);
+            margin: 10px;
+            font-family: $mainFont;
+            font-size: 1rem;
+            border: none;
+            padding: 10px;
+            border-radius: 50px;
+            text-align: center;
+            background-color: $secondaryColour;
+        }
+    }
+    .choices {
+        margin-left: 5%;
+        @include flex (row, nowrap, normal, center);
+        label {
+            font-family: $mainFont;
+            font-size: 1rem;
+            margin: 7px;
+        }
+        .choice1 {
+            margin-right: 25px;
+        }
+        input {
+            width: 25px;
+            height: 25px;
+            border: solid 10px red;
+        }
+    }
+}

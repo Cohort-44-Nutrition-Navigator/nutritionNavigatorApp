@@ -105,8 +105,8 @@ const Login = () => {
                     // if logged in
                     loggedIn
                         // show the logout button only
-                        ? < form action="" className='formLogout'>
-                            <button id="logout" onClick={handleLogout}>Logout</button>
+                        ? <form action="" className='formLogout'>
+                            <button id="logout" onClick={handleLogout}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
                         </form>
                         // else show the inputs and the login and register buttons
                         : <form action="" className='formLogin'>
