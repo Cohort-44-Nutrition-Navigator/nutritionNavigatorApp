@@ -400,11 +400,13 @@ const Results = (props) => {
                 {/* insert image */}
                 <img className="resultImg" src={item.photo.thumb} alt="" />
 
-                {/* insert item name */}
-                <p className="resultName">{item.food_name}</p>
+                <div className="resultText">
+                    {/* insert item name */}
+                    <p className="resultName">{item.food_name}</p>
 
-                {/* insert item name */}
-                <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
+                    {/* insert item name */}
+                    <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
+                </div>
 
                 {/* nutrient div */}
                 <div className="resultNutrients" ref={resultNutrients} style={
@@ -419,6 +421,7 @@ const Results = (props) => {
                     {
                         item.nutritionalInfo
                             ? <>
+                                <hr />
                                 {
                                     // if the macronutrients are supposed to show
                                     showMacro
