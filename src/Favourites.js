@@ -14,19 +14,44 @@ const Favourites = (props) => {
 
     useEffect (() => {
 
-        setFavouriteItems(props.items);
+        // set firebase endpoint
+        const database = getDatabase(firebaseConfig)
+        const databaseRef = ref(database, `/${props.ID}`)
 
-        if (props.ID !== 'guest') {
-
-            // set firebase endpoint
-            const database = getDatabase(firebaseConfig)
-            const databaseRef = ref(database, `/${props.ID}`)
+        if (props.unfavourited.length > 1){
 
             // when data is received
             onValue(databaseRef, (response) => {
 
                 // create an empty array
-                const newArray = [ ...favouriteItems ];
+                const newArray = [];
+
+                // data variable
+                const data = response.val();
+
+                // push each item in data to new array
+                for (let item in data) {
+                    newArray.push(data[item])
+                }
+
+                // set favourite items state to new array
+                setFavouriteItems(newArray);
+
+            })
+
+        }
+
+        if (props.ID === 'guest') {
+
+            setFavouriteItems(props.items);
+
+        } else {
+
+            // when data is received
+            onValue(databaseRef, (response) => {
+
+                // create an empty array
+                const newArray = [];
 
                 // data variable
                 const data = response.val();
@@ -39,9 +64,10 @@ const Favourites = (props) => {
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
             })
+            
         }
 
-    }, [props])
+    }, [props, favouriteItems])
     
     // // remove function
     // const handleRemove = (favouriteItemId) => {

@@ -6,7 +6,7 @@ import { useState, useEffect , useRef } from 'react';
 
 // import firebase functions
 import firebase from './firebase';
-import { getDatabase, ref, push } from 'firebase/database'
+import { getDatabase, onValue, ref, push, remove } from 'firebase/database'
 
 // import components
 import Compare from './Compare';
@@ -19,6 +19,7 @@ const Results = (props) => {
     const [items, setItems] = useState(props.items);
     const [ID, setID] = useState(props.ID);
     const [favouriteItems, setFavouriteItems] = useState([]);
+    const [unfavourited, setUnfavourited] = useState([]);
     const [compareItems, setCompareItems] = useState([]);
 
     // reset items and ID state whenever props causes a re-render
@@ -37,20 +38,26 @@ const Results = (props) => {
 
             // create a new favourite items array
             const newFavouriteItems = [ ...favouriteItems ];
+            const updatedItem = item;
+            const updatedItems = [ ...items ]
+
+            updatedItem.favourited = true;
 
             // if the item has nutritional info already
             if (item.nutritionalInfo) {
 
                 // push the item to the new favourite items array
-                newFavouriteItems.push(item);
+                newFavouriteItems.push(updatedItem);
 
                 // set the favourite items state to new array
                 setFavouriteItems(newFavouriteItems);
 
+                updatedItems[{index}] = updatedItem;
+
+                setItems(updatedItems);
+
                 // if the item does not have nutritional info
             } else {
-
-                const updatedItem = item;
 
                 // run the second API call on the item
                 nutrientApiSearch(updatedItem, index);
@@ -63,27 +70,38 @@ const Results = (props) => {
                     // set the favourite items state to new array
                     setFavouriteItems(newFavouriteItems);
 
+                    updatedItems[{index}] = updatedItem;
+
+                    setItems(updatedItems);
+
                 }, 500)
 
             }
 
-            // if the user not a guest
+        // if the user not a guest
         } else {
 
             // set firebase endpoint
             const database = getDatabase(firebase)
             const databaseRef = ref(database, `/${props.ID}`)
 
+            const updatedItem = item;
+            const updatedItems = [ ...items ];
+
+            updatedItem.favourited = true;
+
             // if the item has nutritional info already
-            if (item.nutritionalInfo) {
+            if (updatedItem.nutritionalInfo) {
 
                 // push the item to the firebase endpoint
-                push (databaseRef, item);
+                push(databaseRef, updatedItem);
+
+                updatedItems[{index}] = updatedItem;
+
+                setItems(updatedItems);
 
             // if the item does not have nutritional info
             } else {
-
-                const updatedItem = item;
 
                 // run the second API call on the item
                 nutrientApiSearch(updatedItem, index);
@@ -91,7 +109,11 @@ const Results = (props) => {
                 setTimeout(() => {
                     
                     // push the item to the firebase endpoint
-                    push (databaseRef, updatedItem);
+                    push(databaseRef, updatedItem);
+
+                    updatedItems[{index}] = updatedItem;
+
+                    setItems(updatedItems);
 
                 }, 500)
 
@@ -100,24 +122,109 @@ const Results = (props) => {
         }
     }
 
+    // unfavourite function
+    const handleUnfavourite = (item, index, component) => {
+
+        // if the user is a guest
+        if (ID === 'guest') {
+
+            const newFavouriteItems = [ ...favouriteItems ];
+            const updatedItem = item;
+            const updatedItems = [ ...items ]
+
+            updatedItem.favourited = false;
+
+            if(component === 'favourites'){
+
+                newFavouriteItems.splice(index, 1);
+
+
+            } else if (component === 'results'){
+
+                updatedItems[{index}] = updatedItem;
+
+                favouriteItems.forEach((favouritedItem, index) => {
+
+                    if (favouritedItem.food_name === updatedItem.food_name){
+
+                        newFavouriteItems.splice(index, 1)
+
+                    }
+
+                })
+
+            }
+
+            // set the favourites items state to new array
+            setFavouriteItems(newFavouriteItems);
+
+            setItems(updatedItems);
+            
+        } else {
+
+            // set firebase endpoint
+            const database = getDatabase(firebase)
+            const databaseRef = ref(database, `/${props.ID}`)
+
+            const updatedItem = item;
+            const updatedItems = [ ...items ]
+            const updatedUnfavourited = [ ...unfavourited ]
+            updatedItem.favourited = false;
+
+            updatedItems[{index}] = updatedItem;
+
+            onValue(databaseRef, (response) => {
+
+                // data variable
+                const data = response.val();
+
+                // push each item in data to new array
+                for (let item in data) {
+
+                    if(data[item].food_name === updatedItem.food_name){
+
+                        const itemRef = ref(database, `/${props.ID}/${item}`)
+
+                        remove(itemRef);
+
+                        updatedUnfavourited.push(item);
+
+                        setUnfavourited(updatedUnfavourited);
+
+                    }
+
+                }
+
+            })
+
+            setItems(updatedItems);
+
+        }
+    }
+
     // compare function
     const handleCompare = (item, index) => {
 
         const newCompareItems = [ ...compareItems ];
+        const updatedItem = item;
+        const updatedItems = [ ...items ]
+        updatedItem.compared = true;
 
         // if the item has nutritional info already
-        if (item.nutritionalInfo) {
+        if (updatedItem.nutritionalInfo) {
 
             // push the item to the new compare items array
-            newCompareItems.push(item);
+            newCompareItems.push(updatedItem);
 
             // set the compare items state to new array
             setCompareItems(newCompareItems);
 
+            updatedItems[{index}] = updatedItem;
+
+            setItems(updatedItems);
+
         // if the item does not have nutritional info
         } else {
-
-            const updatedItem = item;
 
             // run the second API call on the item
             nutrientApiSearch(updatedItem, index);
@@ -130,31 +237,52 @@ const Results = (props) => {
                 // set the compare items state to new array
                 setCompareItems(newCompareItems);
 
+                updatedItems[{index}] = updatedItem;
+
+                setItems(updatedItems);
+
             }, 500)
 
         }
     }
 
     // compare function
-    const handleUncompare = (index) => {
+    const handleUncompare = (item, index, component) => {
 
         const newCompareItems = [ ...compareItems ];
+        const updatedItem = item;
 
-        newCompareItems.splice(index, 1);
+        updatedItem.compared = false;
 
-        // set the compare items state to new array
-        setCompareItems(newCompareItems);
-    }
+        if(component === 'compare'){
 
-    // compare function
-    const handleUnfavourite = (index) => {
+            newCompareItems.splice(index, 1);
 
-        const newFavouriteItems = [ ...favouriteItems ];
+            // set the compare items state to new array
+            setCompareItems(newCompareItems);
 
-        newFavouriteItems.splice(index, 1);
+        } else if (component === 'results'){
 
-        // set the compare items state to new array
-        setFavouriteItems(newFavouriteItems);
+            const updatedItems = [ ...items ]
+
+            updatedItems[{index}] = updatedItem;
+
+            compareItems.forEach((comparedItem, index) => {
+
+                if (comparedItem.food_name === updatedItem.food_name){
+
+                    newCompareItems.splice(index, 1)
+
+                }
+
+            })
+
+            // set the favourites items state to new array
+            setCompareItems(newCompareItems);
+
+            setItems(updatedItems);
+
+        }
     }
 
     // function to call second API endpoint 
@@ -400,11 +528,13 @@ const Results = (props) => {
                 {/* insert image */}
                 <img className="resultImg" src={item.photo.thumb} alt="" />
 
-                {/* insert item name */}
-                <p className="resultName">{item.food_name}</p>
+                <div className="resultText">
+                    {/* insert item name */}
+                    <p className="resultName">{item.food_name}</p>
 
-                {/* insert item name */}
-                <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
+                    {/* insert item name */}
+                    <p className="resultServing">{item.serving_qty} {item.serving_unit}</p>
+                </div>
 
                 {/* nutrient div */}
                 <div className="resultNutrients" ref={resultNutrients} style={
@@ -419,6 +549,7 @@ const Results = (props) => {
                     {
                         item.nutritionalInfo
                             ? <>
+                                <hr />
                                 {
                                     // if the macronutrients are supposed to show
                                     showMacro
@@ -485,9 +616,6 @@ const Results = (props) => {
     return (
         <div className='results'>
 
-        {/* heading */}
-        <h2>Results</h2>
-
         {/* unordered list of items */}
         <ul>
 
@@ -509,10 +637,21 @@ const Results = (props) => {
 
                         <div className='resultButtons'>
                             {/* favourite button */}
-                            <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart" aria-hidden="true"></i></button>
+                            {
+                                !item.favourited
+
+                                ? <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart-o emptyHeart" aria-hidden="true"></i></button>
+
+                                : <button className='favouriteButton' onClick={() => handleUnfavourite(item, index, "results")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
+                            }
 
                             {/* compare button */}
-                            <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale" aria-hidden="true"></i></button>
+                            {
+                                !item.compared
+
+                                ? <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale emptyScales" aria-hidden="true"></i></button>
+                                : <button className='compareButton' onClick={() => handleUncompare(item, index, "results")}><i className="fa fa-balance-scale fullScales" aria-hidden="true"></i></button>
+                            }
                         </div>
                     </li>
                 ))}
@@ -520,7 +659,7 @@ const Results = (props) => {
 
             {/* compare and favourites component */}
             <Compare items={compareItems} remove={handleUncompare} />
-            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} />
+            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} unfavourited={unfavourited} />
         </div>
     )
 }

@@ -110,15 +110,6 @@ const Compare = (props) => {
         // set compareItems to the array passed down from Results through props
         setCompareItems(props.items);
 
-        /*
-        // create comparison table
-        renderTable() {
-            compareItems.map((item) => {
-                console.log(item);
-            })
-        }
-        */
-
     }, [props])
 
     const nutrientTable = (
@@ -159,7 +150,7 @@ const Compare = (props) => {
                                         )
                                     })}
                                 </tr>
-                                <button onClick={() => handleUncompare(index)}>Remove</button>
+                                <button onClick={() => handleUncompare(item, index, "compare")}>Remove</button>
                             </>
                         )
                     })}
