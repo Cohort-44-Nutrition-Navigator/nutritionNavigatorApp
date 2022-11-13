@@ -33,7 +33,6 @@
         .result {
             @include flex(row, wrap);
             justify-content: space-between;
-            border: solid black 3px;
             background-color: $whiteColor;
             border-radius: 20px;
             width: 20%;
@@ -88,7 +87,8 @@
                 left: 50%;
                 transform: translateX(-50%);
                 &:hover {
-                    color: $tertiaryColour;
+                    color: $whiteColor;
+                    background: black;
                 }
             }
             
@@ -100,28 +100,47 @@
                 width: 20%;
                 .favouriteButton,
                 .compareButton {
-                    background: $whiteColor;
-                    color: black;
+                    background: black;
+                    color: white;
                     border: solid black 2px;
                     border-radius: 50%;
                     width: 30px;
                     height: 30px;
                     cursor: pointer;
-                    &:hover {
-                        color: $secondaryColour;
-                    }
                 }
             
                 .favouriteButton {
-                    font-size: 17px;
-                    line-height: 1.8;
-                    padding-left: 0.75px;
+                    font-size: 19px;
+                    line-height: 1.65;
+                    padding-left: 0.9px;
+
+                    .fullHeart {
+                        color: $secondaryColour;
+                    }
+
+                    .emptyHeart {
+                        color: $whiteColor;
+                        &:hover {
+                            color: $secondaryColour;
+                        }
+                    }
                 }
             
                 .compareButton {
-                    font-size: 14px;
-                    line-height: 1.95;
-                    padding-left: 1.75px;
+                    font-size: 16px;
+                    line-height: 1.7;
+                    padding-left: 2.2px;
+
+                    .fullScales {
+                        color: $tertiaryColour;
+                    }
+                    
+                    .emptyScales {
+                        color: $whiteColor;
+                        &:hover {
+                            color: $tertiaryColour;
+                        }
+                    }
                 }
             }
 
@@ -149,13 +168,14 @@
                     font-size: 20px;
                     padding-top: 15px;
                     padding-bottom: 15px;
+                    text-align: center;
                 }
 
                 ul {
                     margin: 0;
                     width: 100%;
                     overflow: hidden;
-                    @include flex(column);
+                    @include flex(column, wrap, center, center);
                     gap: 0;
 
                     li {
