@@ -1,0 +1,95 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+
+// MEDIA QUERIES FOR LAPTOP – 1200px
+@media (max-width: 1200px) {
+
+}
+
+
+// MEDIA QUERIES FOR TABLET LANDSCAPE – 1024px
+@media (max-width: 1024px) {
+    
+}
+
+
+// MEDIA QUERIES FOR TABLET – 768px
+@media (max-width: 768px) {
+    
+    // Compare component styling
+    
+    .results .compare {
+        .compareContent.showCompare {
+            margin-top: 60px;
+        }
+        &.open {
+            width: 100%;
+            padding: 40px 0 0 0;
+            .compareSliderTab {
+                left: 70px;
+                top: 20px;
+                @include flex(row-reverse, nowrap, center, center);
+                .scaleIcon {
+                    @include flex(row, nowrap, space-between, center);
+                    padding: 16px 24px;
+                    margin-bottom: 0;
+                    margin-left: 10px;
+                    i {
+                        margin-bottom: 0;
+                        margin-right: 6px;
+                    }
+                }
+            }
+        }
+    }
+
+    table {
+        max-width: calc(100% - 60px);
+        thead {
+            padding-left: 20px;
+            tr {
+                width: 160px;
+            }
+        }
+        tbody {
+            tr {
+                width: 160px;
+            }
+            td {
+                padding-left: 16px;
+                &.tableItem, &.tableServing {
+                    padding-left: 16px;
+                }
+            }
+        }
+    }
+}
+
+
+// MEDIA QUERIES FOR LARGE MOBILE – 480px
+@media (max-width: 480px) {
+
+    // Compare component styling
+
+    .results .compare {
+        &.open {
+            .compareSliderTab {
+                left: 52px;
+            }
+        }
+    }
+    table {
+        max-width: calc(100% - 20px);
+    }
+
+    
+}
+
+
+// MEDIA QUERIES FOR MOBILE – 360px
+@media (max-width: 360px) {
+    
+}
+
+

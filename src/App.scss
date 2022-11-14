@@ -7,6 +7,7 @@
 @use "partials/table";
 @use "partials/favouritesList";
 @use "partials/main";
+@use "partials/mediaQueries";
 
 .App {
     position: relative;

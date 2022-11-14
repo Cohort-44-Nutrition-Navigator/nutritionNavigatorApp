@@ -146,7 +146,7 @@ const Compare = (props) => {
                         return (
                             <>
                                 <tr>
-                                    <td key={index + "name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(item, index, "compare")}><i className="fa fa-balance-scale" aria-hidden="true"></i></button></td>
+                                    <td key={index + "name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(item, index, "compare")}><i className="fa fa-minus-circle minusButton" aria-hidden="true"></i></button></td>
                                     <td key={index + "serving"} className="tableServing">{item.serving_unit}</td>
                                     {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
                                         return (
