@@ -145,21 +145,25 @@ const Compare = (props) => {
                     {compareItems.map((item, index) => {
                         return (
                             <>
-                                <tr>
-                                    <td key={index + "name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(item, index, "compare")}><i className="fa fa-minus-circle minusButton" aria-hidden="true"></i></button></td>
-                                    <td key={index + "serving"} className="tableServing">{item.serving_unit}</td>
-                                    {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
-                                        return (
-                                            <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
-                                        )
-                                    })}
-                                    <td className="tableFiller"></td>
-                                    {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
-                                        return (
-                                            <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
-                                        )
-                                    })}
-                                </tr>
+                                {
+                                    item.nutritionalInfo
+                                        ? <tr>
+                                            <td key={index + "name"} className="tableItem">{item.food_name}<button onClick={() => handleUncompare(item, index, "compare")}><i className="fa fa-minus-circle minusButton" aria-hidden="true"></i></button></td>
+                                            <td key={index + "serving"} className="tableServing">{item.serving_unit}</td>
+                                            {Object.keys(item.nutritionalInfo.macronutrients).map((nutrient, index) => {
+                                                return (
+                                                    <td key={index}>{item.nutritionalInfo.macronutrients[nutrient]}</td>
+                                                )
+                                            })}
+                                            <td className="tableFiller"></td>
+                                            {Object.keys(item.nutritionalInfo.micronutrients).map((nutrient, index) => {
+                                                return (
+                                                    <td key={index}>{item.nutritionalInfo.micronutrients[nutrient]}</td>
+                                                )
+                                            })}
+                                        </tr>
+                                        : null
+                                }
                             </>
                         )
                     })}
