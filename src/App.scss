@@ -5,6 +5,7 @@
 @use "partials/baseStyles";
 @use 'partials/results';
 @use "partials/table";
+@use "partials/mediaQueries";
 
 .App {
     position: relative;

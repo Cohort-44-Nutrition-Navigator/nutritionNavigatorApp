@@ -42,7 +42,7 @@
                 font-size: 2.6rem;
                 background: white;
                 border-radius: 50%;
-                padding: 2px 5px;
+                padding: 1px 5px;
             }
             .scaleIcon {
                 @include flex(column, nowrap, space-between, center);
