@@ -62,20 +62,13 @@
             padding-top: 10px;
             padding-left: 5px
         }
-        .fullHeart, .fullScale {
+        .fullHeart {
             font-size: 19px;
+            color: $secondaryColour;
             &:hover {
                 transform: scale(150%)
             }
         }
-        .fullHeart {
-            color: $secondaryColour;
-        }
-        .fullScale {
-            color: $tertiaryColour;
-            padding-left: 10px
-        }
-
     }
 
     .displayNutrients {

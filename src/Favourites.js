@@ -18,6 +18,8 @@ const Favourites = (props) => {
         setFavouritesOpen(!favouritesOpen)
     }
 
+    const handleUnfavourite = props.remove
+
     useEffect (() => {
 
         // set firebase endpoint
@@ -114,7 +116,7 @@ const Favourites = (props) => {
                 {
                     favouriteItems.length > 0
                         ? <ul className='favouritesItems'>
-                            {favouriteItems.map((favouriteItem) => {
+                            {favouriteItems.map((favouriteItem, index) => {
                                 return (
                                     <li className='favouritesListItem' key={favouriteItem.food_name}>
                                         <ul className='itemDisplay'>
@@ -125,8 +127,7 @@ const Favourites = (props) => {
                                                 <p className='name'>{favouriteItem.food_name}</p>
                                                 <p className='serving'>Serving Size: </p>
                                                 <p className='servingSize'>{favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
-                                                <button><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
-                                                <button><i className="fa fa-balance-scale fullScale" aria-hidden="true"></i></button>
+                                                <button onClick={() => handleUnfavourite(favouriteItem, index, "favourites")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
                                             </li>
                                             {
                                                 favouriteItem.nutritionalInfo
