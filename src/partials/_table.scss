@@ -7,9 +7,11 @@ table {
     text-align: left;
     overflow: scroll;
     max-width: calc(100% - 80px);
+    width: fit-content;
     font-size: 0.8rem;
     empty-cells: show;
     margin-top: 20px;
+    max-height: 400px;
     @include flex(row, nowrap, flex-start, flex-start);
     thead, tbody {
         @include flex(row, nowrap, center, center);
@@ -38,12 +40,9 @@ table {
         .tableItem, .tableServing, .tableMacros, .tableMicros {
             text-transform: uppercase;
         }
-    .tableMacros, .tableMicros {
-        padding-left: 0;
-    }
-    }
-    th.tableItem {
-        color: white;
+        .tableMacros, .tableMicros {
+            padding-left: 0;
+        }
     }
     .tableItem, .tableServing {
         border-bottom: 2px solid #333333;
