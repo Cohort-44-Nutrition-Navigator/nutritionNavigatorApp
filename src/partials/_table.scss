@@ -10,7 +10,7 @@ table {
     width: fit-content;
     font-size: 0.8rem;
     empty-cells: show;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
     max-height: 400px;
     @include flex(row, nowrap, flex-start, flex-start);
     thead, tbody {
@@ -46,11 +46,26 @@ table {
     }
     .tableItem, .tableServing {
         border-bottom: 2px solid #333333;
-        padding: 10px 0;
+        padding: 10px 10px 10px 0;
     }
     td.tableItem {
-        padding-left: 30px;
+        padding: 0 40px 0 30px;
+        position: relative;
+        button {
+            position: absolute;
+            top: 0;
+            right: 20px;
+        }
     }
+    .tableItem {
+        height: 70px;
+        line-height: 1rem;
+    }
+    .tableServing {
+        height: 70px;
+        line-height: 1rem;
+    }
+
     tbody {
         padding-left: 0 !important;
         margin-left: -30px;
@@ -64,6 +79,9 @@ table {
         th, td {
             padding-left: 30px;
         }
+    td {
+        height: 30px;
+    }
     }
     button { 
         border: none;
