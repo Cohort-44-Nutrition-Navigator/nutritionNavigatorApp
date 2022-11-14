@@ -2,21 +2,72 @@
 @use "mixins" as *;
 
 
-// MEDIA QUERIES FOR LAPTOP – 1200px
+// MEDIA QUERY FOR LAPTOP – 1200px
 @media (max-width: 1200px) {
 
 }
 
 
-// MEDIA QUERIES FOR TABLET LANDSCAPE – 1024px
+
+
+
+// MEDIA QUERY FOR TABLET LANDSCAPE – 1024px
 @media (max-width: 1024px) {
     
 }
 
 
-// MEDIA QUERIES FOR TABLET – 768px
+
+
+
+// CUSTOM MEDIA QUERY FOR HEADER – 860px
+@media (max-width: 860px) {
+
+    // Main component styling
+
+    h1 {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+        padding-right: 120px;
+    }
+
+    // Results component styling
+
+    .results {
+        .compare, .favourites {
+            top: -10px;
+        }
+    }
+}
+
+
+
+
+
+// MEDIA QUERY FOR TABLET – 768px
 @media (max-width: 768px) {
     
+    // Main component styling
+
+    main {
+        .searchBar {
+            padding: 0 20px;
+            input {
+                width: 100%;
+                display: block;
+                margin: 0;
+            }
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        .choices {
+            justify-content: center;
+        }
+    }
+
+
     // Compare component styling
     
     .results .compare {
@@ -67,8 +118,28 @@
 }
 
 
-// MEDIA QUERIES FOR LARGE MOBILE – 480px
+
+
+
+// MEDIA QUERY FOR LARGE MOBILE – 480px
 @media (max-width: 480px) {
+
+
+    // Header styling
+
+    h1 {
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+
+    // Main component styling
+
+    main {
+        .instructions {
+            margin: 0 20px;
+        }
+    }
+
 
     // Compare component styling
 
@@ -83,13 +154,41 @@
         max-width: calc(100% - 20px);
     }
 
+
+    // Footer styling
+
+    footer {
+        p {
+            font-size: 0.8rem;
+            line-height: 1.15rem;
+        }
+    }
+
     
 }
 
 
-// MEDIA QUERIES FOR MOBILE – 360px
+
+
+
+// CUSTOM MEDIA QUERY FOR HEADER IMG – 400px
+@media (max-width: 400px) {
+   
+    // Header styling
+
+    header {
+        img {
+            display: none;
+        }
+    }
+}
+
+
+
+
+
+// MEDIA QUERY FOR MOBILE – 360px
 @media (max-width: 360px) {
     
 }
-
 
