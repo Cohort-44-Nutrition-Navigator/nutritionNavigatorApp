@@ -30,6 +30,30 @@ const Results = (props) => {
 
     }, [props])
 
+    useEffect(() => {
+
+        const updatedItems = [ ...props.items ]
+
+        favouriteItems.forEach((favouritedItem) => {
+            updatedItems.forEach((item) => {
+                if (item.food_name === favouritedItem.food_name){
+                    item.favourited = true;
+                }
+            })
+        })
+
+        compareItems.forEach((comparedItem) => {
+            updatedItems.forEach((item) => {
+                if (item.food_name === comparedItem.food_name){
+                    item.compared = true;
+                }
+            })
+        })
+
+        setItems(updatedItems);
+
+    }, [props.items, favouriteItems])
+
     // favourite item function
     const handleFavourite = (item, index) => {
 
