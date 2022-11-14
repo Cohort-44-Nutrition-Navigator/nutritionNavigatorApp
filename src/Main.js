@@ -130,22 +130,26 @@ const Main = (props) => {
   // Main component return
   return(
       <main>
-
-        {/* search input */}
-        <input type="text" placeholder="Enter a query" value={userQuery} onInput={e => setUserQuery(e.target.value)} />
-        <button onClick={search}>Search</button>
-        <input type="radio" id="resultsType1" name="resultsType" value="generic" onChange={e => setResultsType(e.target.value)} defaultChecked/><label htmlFor="resultsType1">Generic Items</label>
-        <input type="radio" id="resultsType2" name="resultsType" value="branded" onChange={e => setResultsType(e.target.value)}/><label htmlFor="resultsType2">Branded Items</label>
-
+        <div className='instructions'>
         {
-            // if logged in
-            loggedIn
+          // if logged in
+          loggedIn
             // display the user id
-            ? <>
-                <p>Welcome to the page, {user.email}. Your unique ID is {user.ID}.</p>
-              </>
+            ? <p>Search for a food item, you can choose between brand name or generic products</p>
             : <p>Please log in.</p>
         }
+        </div>
+        <div className='userSearch'>
+          <div className="searchBar">
+          {/* search input */}
+            <input type="text" placeholder="Enter a food item" value={userQuery} onInput={e => setUserQuery(e.target.value)} />
+            <button onClick={search}>Search</button>
+          </div>
+          <div className="choices">
+            <input type="radio" id="resultsType1" name="resultsType" value="generic" onChange={e => setResultsType(e.target.value)} defaultChecked /><label className='choice1' htmlFor="resultsType1">Generic Items</label>
+            <input type="radio" id="resultsType2" name="resultsType" value="branded" onChange={e => setResultsType(e.target.value)} /><label htmlFor="resultsType2">Branded Items</label>
+          </div>
+        </div>
         {
           resultsItems.length > 1
             ? <Results ID={user.ID} items={resultsItems} />

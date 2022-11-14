@@ -1,0 +1,103 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.showFavourites {
+    display: block;
+}
+
+.hideFavourites {
+    display: none;
+}
+
+.results .favouritesComponent {
+    overflow: scroll;
+    height: 100%;
+    max-width: calc(100% - 40px);
+    padding-bottom: 150px;
+
+    .favouritesItems {
+            width: 100%;
+            @include flex(column, nowrap, normal, center);
+            margin-top: 25px;
+        }
+
+    .favouritesListItem {
+        border-radius: 45px;
+        background-color: $whiteColor;
+        padding: 25px;
+        width: fit-content;
+    }
+
+    .itemDisplay {
+        @include flex(row, nowrap);
+        overflow-y: hidden;
+        width: 100%;
+        margin-top: 0px;
+        gap: 0px;
+    }
+
+    .displayTitle {
+        border-right: solid black 2px;
+        padding: 5px 15px 5px 15px;
+        .name {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            line-height: clamp(1.2rem, 2vw, 1.4rem);
+            text-transform: capitalize;
+            font-weight: 700;
+            padding-bottom: 5px;
+            max-width: 200px;
+        }
+        .serving, .servingSize {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            line-height: clamp(1rem, 2vw, 1.2rem);
+        }
+        .imgBox {
+            object-fit: contain;
+            max-width: 100px;
+            padding-bottom: 10px;
+        }
+        button {
+            border: none;
+            background: none;
+            padding-top: 10px;
+            padding-left: 5px
+        }
+        .fullHeart, .fullScale {
+            font-size: 19px;
+            &:hover {
+                transform: scale(150%)
+            }
+        }
+        .fullHeart {
+            color: $secondaryColour;
+        }
+        .fullScale {
+            color: $tertiaryColour;
+            padding-left: 10px
+        }
+
+    }
+
+    .displayNutrients {
+        @include flex(row, nowrap);
+
+        .macroNutrients, .microNutrients {
+            @include flex(column, nowrap);
+            gap: 0px;
+            width: fit-content;
+            margin-top: 0px;
+            padding: 15px;
+            li {
+                gap: 0px;
+                font-size: clamp(0.7rem, 2vw, 0.95rem);
+                line-height: clamp(0.9rem, 2vw, 1.2rem);
+                padding-bottom: 5px;
+            }
+        }
+    
+        .macroNutrients {
+            border-right: solid black 2px;
+        }
+    }
+}
+
