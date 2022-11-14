@@ -682,8 +682,8 @@ const Results = (props) => {
             </ul>
 
             {/* compare and favourites component */}
-            <Compare items={compareItems} remove={handleUncompare} />
-            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} unfavourited={unfavourited} />
+            <Compare items={compareItems} remove={handleUncompare}/>
+            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} unfavourited={unfavourited} favouritesNumber={props.favouritesNumber}/>
         </div>
     )
 }

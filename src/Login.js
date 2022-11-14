@@ -17,6 +17,8 @@ const Login = () => {
         email: '',
         ID: ''
     });
+    const [showProfile, setShowProfile] = useState(false)
+    const [favouritesNumber, setFavouritesNumber] = useState(0)
 
     // authentication from Firebase
     const authentication = getAuth();
@@ -85,6 +87,11 @@ const Login = () => {
         });
     }
 
+    const handleProfile = (e) => {
+        e.preventDefault();
+        setShowProfile(!showProfile)
+    }
+
     // account logout function
     const handleLogout = (e) => {
         // prevent refresh
@@ -104,9 +111,18 @@ const Login = () => {
                 {
                     // if logged in
                     loggedIn
-                        // show the logout button only
+                        // show the profile button only
                         ? <form action="" className='formLogout'>
-                            <button id="logout" onClick={handleLogout}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
+                            <button id="logout" onClick={handleProfile}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
+                            {
+                                showProfile
+                                    ? <ul className='accountInfo'>
+                                        <li className='profile'><i className="fa fa-user" aria-hidden="true"></i>{user.email}</li>
+                                        <li className='favouritesNumber'><i className="fa fa-heart fullHeart" aria-hidden="true"></i> {favouritesNumber}</li>
+                                        <li><button className='logoutButton' onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i>Logout</button></li>
+                                    </ul>
+                                    : null
+                            }
                         </form>
                         // else show the inputs and the login and register buttons
                         : <form action="" className='formLogin'>
@@ -124,7 +140,7 @@ const Login = () => {
                 {
                     loggedIn
                         ? /* pass user information and loggedIn state as props to Main component */
-                        < Main user={user} loggedIn={loggedIn} />
+                            < Main user={user} loggedIn={loggedIn} favouritesNumber={setFavouritesNumber}/>
                         : null
                 }
         </section>

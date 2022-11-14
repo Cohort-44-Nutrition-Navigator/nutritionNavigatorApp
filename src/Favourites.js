@@ -44,7 +44,7 @@ const Favourites = (props) => {
 
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
-
+                props.favouritesNumber(favouriteItems.length);
             })
 
         }
@@ -52,6 +52,7 @@ const Favourites = (props) => {
         if (props.ID === 'guest') {
 
             setFavouriteItems(props.items);
+            props.favouritesNumber(favouriteItems.length);
 
         } else {
 
@@ -71,6 +72,7 @@ const Favourites = (props) => {
 
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
+                props.favouritesNumber(favouriteItems.length);
             })
             
         }
