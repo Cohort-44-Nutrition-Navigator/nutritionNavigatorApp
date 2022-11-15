@@ -1,5 +1,5 @@
 // import firebase functions
-import firebaseConfig from './firebase';
+import firebaseConfig from '../firebase';
 import {getDatabase, ref, onValue} from 'firebase/database'
 
 // import state functions
@@ -44,7 +44,7 @@ const Favourites = (props) => {
 
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
-
+                props.favouritesNumber(favouriteItems.length);
             })
 
         }
@@ -52,6 +52,7 @@ const Favourites = (props) => {
         if (props.ID === 'guest') {
 
             setFavouriteItems(props.items);
+            props.favouritesNumber(favouriteItems.length);
 
         } else {
 
@@ -71,6 +72,7 @@ const Favourites = (props) => {
 
                 // set favourite items state to new array
                 setFavouriteItems(newArray);
+                props.favouritesNumber(favouriteItems.length);
             })
             
         }
@@ -156,7 +158,7 @@ const Favourites = (props) => {
                                 )
                             })}
                         </ul>
-                        : <p>Add items from search results with the heart icon to keep in your favourites!</p>
+                        : <p className='noContent'>Add items from search results with the heart icon to keep in your favourites!</p>
                 }
             </div>
         </section>

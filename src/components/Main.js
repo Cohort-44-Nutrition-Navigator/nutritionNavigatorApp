@@ -129,14 +129,14 @@ const Main = (props) => {
 
   // Main component return
   return(
-      <main>
+      <main className='wrapper'>
         <div className='instructions'>
         {
           // if logged in
           loggedIn
             // display the user id
             ? <p>Search for a food item, you can choose between brand name or generic products</p>
-            : <p>Please log in.</p>
+            : null
         }
         </div>
         <div className='userSearch'>
@@ -152,7 +152,7 @@ const Main = (props) => {
         </div>
         {
           resultsItems.length > 1
-            ? <Results ID={user.ID} items={resultsItems} />
+            ? <Results ID={user.ID} items={resultsItems} favouritesNumber={props.favouritesNumber}/>
             : null
         }
           

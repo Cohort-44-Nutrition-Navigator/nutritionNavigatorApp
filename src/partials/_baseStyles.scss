@@ -21,6 +21,14 @@ body {
     margin: 0 auto;
 }
 
+.wrapperHeader {
+    position: relative;
+    max-width: 760px;
+    width: 90%;
+    margin: 0 auto;
+    @include flex (row, nowrap, center, center)
+}
+
 img {
     max-width: 100%;
     height: auto;

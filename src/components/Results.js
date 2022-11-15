@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useState, useEffect , useRef } from 'react';
 
 // import firebase functions
-import firebase from './firebase';
+import firebase from '../firebase';
 import { getDatabase, onValue, ref, push, remove } from 'firebase/database'
 
 // import components
@@ -29,6 +29,30 @@ const Results = (props) => {
         setID(props.ID);
 
     }, [props])
+
+    useEffect(() => {
+
+        const updatedItems = [ ...props.items ]
+
+        favouriteItems.forEach((favouritedItem) => {
+            updatedItems.forEach((item) => {
+                if (item.food_name === favouritedItem.food_name){
+                    item.favourited = true;
+                }
+            })
+        })
+
+        compareItems.forEach((comparedItem) => {
+            updatedItems.forEach((item) => {
+                if (item.food_name === comparedItem.food_name){
+                    item.compared = true;
+                }
+            })
+        })
+
+        setItems(updatedItems);
+
+    }, [props.items, favouriteItems, compareItems])
 
     // favourite item function
     const handleFavourite = (item, index) => {
@@ -658,8 +682,8 @@ const Results = (props) => {
             </ul>
 
             {/* compare and favourites component */}
-            <Compare items={compareItems} remove={handleUncompare} />
-            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} unfavourited={unfavourited} />
+            <Compare items={compareItems} remove={handleUncompare}/>
+            <Favourites ID={ID} items={favouriteItems} remove={handleUnfavourite} unfavourited={unfavourited} favouritesNumber={props.favouritesNumber}/>
         </div>
     )
 }
