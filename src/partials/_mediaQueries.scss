@@ -34,6 +34,7 @@
     // Results component styling
 
     .results {
+        
         .compare, .favourites {
             top: -10px;
         }
@@ -47,72 +48,166 @@
 // MEDIA QUERY FOR TABLET – 768px
 @media (max-width: 768px) {
     
+    // Header styling
+
+    header {
+        
+        h1 {
+            margin: 8px 0;
+        }
+        
+        img {
+            margin: 18px 0;
+        }
+    }
+    
     // Main component styling
 
     main {
+        
         .searchBar {
             padding: 0 20px;
+            
             input {
                 width: 100%;
                 display: block;
                 margin: 0;
             }
+            
             button {
                 width: 100%;
                 margin: 10px 0;
             }
         }
+        
         .choices {
             justify-content: center;
         }
     }
 
+    // Favourites component styling
+
+    .results .favourites {
+        width: 0;
+        padding: 0;
+        
+        .favouritesComponent{
+            display: none;
+            
+            &.showFavourites {
+                margin-top: 60px;
+                display: inherit;
+            }
+        }
+
+        .favouritesSliderTab {
+            left: 70px;
+            top: 20px;
+            @include flex(row, nowrap, center, center);
+            
+            .heartIcon {
+                @include flex(row, nowrap, space-between, center);
+                padding: 16px 24px;
+                margin-bottom: 0;
+                margin-right: 10px;
+                
+                i {
+                    margin-bottom: 0;
+                    margin-right: 6px;
+                }
+            }
+        }
+
+        &.open {
+            width: 100%;
+            padding: 40px 0 0 0;
+            
+            .favouritesSliderTab {
+                right: 70px;
+                top: 20px;
+                left: auto;
+            }
+        }
+    }
 
     // Compare component styling
     
     .results .compare {
-        .compareContent.showCompare {
-            margin-top: 60px;
+        width: 0;
+        padding: 0;
+        
+        .compareContent {
+            display: none;
+            
+            &.showCompare {
+                margin-top: 60px;
+                display: inherit;
+            }
         }
+
+        .compareSliderTab {
+            right: 70px;
+            top: 20px;
+            left: auto;
+            @include flex(row-reverse, nowrap, center, center);
+            
+            .scaleIcon {
+                @include flex(row, nowrap, space-between, center);
+                padding: 16px 24px;
+                margin-bottom: 0;
+                margin-left: 10px;
+                
+                i {
+                    margin-bottom: 0;
+                    margin-right: 6px;
+                }
+            }
+        }
+
         &.open {
             width: 100%;
             padding: 40px 0 0 0;
+            
             .compareSliderTab {
                 left: 70px;
-                top: 20px;
-                @include flex(row-reverse, nowrap, center, center);
-                .scaleIcon {
-                    @include flex(row, nowrap, space-between, center);
-                    padding: 16px 24px;
-                    margin-bottom: 0;
-                    margin-left: 10px;
-                    i {
-                        margin-bottom: 0;
-                        margin-right: 6px;
-                    }
-                }
             }
         }
     }
 
     table {
         max-width: calc(100% - 60px);
+        
         thead {
             padding-left: 20px;
+            
             tr {
                 width: 160px;
             }
         }
+        
         tbody {
+            
             tr {
                 width: 160px;
             }
+            
             td {
                 padding-left: 16px;
+                
                 &.tableItem, &.tableServing {
                     padding-left: 16px;
                 }
             }
+        }
+    }
+
+    // Footer styling
+
+    footer {
+        
+        p {
+            font-size: 0.8rem;
+            line-height: 1.15rem;
         }
     }
 }
@@ -135,6 +230,7 @@
     // Main component styling
 
     main {
+        
         .instructions {
             margin: 0 20px;
         }
@@ -144,27 +240,18 @@
     // Compare component styling
 
     .results .compare {
+        
         &.open {
+            
             .compareSliderTab {
                 left: 52px;
             }
         }
     }
+    
     table {
         max-width: calc(100% - 20px);
-    }
-
-
-    // Footer styling
-
-    footer {
-        p {
-            font-size: 0.8rem;
-            line-height: 1.15rem;
-        }
-    }
-
-    
+    }    
 }
 
 
@@ -177,6 +264,7 @@
     // Header styling
 
     header {
+        
         img {
             display: none;
         }

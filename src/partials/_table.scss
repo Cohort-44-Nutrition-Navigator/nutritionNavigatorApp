@@ -57,6 +57,7 @@ table {
     td.tableItem {
         padding: 0 40px 0 30px;
         position: relative;
+        overflow-y: scroll;
         button {
             position: absolute;
             top: 0;
@@ -71,6 +72,7 @@ table {
         height: 70px;
         line-height: 1rem;
         padding-top: 16px;
+        overflow-y: scroll;
     }
 
     tbody {
