@@ -4,7 +4,8 @@
 main {
     .instructions {
         font-weight: 700;
-        margin: 0 100px;
+        margin: 0 140px;
+        text-align: center;
     }
     .userSearch {
         @include flex (column, nowrap);
@@ -47,7 +48,7 @@ main {
         input {
             width: 25px;
             height: 25px;
-            border: solid 10px red;
+            margin: 0;
         }
     }
 }

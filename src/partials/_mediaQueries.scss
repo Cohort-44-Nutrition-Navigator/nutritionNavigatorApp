@@ -2,94 +2,352 @@
 @use "mixins" as *;
 
 
-// MEDIA QUERIES FOR LAPTOP – 1200px
+// MEDIA QUERY FOR LAPTOP – 1200px
 @media (max-width: 1200px) {
 
 }
 
 
-// MEDIA QUERIES FOR TABLET LANDSCAPE – 1024px
+
+
+
+// MEDIA QUERY FOR TABLET LANDSCAPE – 1024px
 @media (max-width: 1024px) {
     
 }
 
 
-// MEDIA QUERIES FOR TABLET – 768px
+
+
+
+// CUSTOM MEDIA QUERY FOR HEADER – 860px
+@media (max-width: 860px) {
+
+    // Main component styling
+
+    h1 {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+        padding-right: 120px;
+    }
+
+    // Results component styling
+
+    .results {
+        
+        .compare, .favourites {
+            top: -10px;
+        }
+    }
+}
+
+
+
+
+
+// MEDIA QUERY FOR TABLET – 768px
 @media (max-width: 768px) {
     
-    // Compare component styling
-    
-    .results .compare {
-        .compareContent.showCompare {
-            margin-top: 60px;
+    // Header styling
+
+    header {
+        
+        h1 {
+            margin: 8px 0;
         }
+        
+        img {
+            margin: 18px 0;
+        }
+    }
+    
+    // Main component styling
+
+    main {
+        
+        .searchBar {
+            padding: 0 20px;
+            
+            input {
+                width: 100%;
+                display: block;
+                margin: 0;
+            }
+            
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        
+        .choices {
+            justify-content: center;
+        }
+    }
+
+    // Favourites component styling
+
+    .results .favourites {
+        width: 0;
+        padding: 0;
+        
+        .favouritesComponent{
+            display: none;
+            padding-top: 0;
+            
+            &.showFavourites {
+                margin-top: 60px;
+                display: inherit;
+                
+                p {
+                    padding: 0 20px;
+                }
+            }
+        }
+
+        .favouritesSliderTab {
+            left: 50px;
+            top: 20px;
+            @include flex(row, nowrap, center, center);
+            
+            .favouritesSliderButton {
+                font-size: 2.2rem;
+            }
+            
+            .heartIcon {
+                @include flex(row, nowrap, space-between, center);
+                padding: 10px 16px;
+                margin-bottom: 0;
+                margin-right: 10px;
+                
+                i {
+                    margin-bottom: 0;
+                    margin-right: 6px;
+                }
+            }
+        }
+
         &.open {
             width: 100%;
             padding: 40px 0 0 0;
-            .compareSliderTab {
-                left: 70px;
+            
+            .favouritesSliderTab {
+                right: 50px;
                 top: 20px;
-                @include flex(row-reverse, nowrap, center, center);
-                .scaleIcon {
-                    @include flex(row, nowrap, space-between, center);
-                    padding: 16px 24px;
-                    margin-bottom: 0;
-                    margin-left: 10px;
-                    i {
-                        margin-bottom: 0;
-                        margin-right: 6px;
-                    }
+                left: auto;
+            }
+        }
+    }
+
+    // Compare component styling
+    
+    .results .compare {
+        width: 0;
+        padding: 0;
+        
+        .compareContent {
+            display: none;
+            padding-top: 0;
+            
+            &.showCompare {
+                margin-top: 60px;
+                display: inherit;
+                padding-top: 0;
+                p {
+                    padding: 0 40px;
                 }
+            }
+        }
+
+        .compareSliderTab {
+            right: 50px;
+            top: 20px;
+            left: auto;
+            @include flex(row-reverse, nowrap, center, center);
+
+            .compareSliderButton {
+                font-size: 2.2rem;
+            }
+            
+            .scaleIcon {
+                @include flex(row, nowrap, space-between, center);
+                padding: 10px 16px;
+                margin-bottom: 0;
+                margin-left: 10px;
+                
+                i {
+                    margin-bottom: 0;
+                    margin-right: 6px;
+                }
+            }
+        }
+
+        &.open {
+            width: 100%;
+            padding: 40px 0 0 0;
+            
+            .compareSliderTab {
+                left: 50px;
             }
         }
     }
 
     table {
         max-width: calc(100% - 60px);
+        
         thead {
             padding-left: 20px;
+            
             tr {
                 width: 160px;
             }
         }
+        
         tbody {
+            
             tr {
                 width: 160px;
             }
+            
             td {
                 padding-left: 16px;
+                
                 &.tableItem, &.tableServing {
                     padding-left: 16px;
                 }
             }
         }
     }
+
+    // Footer styling
+
+    footer {
+        
+        p {
+            font-size: 0.8rem;
+            line-height: 1.15rem;
+        }
+    }
 }
 
 
-// MEDIA QUERIES FOR LARGE MOBILE – 480px
+
+
+
+// MEDIA QUERY FOR LARGE MOBILE – 480px
 @media (max-width: 480px) {
+
+
+    // Header styling
+
+    h1 {
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+
+    // Main component styling
+
+    main {
+        
+        .instructions {
+            margin: 0 20px;
+        }
+    }
+
 
     // Compare component styling
 
-    .results .compare {
-        &.open {
+    .results 
+    
+        .compare {
+
             .compareSliderTab {
-                left: 52px;
+                right: 40px;
+
+                .compareSliderButton {
+                    font-size: 2.05rem;
+                    padding: 1px 4px;
+                }
+            
+                .scaleIcon {
+                    padding: 10px 16px 10px 40px;
+                    margin-left: -34px;
+                }
             }
-        }
+        
+            &.open {
+                
+                .compareSliderTab {
+                    left: 40px;
+                }
+            }
     }
+    
     table {
         max-width: calc(100% - 20px);
     }
-
     
+    
+    // Favourites component styling
+
+    .results {
+
+        .favourites {
+
+            .favouritesSliderTab {
+                left: 40px;
+
+                .favouritesSliderButton {
+                    font-size: 2.05rem;
+                    padding: 1px 4px;
+                }
+            
+                .heartIcon {
+                    padding: 10px 40px 10px 16px;
+                    margin-right: -34px;
+                }
+            }
+
+            &.open {
+                
+                .favouritesSliderTab {
+                    right: 40px;
+                }        
+            }
+        }
+    } 
 }
 
 
-// MEDIA QUERIES FOR MOBILE – 360px
+
+
+
+// CUSTOM MEDIA QUERY FOR HEADER IMG – 400px
+@media (max-width: 400px) {
+   
+    // Header styling
+
+    header {
+        
+        img {
+            display: none;
+        }
+    }
+    
+    .results {
+        
+        .compare, .favourites {
+            top: -30px;
+        }
+    }
+}
+
+
+
+
+
+// MEDIA QUERY FOR MOBILE – 360px
 @media (max-width: 360px) {
     
 }
-
 

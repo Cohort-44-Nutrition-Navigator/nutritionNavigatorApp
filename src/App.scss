@@ -15,14 +15,13 @@
     header, footer {
         position: fixed;
         background-color: white;
-        z-index: 10;
+        z-index: 21;
         width: 100%;
-        @include flex(row);
-        align-items: center;
-        justify-content: center;
     }
 
     header {
+        @include flex(row, nowrap, flex-start, center);
+        padding-left: 20px;
         img {
             position: absolute;
             left: 0;
@@ -89,10 +88,8 @@
 
     footer {
         bottom: 0;
-        height: 40px;
-        p {
-            margin: 0;
-        }
+        padding: 10px;
+        text-align: center;
     }
 }
 
@@ -152,9 +149,10 @@
             }
         }
     }
+
     main {
         @include flex (row, wrap);
         justify-content: center;
-        padding-top: 150px;
+        padding-top: 220px;
     }
 }
