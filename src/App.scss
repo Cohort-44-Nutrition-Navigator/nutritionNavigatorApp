@@ -24,11 +24,67 @@
 
     header {
         img {
-            height: 80px;
-            margin-right: 20px;
+            position: absolute;
+            left: 0;
+            height: 70px;
         }
         top: 0;
         height: 125px;
+        .formLogout {
+            z-index: 10;
+            position: absolute;
+            @include flex(column, nowrap, space-between, flex-end);
+            gap: 40px;
+            right: 0;
+            top: 37%;
+            button {
+                font-size: 2rem;
+                background-color: $primaryColour;
+                border: none;
+                border-radius: 30px;
+                padding: 2px 5px;
+            }
+        }
+        .accountInfo {
+            background-color: $whiteColor;
+            width: 60%;
+            padding: 5px 20px 20px;
+            border-radius: 40px;
+            @include flex(column, nowrap);
+            .profile, .favouritesNumber {
+                margin: 10px 5px;
+                width: 100%;
+                word-wrap: break-word;
+                text-align: center;
+            }
+            .profile {
+                font-size: 0.8rem;
+                i {
+                    font-size: 2rem;
+                    padding-bottom: 5px;
+                }
+            }
+            .favouritesNumber {
+                font-size: 1rem;
+                i {
+                    font-size: 1rem;
+                    padding-bottom: 10px;
+                }
+            }
+            .logoutButton {
+                background-color: $secondaryColour;
+                padding: 7px;
+                font-size: 1rem;
+                width: 100%;
+                transition: 50ms;
+                &:hover, &:focus {
+                    background-color: $whiteColor;
+                    border: 3px solid $secondaryColour;
+                    padding: 5px;
+                }
+
+            }
+        }
     }
 
     footer {
@@ -95,54 +151,6 @@
                 background-color: rgba($tertiaryColour, 0.5);
             }
         }
-    }
-    .formLogout {
-        position: fixed;
-        z-index: 10;
-        right: 5%;
-        top: 30px;
-
-        button {
-            font-size: 2.5rem;
-            background-color: $primaryColour;
-            border: none;
-            border-radius: 30px;
-            padding: 5px;
-            margin-right: 20px
-        }
-    }
-    .accountInfo {
-        background-color: $whiteColor;
-        width: 70%;
-        padding: 20px;
-        border-radius: 40px;
-        @include flex(column, nowrap);
-        .profile, .favouritesNumber {
-            margin: 10px 5px;
-            width: 100%;
-            word-wrap: break-word;
-            text-align: center;
-        }
-        .profile {
-            font-size: 0.8rem;
-            i {
-                font-size: 2rem;
-                padding-bottom: 5px;
-            }
-        }
-        .favouritesNumber {
-            font-size: 1rem;
-            i {
-                font-size: 1rem;
-                padding-bottom: 10px;
-            }
-        }
-        .logoutButton {
-            background-color: $secondaryColour;
-            font-size: 1rem;
-            width: 100%;
-        }
-
     }
     main {
         @include flex (row, wrap);

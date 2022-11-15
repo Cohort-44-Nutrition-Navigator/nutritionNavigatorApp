@@ -1,3 +1,4 @@
+import logo from './assets/logo.png';
 // import state functions
 import { useState } from 'react';
 
@@ -106,44 +107,59 @@ const Login = () => {
     }
 
     return (
-        <section className='login'>
-                {/* login form */}
-                {
-                    // if logged in
-                    loggedIn
-                        // show the profile button only
-                        ? <form action="" className='formLogout'>
-                            <button id="logout" onClick={handleProfile}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
-                            {
-                                showProfile
-                                    ? <ul className='accountInfo'>
-                                        <li className='profile'><i className="fa fa-user" aria-hidden="true"></i>{user.email}</li>
-                                        <li className='favouritesNumber'><i className="fa fa-heart fullHeart" aria-hidden="true"></i> {favouritesNumber}</li>
-                                        <li><button className='logoutButton' onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i>Logout</button></li>
-                                    </ul>
-                                    : null
-                            }
-                        </form>
-                        // else show the inputs and the login and register buttons
-                        : <form action="" className='formLogin'>
-                            {/* <Link to={{pathname:"/main", state:{user: user, loggedIn: loggedIn}}}> */}
-                            <label htmlFor="email">Email</label>
-                            <input type="email" name="email" id="email" value={emailInput} onInput={(e) => setEmailInput(e.target.value)} />
-                            <label htmlFor="password">Password</label>
-                            <input type="password" name="password" id="password" value={passwordInput} onInput={(e) => setPasswordInput(e.target.value)} />
-                            <button className='smallButton' id="login" onClick={handleLogin}>Login</button>
-                            <button className='smallButton right' id="register" onClick={handleRegister}>Register</button>
-                            <button className='bigButton' id='guestLogin' onClick={handleGuestLogin}>Continue as Guest</button>
-                            {/* </Link> */}
-                        </form>
-                }
-                {
-                    loggedIn
-                        ? /* pass user information and loggedIn state as props to Main component */
-                            < Main user={user} loggedIn={loggedIn} favouritesNumber={setFavouritesNumber}/>
-                        : null
-                }
-        </section>
+        <>
+            <header>
+                <div className="wrapperHeader">
+                    <img src={logo} alt="Nutrition Navigator Logo" />
+                    <h1>Nutrition Navigator </h1>
+                    {
+                        loggedIn
+                            // show the profile button only
+                            ? <form action="" className='formLogout'>
+                                <button id="logout" onClick={handleProfile}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
+                                {
+                                    showProfile
+                                        ? <ul className='accountInfo'>
+                                            <li className='profile'><i className="fa fa-user" aria-hidden="true"></i>{user.email}</li>
+                                            <li className='favouritesNumber'><i className="fa fa-heart fullHeart" aria-hidden="true"></i> {favouritesNumber}</li>
+                                            <li><button className='logoutButton' onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i>Logout</button></li>
+                                        </ul>
+                                        : null
+                                }
+                            </form>
+                            : null
+
+                    }
+                </div>
+            </header>
+        
+            <section className='login'>
+                    {/* login form */}
+                    {
+                        // if logged in
+                        loggedIn
+                            ? null
+                            // else show the inputs and the login and register buttons
+                            : <form action="" className='formLogin'>
+                                {/* <Link to={{pathname:"/main", state:{user: user, loggedIn: loggedIn}}}> */}
+                                <label htmlFor="email">Email</label>
+                                <input type="email" name="email" id="email" value={emailInput} onInput={(e) => setEmailInput(e.target.value)} />
+                                <label htmlFor="password">Password</label>
+                                <input type="password" name="password" id="password" value={passwordInput} onInput={(e) => setPasswordInput(e.target.value)} />
+                                <button className='smallButton' id="login" onClick={handleLogin}>Login</button>
+                                <button className='smallButton right' id="register" onClick={handleRegister}>Register</button>
+                                <button className='bigButton' id='guestLogin' onClick={handleGuestLogin}>Continue as Guest</button>
+                                {/* </Link> */}
+                            </form>
+                    }
+                    {
+                        loggedIn
+                            ? /* pass user information and loggedIn state as props to Main component */
+                                < Main user={user} loggedIn={loggedIn} favouritesNumber={setFavouritesNumber}/>
+                            : null
+                    }
+            </section>
+        </>
     )
 }
 
