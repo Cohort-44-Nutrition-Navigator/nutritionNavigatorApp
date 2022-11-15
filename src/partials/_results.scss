@@ -41,6 +41,7 @@
                 background: white;
                 border-radius: 50%;
                 padding: 1px 5px;
+                transition: color 0.1s;
                 &:hover {
                         color: $secondaryColour;
                     }
@@ -78,7 +79,7 @@
     .compare {
         right: 0;
         background-color: $tertiaryColour;
-        padding: 40px 0 0 60px;
+        padding: 40px 0 0;
         &.open {
             width: calc(100% - 60px);
             z-index: 20;
@@ -99,6 +100,7 @@
                 background: white;
                 border-radius: 50%;
                 padding: 1px 5px;
+                transition: color 0.1s;
                 &:hover {
                     color: $tertiaryColour;
                     }
@@ -124,10 +126,16 @@
                 }
             }
         }
-        .compareContent.showCompare {
+        .compareContent {
+            display: none;
+            &.showCompare {
+                padding-top: 40px;
+                display: inherit;
+            }
             p {
                 margin-top: 20px;
                 text-align: center;
+                padding: 0 40px;
             }
         }
     }
