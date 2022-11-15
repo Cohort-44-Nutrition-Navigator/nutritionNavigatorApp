@@ -2,7 +2,7 @@
 import './App.scss';
 
 // import components
-import Login from './Login';
+import Login from './components/Login';
 
 // App Component
 function App() {

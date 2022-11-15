@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useState, useEffect , useRef } from 'react';
 
 // import firebase functions
-import firebase from './firebase';
+import firebase from '../firebase';
 import { getDatabase, onValue, ref, push, remove } from 'firebase/database'
 
 // import components
