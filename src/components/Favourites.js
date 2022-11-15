@@ -158,7 +158,7 @@ const Favourites = (props) => {
                                 )
                             })}
                         </ul>
-                        : <p className='noContent'>Add items from search results with the heart icon to keep in your favourites!</p>
+                        : <p>Add items from search results with the heart icon to keep in your favourites!</p>
                 }
             </div>
         </section>

@@ -2,8 +2,9 @@
 @use 'mixins' as *;
 
 .results {
-    margin-top: 25px;
-    margin-bottom: 60px;
+    max-width: 1500px;
+    width: 80%;
+    margin: 25px auto 60px auto;
 
     .compare, .favourites {
         position: fixed;
@@ -141,9 +142,9 @@
     }
 
     ul {
-        width: calc(100vw - 300px);
+        width: 100%;
         @include flex(row, wrap);
-        justify-content: space-between;
+        justify-content: center;
         gap: 25px;
         margin-top: 25px;
 

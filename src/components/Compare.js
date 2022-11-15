@@ -169,7 +169,7 @@ const Compare = (props) => {
                     })}
             </tbody >
         </table >
-        : <p className="noContent">Add items from search results with the scale icon to compare nutrients!</p>
+        : <p>Add items from search results with the scale icon to compare nutrients!</p>
     )
 
 // Compare component return

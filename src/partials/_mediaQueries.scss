@@ -65,6 +65,14 @@
 
     main {
         
+        .instructions {
+            margin: 0;
+        }
+
+        .userSearch {
+            width: 95%;
+        }
+
         .searchBar {
             padding: 0 20px;
             
@@ -83,6 +91,12 @@
         .choices {
             justify-content: center;
         }
+    }
+
+    // Results component styling
+
+    .results {
+        width: 100%;
     }
 
     // Favourites component styling
@@ -252,8 +266,11 @@
         .instructions {
             margin: 0 20px;
         }
-    }
 
+        &.wrapper {
+            width: 100%;
+        }
+    }
 
     // Compare component styling
 
