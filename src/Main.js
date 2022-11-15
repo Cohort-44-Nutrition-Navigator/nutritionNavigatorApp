@@ -129,7 +129,7 @@ const Main = (props) => {
 
   // Main component return
   return(
-      <main>
+      <main className='wrapper'>
         <div className='instructions'>
         {
           // if logged in
