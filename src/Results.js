@@ -52,7 +52,7 @@ const Results = (props) => {
 
         setItems(updatedItems);
 
-    }, [props.items, favouriteItems])
+    }, [props.items, favouriteItems, compareItems])
 
     // favourite item function
     const handleFavourite = (item, index) => {
