@@ -241,7 +241,26 @@
 }
 
 
+// CUSTOM MEDIA QUERY FOR HEADER – 650px
+@media (max-width: 650px) {
+    header {
+        height: 100px !important;
+        padding-left: 0px !important;
+        h1 {
+            margin-left: 13px;  
+        }
+        .formLogout {
+            top: 32% !important;
+        }
+    }
 
+    // Favourites component styling
+    .results {
+        .compare, .favourites {
+            top: -30px;
+        }
+    }
+}
 
 
 // CUSTOM MEDIA QUERY FOR FAVOURITES LIST ITEMS – 600px
@@ -249,7 +268,7 @@
 
     // Favourites component styling
     .results {
-        
+
         .favouritesComponent {
 
             .displayTitle {
@@ -284,15 +303,31 @@
     // Header styling
     
         header {
-            h1 {
+            height: 90px !important;
+            img {
                 display: none;
+            }
+            .wrapperHeader {
+                justify-content: normal !important;
+            }
+            .formLogout {
+                top: 35% !important;
+                gap: 35px !important;
+                button {
+                    font-size: 1.5rem !important;
+                }
+            }
+            .accountInfo {
+                .logoutButton {
+                    font-size: 1rem !important;
+                }
             }
         }
 
     // Main component styling
 
     main {
-        
+        padding-top: 180px !important;
         .instructions {
             margin: 0 20px;
         }
@@ -307,7 +342,7 @@
     .results 
     
         .compare {
-
+            top: -35px;
             .compareSliderTab {
                 right: 40px;
 
@@ -341,7 +376,7 @@
     .results {
 
         .favourites {
-
+            top: -35px;
             .favouritesSliderTab {
                 left: 40px;
 
@@ -380,13 +415,38 @@
 
 // CUSTOM MEDIA QUERY FOR HEADER IMG – 400px
 @media (max-width: 400px) {
-    
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    header {
+        height: 70px !important;
+        h1  {
+            margin-left: 0px !important;
+        }
+    }
+
+    main {
+        padding-top: 160px !important;
+    }
+
+    .instructions p {
+        font-size: 0.9rem;
+    }
+
+    .choices label {
+        font-size: 0.75rem !important;
+    }
+
     .results {
         
         .compare, .favourites {
-            top: -30px;
+            top: -55px;
         }
     }
+
+    
 }
 
 
