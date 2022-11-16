@@ -130,6 +130,9 @@ const Login = () => {
         // log out
         setLoggedIn(false);
 
+        // close account information
+        setShowProfile(false);
+
         // empty the user state
         setUser({
             email: '',
@@ -151,7 +154,7 @@ const Login = () => {
                         loggedIn
                             // show the profile button only
                             ? <form action="" className='formLogout'>
-                                <button id="logout" onClick={handleProfile}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
+                                <button title='Account information' id="logout" onClick={handleProfile}><i className="fa fa-user-circle-o" aria-hidden="true"></i></button>
                                 {
                                     showProfile
                                         ? <ul className='accountInfo'>
