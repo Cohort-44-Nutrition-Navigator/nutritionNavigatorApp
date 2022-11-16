@@ -682,8 +682,8 @@ const Results = (props) => {
                 <button className="hideShow" onClick={() => handleHideShowNutrients(item, index)}>
                     {
                         showNutrients
-                            ? <i className="fa fa-chevron-circle-up" aria-hidden="true"></i>
-                            : <i className="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                            ? <i title='Hide nutrients' className="fa fa-chevron-circle-up" aria-hidden="true"></i>
+                            : <i title='Show nutrients' className="fa fa-chevron-circle-down" aria-hidden="true"></i>
                     }</button>
 
             </>
@@ -718,17 +718,17 @@ const Results = (props) => {
                             {
                                 !item.favourited
 
-                                ? <button className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart-o emptyHeart" aria-hidden="true"></i></button>
+                                ? <button title='Add to Favourites' className='favouriteButton' onClick={() => handleFavourite(item, index)}><i className="fa fa-heart-o emptyHeart" aria-hidden="true"></i></button>
 
-                                : <button className='favouriteButton' onClick={() => handleUnfavourite(item, index, "results")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
+                                : <button title='Remove from Favourites' className='favouriteButton' onClick={() => handleUnfavourite(item, index, "results")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
                             }
 
                             {/* compare button */}
                             {
                                 !item.compared
 
-                                ? <button className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale emptyScales" aria-hidden="true"></i></button>
-                                : <button className='compareButton' onClick={() => handleUncompare(item, index, "results")}><i className="fa fa-balance-scale fullScales" aria-hidden="true"></i></button>
+                                ? <button title='Add to Compare' className='compareButton' onClick={() => handleCompare(item, index)}><i className="fa fa-balance-scale emptyScales" aria-hidden="true"></i></button>
+                                : <button title='Remove from Compare' className='compareButton' onClick={() => handleUncompare(item, index, "results")}><i className="fa fa-balance-scale fullScales" aria-hidden="true"></i></button>
                             }
                         </div>
                     </li>

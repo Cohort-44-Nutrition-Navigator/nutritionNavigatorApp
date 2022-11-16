@@ -103,7 +103,7 @@ const Favourites = (props) => {
                         aria-hidden="true"></i>
                     <span>{favouriteItems.length}</span>
                 </div>
-                <button onClick={handleOpenFavourites}>
+                <button title='Show items added to favourites' onClick={handleOpenFavourites}>
                     <i className={
                         favouritesOpen
                             ? "favouritesSliderButton fa fa-chevron-circle-left"
@@ -132,7 +132,7 @@ const Favourites = (props) => {
                                                 <p className='name'>{favouriteItem.food_name}</p>
                                                 <p className='serving'>Serving Size: </p>
                                                 <p className='servingSize'>{favouriteItem.serving_qty} {favouriteItem.serving_unit}</p>
-                                                <button onClick={() => handleUnfavourite(favouriteItem, index, "favourites")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
+                                                <button title='Remove from favourites' onClick={() => handleUnfavourite(favouriteItem, index, "favourites")}><i className="fa fa-heart fullHeart" aria-hidden="true"></i></button>
                                             </li>
                                             {
                                                 favouriteItem.nutritionalInfo
