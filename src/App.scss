@@ -136,7 +136,7 @@
             background-color: $secondaryColour;
             border-radius: 15px;
             margin-top: 15px;
-            padding: 5px 0;
+            padding: 7px 0 3px;
             &.right {
                 margin-left: 20px;
             }
@@ -150,7 +150,7 @@
             background-color: $tertiaryColour;
             border-radius: 15px;
             margin-top: 25px;
-            padding: 5px 0;
+            padding: 7px 0 3px;
             &:hover {
                 background-color: rgba($tertiaryColour, 0.5);
             }

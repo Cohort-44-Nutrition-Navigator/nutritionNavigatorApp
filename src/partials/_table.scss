@@ -53,6 +53,7 @@ table {
     .tableItem, .tableServing {
         border-bottom: 2px solid #333333;
         padding: 10px 10px 10px 0;
+        text-transform: capitalize;
     }
     td.tableItem {
         padding: 0 40px 0 30px;

@@ -13,7 +13,7 @@
     overflow: scroll;
     height: 100%;
     max-width: 100%;
-    padding-bottom: 150px;
+    padding-bottom: 240px;
     padding-top: 40px;
     &.showFavourites p {
         padding: 0 20px;
@@ -31,7 +31,8 @@
         border-radius: 45px;
         background-color: $whiteColor;
         padding: 25px;
-        width: fit-content;
+        width: 80%;
+        max-width: 900px;
     }
 
     .itemDisplay {
@@ -45,6 +46,7 @@
     .displayTitle {
         border-right: solid black 2px;
         padding: 5px 15px 5px 15px;
+        width: 240px;
         .name {
             font-size: clamp(0.9rem, 2vw, 1.2rem);
             line-height: clamp(1.2rem, 2vw, 1.4rem);
@@ -56,17 +58,25 @@
         .serving, .servingSize {
             font-size: clamp(0.8rem, 2vw, 0.9rem);
             line-height: clamp(1rem, 2vw, 1.2rem);
+            margin-top: 5px;
+        }
+        .serving {
+            text-decoration: underline;
         }
         .imgBox {
             object-fit: contain;
             max-width: 100px;
             padding-bottom: 10px;
+            margin: 0 auto;
         }
         button {
             border: none;
             background: none;
             padding-top: 10px;
-            padding-left: 5px
+            padding-left: 5px;
+            margin: 0 50%;
+            text-align: center;
+            transform: translateX(-50%);
         }
         .fullHeart {
             font-size: 19px;
