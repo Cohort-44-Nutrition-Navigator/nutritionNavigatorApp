@@ -112,7 +112,7 @@ const Results = (props) => {
 
                     setItems(updatedItems);
 
-                }, 500)
+                }, 750)
 
             }
 
@@ -158,7 +158,7 @@ const Results = (props) => {
                     // set the items state to the updated items
                     setItems(updatedItems);
 
-                }, 500)
+                }, 750)
 
             }
 
@@ -313,7 +313,7 @@ const Results = (props) => {
                 // set the items state to the updated items array
                 setItems(updatedItems);
 
-            }, 500)
+            }, 750)
 
         }
     }
@@ -572,7 +572,7 @@ const Results = (props) => {
 
                         setShowNutrients(true);
 
-                    }, 500)
+                    }, 750)
 
                 } else {
 
