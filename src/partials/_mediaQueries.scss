@@ -23,14 +23,6 @@
 // CUSTOM MEDIA QUERY FOR HEADER – 860px
 @media (max-width: 860px) {
 
-    // Main component styling
-
-    h1 {
-        font-size: 2.5rem;
-        line-height: 2.5rem;
-        padding-right: 120px;
-    }
-
     // Results component styling
 
     .results {
@@ -47,20 +39,7 @@
 
 // MEDIA QUERY FOR TABLET – 768px
 @media (max-width: 768px) {
-    
-    // Header styling
-
-    header {
-        
-        h1 {
-            margin: 8px 0;
-        }
-        
-        img {
-            margin: 18px 0;
-        }
-    }
-    
+       
     // Main component styling
 
     main {
@@ -251,13 +230,13 @@
 // MEDIA QUERY FOR LARGE MOBILE – 480px
 @media (max-width: 480px) {
 
-
     // Header styling
-
-    h1 {
-        font-size: 2rem;
-        line-height: 2rem;
-    }
+    
+        header {
+            h1 {
+                display: none;
+            }
+        }
 
     // Main component styling
 
@@ -341,15 +320,6 @@
 
 // CUSTOM MEDIA QUERY FOR HEADER IMG – 400px
 @media (max-width: 400px) {
-   
-    // Header styling
-
-    header {
-        
-        img {
-            display: none;
-        }
-    }
     
     .results {
         
@@ -358,9 +328,6 @@
         }
     }
 }
-
-
-
 
 
 // MEDIA QUERY FOR MOBILE – 360px
