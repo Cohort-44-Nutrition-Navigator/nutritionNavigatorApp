@@ -90,6 +90,13 @@
         bottom: 0;
         padding: 10px;
         text-align: center;
+        a {
+            color: $fontColour;
+            text-decoration: underline;
+            &:hover {
+                color: $quaternaryColour;
+            }
+        }
     }
 }
 

@@ -30,26 +30,39 @@ const Results = (props) => {
 
     }, [props])
 
+    // check which items are favourited or compared on re-render
     useEffect(() => {
 
+        // copy props.items
         const updatedItems = [ ...props.items ]
 
+        // for each favourite item
         favouriteItems.forEach((favouritedItem) => {
+
+            // cross-reference it with the updated items
             updatedItems.forEach((item) => {
+
+                // and add favourited property if on both lists
                 if (item.food_name === favouritedItem.food_name){
                     item.favourited = true;
                 }
             })
         })
 
+        // for each compare item
         compareItems.forEach((comparedItem) => {
+
+            // cross-reference it with the updated items
             updatedItems.forEach((item) => {
+
+                // and add compared property if on both lists
                 if (item.food_name === comparedItem.food_name){
                     item.compared = true;
                 }
             })
         })
 
+        // set items state to updated items variable
         setItems(updatedItems);
 
     }, [props.items, favouriteItems, compareItems])
@@ -65,6 +78,7 @@ const Results = (props) => {
             const updatedItem = item;
             const updatedItems = [ ...items ]
 
+            // set favourited property to true
             updatedItem.favourited = true;
 
             // if the item has nutritional info already
@@ -109,9 +123,11 @@ const Results = (props) => {
             const database = getDatabase(firebase)
             const databaseRef = ref(database, `/${props.ID}`)
 
+            // copy items
             const updatedItem = item;
             const updatedItems = [ ...items ];
 
+            // set favourited property to true
             updatedItem.favourited = true;
 
             // if the item has nutritional info already
@@ -130,13 +146,16 @@ const Results = (props) => {
                 // run the second API call on the item
                 nutrientApiSearch(updatedItem, index);
 
+                // after half a second
                 setTimeout(() => {
                     
                     // push the item to the firebase endpoint
                     push(databaseRef, updatedItem);
 
+                    // update the updated items array
                     updatedItems[{index}] = updatedItem;
 
+                    // set the items state to the updated items
                     setItems(updatedItems);
 
                 }, 500)
@@ -152,25 +171,34 @@ const Results = (props) => {
         // if the user is a guest
         if (ID === 'guest') {
 
+            // copy items
             const newFavouriteItems = [ ...favouriteItems ];
             const updatedItem = item;
             const updatedItems = [ ...items ]
 
+            // set favourited property to false
             updatedItem.favourited = false;
 
+            // if the unfavourite is happening in the favourites component
             if(component === 'favourites'){
 
+                // splice it out of the array
                 newFavouriteItems.splice(index, 1);
 
 
+            // if the unfavourite is happenning in the results component
             } else if (component === 'results'){
 
+                // update the updated items array
                 updatedItems[{index}] = updatedItem;
 
+                // for each favourited item
                 favouriteItems.forEach((favouritedItem, index) => {
 
+                    // cross-reference it with the updated items array
                     if (favouritedItem.food_name === updatedItem.food_name){
 
+                        // splice it out if they match
                         newFavouriteItems.splice(index, 1)
 
                     }
@@ -182,6 +210,7 @@ const Results = (props) => {
             // set the favourites items state to new array
             setFavouriteItems(newFavouriteItems);
 
+            // update items state to updated items array
             setItems(updatedItems);
             
         } else {
@@ -190,29 +219,39 @@ const Results = (props) => {
             const database = getDatabase(firebase)
             const databaseRef = ref(database, `/${props.ID}`)
 
+            // copy items
             const updatedItem = item;
             const updatedItems = [ ...items ]
             const updatedUnfavourited = [ ...unfavourited ]
+
+            // set favourited property to false
             updatedItem.favourited = false;
 
+            // update the updated items array
             updatedItems[{index}] = updatedItem;
 
+            // search the database
             onValue(databaseRef, (response) => {
 
-                // data variable
+                // set data variable
                 const data = response.val();
 
-                // push each item in data to new array
+                // loop through data
                 for (let item in data) {
 
+                    // if item in data is equal to updateditem
                     if(data[item].food_name === updatedItem.food_name){
 
+                        // find the endpoint
                         const itemRef = ref(database, `/${props.ID}/${item}`)
 
+                        // remove the item from the database
                         remove(itemRef);
 
+                        // push that key to the unfavourited array to trigger a re-render
                         updatedUnfavourited.push(item);
 
+                        // set unfavourited state to new array
                         setUnfavourited(updatedUnfavourited);
 
                     }
@@ -221,6 +260,7 @@ const Results = (props) => {
 
             })
 
+            // set items state to updated items array
             setItems(updatedItems);
 
         }
@@ -229,9 +269,12 @@ const Results = (props) => {
     // compare function
     const handleCompare = (item, index) => {
 
+        // copy item
         const newCompareItems = [ ...compareItems ];
         const updatedItem = item;
         const updatedItems = [ ...items ]
+
+        // set compared property to true
         updatedItem.compared = true;
 
         // if the item has nutritional info already
@@ -243,8 +286,10 @@ const Results = (props) => {
             // set the compare items state to new array
             setCompareItems(newCompareItems);
 
+            // update the updated items array
             updatedItems[{index}] = updatedItem;
 
+            // set items state to updated items array
             setItems(updatedItems);
 
         // if the item does not have nutritional info
@@ -253,6 +298,7 @@ const Results = (props) => {
             // run the second API call on the item
             nutrientApiSearch(updatedItem, index);
 
+            // after half a second
             setTimeout(() => {
 
                 // push the updated item to the new compare items array
@@ -261,8 +307,10 @@ const Results = (props) => {
                 // set the compare items state to new array
                 setCompareItems(newCompareItems);
 
+                // update the updated items array
                 updatedItems[{index}] = updatedItem;
 
+                // set the items state to the updated items array
                 setItems(updatedItems);
 
             }, 500)
@@ -273,40 +321,46 @@ const Results = (props) => {
     // compare function
     const handleUncompare = (item, index, component) => {
 
+        // copy items
         const newCompareItems = [ ...compareItems ];
+        const updatedItems = [ ...items ]
         const updatedItem = item;
 
+        // set compared property to false
         updatedItem.compared = false;
 
+        // if the unfavourite is happening in the compare component
         if(component === 'compare'){
 
+            // splice it out of the array
             newCompareItems.splice(index, 1);
 
-            // set the compare items state to new array
-            setCompareItems(newCompareItems);
-
+        // if the unfavourite is happenning in the results component
         } else if (component === 'results'){
 
-            const updatedItems = [ ...items ]
-
+            // update the updated items array
             updatedItems[{index}] = updatedItem;
 
+            // for each compared items
             compareItems.forEach((comparedItem, index) => {
 
+                // cross-reference it with the updated items array
                 if (comparedItem.food_name === updatedItem.food_name){
 
+                    // splice it out if they match
                     newCompareItems.splice(index, 1)
 
                 }
 
             })
 
-            // set the favourites items state to new array
-            setCompareItems(newCompareItems);
-
-            setItems(updatedItems);
-
         }
+
+        // set the favourites items state to new array
+        setCompareItems(newCompareItems);
+
+        // update items state to updated items array
+        setItems(updatedItems);
     }
 
     // function to call second API endpoint 
@@ -688,4 +742,5 @@ const Results = (props) => {
     )
 }
 
+// export Results component
 export default Results;

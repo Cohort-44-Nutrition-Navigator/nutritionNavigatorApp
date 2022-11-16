@@ -14,12 +14,15 @@ const Favourites = (props) => {
     // state for favourites slider button
     const [favouritesOpen, setFavouritesOpen] = useState(false);
 
+    // open favourites function
     const handleOpenFavourites = () => {
         setFavouritesOpen(!favouritesOpen)
     }
 
+    // unfavourite function
     const handleUnfavourite = props.remove
 
+    // re-render side effects
     useEffect (() => {
 
         // set firebase endpoint
