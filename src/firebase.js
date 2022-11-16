@@ -1,9 +1,7 @@
-// Import the functions you need from the SDKs you need
+// import firebase functions
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+// establish firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyCXEdspKIStcSOoS9mgn_XeEYDqBSJv6dw",
     authDomain: "nutrition-navigator.firebaseapp.com",
@@ -13,7 +11,8 @@ const firebaseConfig = {
     appId: "1:81255821280:web:efbe079558c884d52d4585"
 };
 
-// Initialize Firebase
+// initialize firebase
 const app = initializeApp(firebaseConfig);
 
+// export firebase
 export default app;

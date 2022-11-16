@@ -1,13 +1,16 @@
+// import logo
 import logo from '../assets/logo.png';
-// import state functions
+
+// import react functions
 import { useState } from 'react';
 
-// import Firebase functions
+// import firebase functions
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 
 // import components
 import Main from './Main';
 
+// login component
 const Login = () => {
 
     // initial state variables
@@ -26,61 +29,81 @@ const Login = () => {
 
     // account registration function
     const handleRegister = (e) => {
+
         // prevent refresh
         e.preventDefault();
+
         // create user account passing auth function and inputs to Firebase
         createUserWithEmailAndPassword(authentication, emailInput, passwordInput)
+
             // when the response comes back from Firebase
             .then((response) => {
+
                 // log in
                 setLoggedIn(true);
+
                 // empty inputs
                 setEmailInput('');
                 setPasswordInput('');
+
                 // store the unique user info in state
                 setUser({
                     email: response.user.email,
                     ID: response.user.uid
                 });
             })
-            .catch((error) => {
-                console.log(error)
+
+            // alert the user if error
+            .catch(() => {
+                alert('Something went wrong. Please try again.');
             });
     }
 
     // account login function
     const handleLogin = (e) => {
+
         // prevent refresh
         e.preventDefault();
+
         // sign in user account passing auth function and inputs to Firebase
         signInWithEmailAndPassword(authentication, emailInput, passwordInput)
+
             // when the response comes back from Firebase
             .then((response) => {
+
                 // log in
                 setLoggedIn(true);
+
                 // empty inputs
                 setEmailInput('');
                 setPasswordInput('');
+                
                 // store the unique user info in state
                 setUser({
                     email: response.user.email,
                     ID: response.user.uid
                 });
             })
-            .catch((error) => {
-                console.log(error)
+
+            // alert the user if error
+            .catch(() => {
+                alert('Something went wrong. Please try again.');
             });
     }
 
     // guest login function
     const handleGuestLogin = (e) => {
+
         // prevent refresh
         e.preventDefault();
+
         // log in
         setLoggedIn(true);
+
         // empty inputs
         setEmailInput('');
         setPasswordInput('');
+
         // store the unique user info in state
         setUser({
             email: 'guest@nutritionnavigator.com',
@@ -88,17 +111,25 @@ const Login = () => {
         });
     }
 
+    // show profile function
     const handleProfile = (e) => {
+
+        // prevent refresh
         e.preventDefault();
+
+        // set show profile state
         setShowProfile(!showProfile)
     }
 
     // account logout function
     const handleLogout = (e) => {
+
         // prevent refresh
         e.preventDefault();
+
         // log out
         setLoggedIn(false);
+
         // empty the user state
         setUser({
             email: '',
@@ -106,12 +137,16 @@ const Login = () => {
         });
     }
 
+    // Login return
     return (
         <>
+            {/* header */}
             <header>
                 <div className="wrapperHeader">
                     <img src={logo} alt="Nutrition Navigator Logo" />
                     <h1>Nutrition Navigator </h1>
+
+                    {/* account information and logout button */}
                     {
                         loggedIn
                             // show the profile button only
@@ -133,8 +168,8 @@ const Login = () => {
                 </div>
             </header>
         
+            {/* login form */}
             <section className='login'>
-                    {/* login form */}
                     {
                         // if logged in
                         loggedIn
@@ -163,4 +198,5 @@ const Login = () => {
     )
 }
 
+// export component
 export default Login;
